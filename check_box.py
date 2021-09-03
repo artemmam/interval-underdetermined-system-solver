@@ -40,7 +40,15 @@ def reccur_func(box, v_init, eps, extension, max_iter=20, log=False, decompositi
     new_v_middle = np.empty_like(v_init)
     # print("box", box)
     k = 0
+    f_num = extension.lambdify_f()
+    # print(f_num(box, v_init))
     while True:
+        if log:
+            print(f_num(v_iter, box).reshape(-1))
+        for nat_ext in f_num(v_iter, box).reshape(-1):
+            if ival.Interval([0, 0]).isNoIntersec(nat_ext):
+                return "outside"
+
         check = True
         v_ext = extension.calculate_extension(box, v_iter, log=log).reshape(-1)
         if log:

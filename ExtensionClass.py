@@ -67,6 +67,9 @@ class BaseExtension:
         else:
             return np.linalg.inv(m).reshape(n*n)
 
+    def lambdify_f(self):
+        return sym.lambdify([self.v, self.u], self.f)
+
 
 class ClassicalKrawczykExtension(BaseExtension):
     def get_numeric_extension(self):
