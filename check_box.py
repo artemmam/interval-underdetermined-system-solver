@@ -40,13 +40,21 @@ def reccur_func(box, v_init, eps, extension, max_iter=20, log=False, decompositi
     new_v_middle = np.empty_like(v_init)
     # print("box", box)
     k = 0
+
     f_num = extension.lambdify_f()
-    # print(f_num(box, v_init))
+    if log:
+        f_centered = extension.centered_form()
     while True:
         if log:
-            print(f_num(v_iter, box).reshape(-1))
+            print("Natural :", f_num(v_iter, box).reshape(-1))
+            c = []
+            for i in range(n):
+                for j in range(n):
+                    c.append(v_iter[i].mid())
+            c = np.array(c).reshape(n, n).T.reshape(n * n)
+            print("Centered :", f_centered(v_iter, c, box))
         for nat_ext in f_num(v_iter, box).reshape(-1):
-            if ival.Interval([0, 0]).isNoIntersec(nat_ext):
+            if not ival.Interval([0, 0]).isInIns(nat_ext):
                 return "outside"
 
         check = True

@@ -28,6 +28,9 @@ class Interval:
     def isIn(self, other):
         return (self.x[0] >= other.x[0]) and (self.x[1] <= other.x[1])
 
+    def isInIns(self, other):
+        return (self.x[0] > other.x[0]) and (self.x[1] < other.x[1])
+
     def isNoIntersec(self, other):
         return (self.x[0] > other.x[1]) or (self.x[1] < other.x[0])
 

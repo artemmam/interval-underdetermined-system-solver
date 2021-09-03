@@ -1,8 +1,9 @@
 from symbolic_support_functions import derived_f, classical_krawczyk_extension, derived_recurrent_form, \
-    hansen_sengupta_extension
+    hansen_sengupta_extension, centered_form, function_replacer
 import numpy as np
 import interval as ival
 import sympy as sym
+
 
 
 class BaseExtension:
@@ -68,7 +69,19 @@ class BaseExtension:
             return np.linalg.inv(m).reshape(n*n)
 
     def lambdify_f(self):
-        return sym.lambdify([self.v, self.u], self.f)
+        f = function_replacer(self.f)
+        return sym.lambdify([self.v, self.u], f)
+
+    def centered_form(self):
+        param = self.u
+        c = []
+        n = len(self.v)
+        for i in range(len(self.v)):
+            for j in range(len(self.v)):
+                c.append(sym.symbols("c" + str(i) + str(j)))
+        c = np.array(c).reshape(n, n).T.reshape(n * n)
+        # centered_form_num = centered_form(self.f, self.v, c, param)
+        return centered_form(self.f, self.v, c, param)[0]
 
 
 class ClassicalKrawczykExtension(BaseExtension):

@@ -112,15 +112,15 @@ def centered_form(f, V, C, param):
     g_fin = sym.Matrix()
     g_fin_elementwise = []
     C = sym.Matrix([C]).reshape(len(V), len(V))
-    print("#####")
-    print("Derived F".upper())
-    print("#####")
+    # print("#####")
+    # print("Derived F".upper())
+    # print("#####")
     for i in range(len(V)):
         v = sym.Matrix()
         for j in range(len(V)):
             v = v.row_insert(j, sym.Matrix([V[j]]))
         g_v = derive_matrix(sym.Matrix([f[i]]), v)
-        print(g_v)
+        # print(g_v)
         c = C[i, ::].T
         v_c = v - c
         subsv = []
@@ -131,11 +131,11 @@ def centered_form(f, V, C, param):
         g_fin = sym.Matrix([g_fin, g_eval])
         g_fin_elementwise.append(sym.lambdify([V, c, param], g_eval))
     g_fin = function_replacer(g_fin)
-    print("#####")
-    print("Mean-valued form".upper())
-    print("#####")
-    for eq in g_fin:
-        print(eq)
+    # print("#####")
+    # print("Mean-valued form".upper())
+    # print("#####")
+    # for eq in g_fin:
+    #     print(eq)
     return sym.lambdify([V, C, param], g_fin), g_fin_elementwise
 
 
