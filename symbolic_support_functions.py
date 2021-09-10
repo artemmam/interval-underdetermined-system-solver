@@ -129,13 +129,8 @@ def centered_form(f, V, C, param):
         f_s = f.subs(subsv)
         g_eval = sym.Matrix([f_s[i]]) + g_v.T * v_c  # Classical central form
         g_fin = sym.Matrix([g_fin, g_eval])
-        g_fin_elementwise.append(sym.lambdify([V, c, param], g_eval))
+        g_fin_elementwise.append(sym.lambdify([V, c, param], function_replacer(g_eval)))
     g_fin = function_replacer(g_fin)
-    # print("#####")
-    # print("Mean-valued form".upper())
-    # print("#####")
-    # for eq in g_fin:
-    #     print(eq)
     return sym.lambdify([V, C, param], g_fin), g_fin_elementwise
 
 
@@ -157,6 +152,7 @@ def hansen_sengupta_extension(f, u, v, lam, c):
     n = len(v)
     param = [u] + [lam]
     lam = np.array(lam).reshape(n, n)
+    c_matrix = np.array(c).reshape(n, n)
     c = np.array(c[0:2]).reshape(n, 1)
     c = sym.Matrix(c)
     v = sym.Matrix(v)
@@ -176,6 +172,19 @@ def hansen_sengupta_extension(f, u, v, lam, c):
     D = sym.diag(*diag_elements)
     M = B - D
     g = c - D**(-1)*A + D**(-1)*M*(c - v)
+    g_fin = function_replacer(g)
+    g = function_replacer(g)
     print("HS extension formula")
-    print(g)
-    return sym.lambdify([v, c, param], g)
+    for eq in g:
+        print(eq)
+    print("HS extension formula elementwise")
+    g_fin_elementwise = []
+    subsv = []
+    for k in range(1, n):
+        for j in range(n):
+            subsv.append((c[j], c_matrix[k, j]))
+            g[k] = g[k].subs(subsv)
+    for i in range(n):
+        print(g[i])
+        g_fin_elementwise.append(sym.lambdify([v, c_matrix[i, ::], param], g[i]))
+    return sym.lambdify([v, c, param], g_fin), g_fin_elementwise

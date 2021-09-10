@@ -1,6 +1,6 @@
 import numpy as np
 from check_box import make_boxes_list
-from check_box import reccur_func
+from check_box import reccur_func, reccur_func_elementwise
 import os
 import pyautogui
 
@@ -39,6 +39,10 @@ class Logger:
                     break
         print("v_init:", self.__v_init)
         # print("Lambda", self.__ext_calcul.calculate_lam(self.__v_init, box).reshape((L, L)))
-        check = reccur_func(box, self.__v_init, self.__eps, self.__ext_calcul, log=True, decomposition=self.__decomp)
+        if self.__ext_calcul.is_elementwise:
+            check = reccur_func_elementwise(box, self.__v_init, self.__eps, self.__ext_calcul, log=True, decomposition=self.__decomp)
+        else:
+            check = reccur_func(box, self.__v_init, self.__eps, self.__ext_calcul, log=True,
+                                decomposition=self.__decomp)
         print(check)
         print("-----\n\n\n")

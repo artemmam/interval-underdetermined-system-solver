@@ -30,7 +30,7 @@ def make_boxes_list(grid, dim):
     return grid_n_size
 
 
-def reccur_func(box, v_init, eps, extension, max_iter=20, log=False, decomposition=False, level=0):
+def reccur_func(box, v_init, eps, extension, max_iter=10, log=False, decomposition=False, level=0):
     v_iter = v_init.copy()
     n = len(v_init)
     v_prev = v_iter.copy()
@@ -40,23 +40,21 @@ def reccur_func(box, v_init, eps, extension, max_iter=20, log=False, decompositi
     new_v_middle = np.empty_like(v_init)
     # print("box", box)
     k = 0
-
     f_num = extension.lambdify_f()
-    if log:
-        f_centered = extension.centered_form()
+    # if log:
+    #     f_centered = extension.centered_form()
     while True:
         if log:
             print("Natural :", f_num(v_iter, box).reshape(-1))
-            c = []
-            for i in range(n):
-                for j in range(n):
-                    c.append(v_iter[i].mid())
-            c = np.array(c).reshape(n, n).T.reshape(n * n)
-            print("Centered :", f_centered(v_iter, c, box))
+            # c = []
+            # for i in range(n):
+            #     for j in range(n):
+            #         c.append(v_iter[i].mid())
+            # c = np.array(c).reshape(n, n).T.reshape(n * n)
+            # print("Centered :", f_centered(v_iter, c, box))
         for nat_ext in f_num(v_iter, box).reshape(-1):
             if not ival.Interval([0, 0]).isInIns(nat_ext):
                 return "outside"
-
         check = True
         v_ext = extension.calculate_extension(box, v_iter, log=log).reshape(-1)
         if log:
@@ -122,28 +120,41 @@ def reccur_func(box, v_init, eps, extension, max_iter=20, log=False, decompositi
         k += 1
 
 
-def reccur_func_elementwise(box, v_init, eps, max_iter, extension, log=False):
+def reccur_func_elementwise(box, v_init, eps, extension, max_iter=10, log=False, decomposition=False, level=0):
     v_iter = v_init.copy()
     n = len(v_init)
     v_prev = v_iter.copy()
-    # v_ext = v_iter[0].copy()
-    # print("box", box)
     k = 0
+    f_num = extension.lambdify_f()
     while True:
+        if log:
+            print("Natural :", f_num(v_iter, box).reshape(-1))
+        for nat_ext in f_num(v_iter, box).reshape(-1):
+            if not ival.Interval([0, 0]).isInIns(nat_ext):
+                return "outside"
         check = True
         v_ext_funcs, param, c = extension.calculate_extension(box, v_iter)
         c = np.array(c).reshape(n, n)
-        # print("*****")
-        # print("Number of iteration =", k)
-        # print("Old V = ", v_iter)
+        if log:
+            print("*****")
+            print("Number of iteration =", k)
+            print("box", box)
+            print("Old V = ", v_iter)
+            print(param, c)
+            print("New V = ")
         for i in range(n):
-            v_ext = v_ext_funcs[i](v_iter, c[i], param).reshape(-1)[0]
-            # print("New V = ", v_ext)
+            try:
+                v_ext = v_ext_funcs[i](v_iter, c[i], param).reshape(-1)[0]
+            except:
+                v_ext = v_ext_funcs[i](v_iter, c[i], param)
+            if log:
+                print(v_ext)
             if not (v_ext.isIn(v_iter[i])):
-                v_iter[i] = v_iter[i].intersec(v_ext)
                 check = False
             if v_iter[i].isNoIntersec(v_ext):
                 return "outside"
+            else:
+                v_iter[i] = v_iter[i].intersec(v_ext)
         if check:
             return "inside"
         if abs(diam(v_iter) - diam(v_prev)) / (0.5 * abs(diam(v_iter) + diam(v_prev))) < eps or k > max_iter:
@@ -171,7 +182,7 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=20, decompo
     for i in range(grid_size**dim):
         # print(i)
         if extension.is_elementwise:
-            temp = reccur_func_elementwise(all_boxes[i], v_ival, eps, max_iter, extension, log=log)
+            temp = reccur_func_elementwise(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
         else:
             temp = reccur_func(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
         if temp == 'inside':

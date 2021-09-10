@@ -20,6 +20,7 @@ class BaseExtension:
         self.__coef = coef
         self.__is_elementwise = is_elementwise
         self.__numeric_extension = self.get_numeric_extension()
+        self.__derived_f = derived_f(self.f, self.v, self.u)
 
     @property
     def f(self):
@@ -55,7 +56,7 @@ class BaseExtension:
         :param u: box to check
         :return: matrix lambda
         """
-        f_derived_num = derived_f(self.f, self.v, self.u)
+        f_derived_num = self.__derived_f
         f_derived_num = f_derived_num(v, u)
         n = len(v)
         m = np.zeros_like(f_derived_num)
@@ -228,7 +229,7 @@ class HansenSenguptaExtension(BaseExtension):
         if self.is_elementwise:
             return hansen_sengupta_extension(self.f, self.u, self.v, lam, c)[1]
         else:
-            return hansen_sengupta_extension(self.f, self.u, self.v, lam, c)
+            return hansen_sengupta_extension(self.f, self.u, self.v, lam, c)[0]
 
     def calculate_extension(self, box, v, log = False):
         """
@@ -251,8 +252,8 @@ class HansenSenguptaExtension(BaseExtension):
             if log:
                 print("///")
                 print("HS input")
-                print(v)
-                print(c)
-                print(param)
+                print("v", v)
+                print("c", c)
+                print("lambda", lamda_matrix )
                 print("///")
             return np.array(self.numeric_extension(v, c[0:2], param))
