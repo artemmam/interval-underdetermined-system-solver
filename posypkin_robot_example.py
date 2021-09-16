@@ -40,7 +40,7 @@ N = 40  # The number of boxes on uniform grid
 left_v1 = 3
 right_v1 = 12
 left_v2 = np.pi/6
-right_v2 = (2*np.pi)/3
+right_v2 = (2*np.pi/3)
 f_sym, u_sym, v_sym = symbolic_posypkin_robot_func()
 v1 = ival.Interval([left_v1, right_v1])
 v2 = ival.Interval([left_v2, right_v2])
@@ -51,19 +51,19 @@ size = 2  # The dimension of uniform grid
 eps = 1e-6
 coef = 2
 
-classical_krawczyk_extension = ClassicalKrawczykExtension(f_sym, v_sym, u_sym, is_elementwise=False)
-classical_krawczyk_loger = Logger(grid, size, v_ival, eps, classical_krawczyk_extension)
-area_boxes_classical_krawczyk, border_boxes_classical_krawczyk = check_box(grid, size, v_ival,\
-                                                                           classical_krawczyk_extension, eps)
-uni_plotter(area_boxes_classical_krawczyk, border_boxes_classical_krawczyk, u_upper, "Classical Krawczyk", size=2, logger=classical_krawczyk_loger)
-plot_circles(left_v1, right_v1, left_v2, right_v2)
-classical_krawczyk_extension_elementwise = ClassicalKrawczykExtension(f_sym, v_sym, u_sym, is_elementwise=True)
-classical_krawczyk_elementwise_loger = Logger(grid, size, v_ival, eps, classical_krawczyk_extension_elementwise)
-area_boxes_classical_krawczyk_elementwise, border_boxes_classical_krawczyk_elementwise = check_box(grid, size, v_ival,\
-                                                                           classical_krawczyk_extension_elementwise, eps)
-uni_plotter(area_boxes_classical_krawczyk_elementwise, border_boxes_classical_krawczyk_elementwise, u_upper,
-            "Classical Krawczyk Elementwise", size=2, logger=classical_krawczyk_elementwise_loger)
-plot_circles(left_v1, right_v1, left_v2, right_v2)
+# classical_krawczyk_extension = ClassicalKrawczykExtension(f_sym, v_sym, u_sym, is_elementwise=False)
+# classical_krawczyk_loger = Logger(grid, size, v_ival, eps, classical_krawczyk_extension)
+# area_boxes_classical_krawczyk, border_boxes_classical_krawczyk = check_box(grid, size, v_ival,\
+#                                                                            classical_krawczyk_extension, eps)
+# uni_plotter(area_boxes_classical_krawczyk, border_boxes_classical_krawczyk, u_upper, "Classical Krawczyk", size=2, logger=classical_krawczyk_loger)
+# plot_circles(left_v1, right_v1, left_v2, right_v2)
+# classical_krawczyk_extension_elementwise = ClassicalKrawczykExtension(f_sym, v_sym, u_sym, is_elementwise=True)
+# classical_krawczyk_elementwise_loger = Logger(grid, size, v_ival, eps, classical_krawczyk_extension_elementwise)
+# area_boxes_classical_krawczyk_elementwise, border_boxes_classical_krawczyk_elementwise = check_box(grid, size, v_ival,\
+#                                                                            classical_krawczyk_extension_elementwise, eps)
+# uni_plotter(area_boxes_classical_krawczyk_elementwise, border_boxes_classical_krawczyk_elementwise, u_upper,
+#             "Classical Krawczyk Elementwise", size=2, logger=classical_krawczyk_elementwise_loger)
+# plot_circles(left_v1, right_v1, left_v2, right_v2)
 bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
 bicentered_krawczyk_loger = Logger(grid, size, v_ival, eps, bicentered_krawczyk_extension)
 area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk = check_box(grid, size, v_ival,\
@@ -77,10 +77,10 @@ area_boxes_hansen_sengupta, border_boxes_hansen_sengupta = check_box(grid, size,
                                                                            hansen_sengupta_extension, eps, log=False, decomposition=False)
 uni_plotter(area_boxes_hansen_sengupta, border_boxes_hansen_sengupta, u_upper, "Hansen-Sengupta", size=2, logger=hansen_sengupta_loger)
 plot_circles(left_v1, right_v1, left_v2, right_v2)
-hansen_sengupta_extension_elementwise = HansenSenguptaExtension(f_sym, v_sym, u_sym, coef=1, is_elementwise=True)
-hansen_sengupta_loger_elementwise = Logger(grid, size, v_ival, eps, hansen_sengupta_extension_elementwise, decomp=False)
-area_boxes_hansen_sengupta_elementwise, border_boxes_hansen_sengupta_elementwise = check_box(grid, size, v_ival,\
-                                                                           hansen_sengupta_extension_elementwise, eps, log=False, decomposition=False)
-uni_plotter(area_boxes_hansen_sengupta_elementwise, border_boxes_hansen_sengupta_elementwise, u_upper, "Hansen-Sengupta Elementwise", size=2, logger=hansen_sengupta_loger_elementwise)
-plot_circles(left_v1, right_v1, left_v2, right_v2)
+# hansen_sengupta_extension_elementwise = HansenSenguptaExtension(f_sym, v_sym, u_sym, coef=1, is_elementwise=True)
+# hansen_sengupta_loger_elementwise = Logger(grid, size, v_ival, eps, hansen_sengupta_extension_elementwise, decomp=False)
+# area_boxes_hansen_sengupta_elementwise, border_boxes_hansen_sengupta_elementwise = check_box(grid, size, v_ival,\
+#                                                                            hansen_sengupta_extension_elementwise, eps, log=False, decomposition=False)
+# uni_plotter(area_boxes_hansen_sengupta_elementwise, border_boxes_hansen_sengupta_elementwise, u_upper, "Hansen-Sengupta Elementwise", size=2, logger=hansen_sengupta_loger_elementwise)
+# plot_circles(left_v1, right_v1, left_v2, right_v2)
 plt.show()
