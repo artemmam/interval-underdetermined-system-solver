@@ -27,8 +27,8 @@ def angle(vector1, vector2):
 
 
 def get_coordinates(al, beta, a=4, b=2):
-    x = a*np.cos(al) + b*np.cos(beta)
-    y = a*np.sin(al) + b*np.sin(beta)
+    x = a*np.cos(al) + b*np.cos(al + beta)
+    y = a*np.sin(al) + b*np.sin(al + beta)
     return x, y
 
 
@@ -79,25 +79,25 @@ def symbolic_pasive_rehabilitation_system_func(l_a=4, l_b=2):
     """
     v = sym.symbols('v1, v2')
     u = sym.symbols('u1, u2')
-    f = sym.Matrix([[u[0] - l_a * cos(v[0]) - l_b * cos(v[1])],
-                    [u[1] - l_a * sin(v[0]) - l_b * sin(v[1])]]
+    f = sym.Matrix([[u[0] - l_a * cos(v[0]) - l_b * cos(v[0] + v[1])],
+                    [u[1] - l_a * sin(v[0]) - l_b * sin(v[0] + v[1])]]
                    )
     return f, u, v
 
-N = 40  # The number of boxes on uniform grid
+N = 5  # The number of boxes on uniform grid
 ##### 2-DOF
 a = 4
 b = 2
 left_v1 = np.pi/6
-right_v1 = 2*np.pi/3
-left_v2 = np.pi/4
-right_v2 = 5*np.pi/6
+right_v1 = np.pi
+left_v2 = np.pi/6
+right_v2 = np.pi
 f_sym, u_sym, v_sym = symbolic_pasive_rehabilitation_system_func(a, b)
 v1 = ival.Interval([left_v1, right_v1])
 v2 = ival.Interval([left_v2, right_v2])
 v_ival = [v1, v2]
 u_upper = 10  # the width of the of the 2-dimensional square
-grid = np.linspace(-7, 7, N + 1)  # The vector to build size-dim. grid
+grid = np.linspace(2, 3, N + 1)  # The vector to build size-dim. grid
 size = 2  # The dimension of uniform grid
 eps = 1e-6
 coef = 2
@@ -108,7 +108,7 @@ ax1 = fig1.add_subplot(1, 1, 1)
 # area_boxes_classical_krawczyk, border_boxes_classical_krawczyk = check_box(grid, size, v_ival,\
 #                                                                            classical_krawczyk_extension, eps)
 # uni_plotter(area_boxes_classical_krawczyk, border_boxes_classical_krawczyk, u_upper, "Classical Krawczyk", size=2)
-# plot_circles()
+# plot_area(ax1, a, b, left_v1, right_v1, left_v2, right_v2)
 # classical_krawczyk_extension_elementwise = ClassicalKrawczykExtension(f_sym, v_sym, u_sym, is_elementwise=True)
 # area_boxes_classical_krawczyk_elementwise, border_boxes_classical_krawczyk_elementwise = check_box(grid, size, v_ival,\
 #                                                                            classical_krawczyk_extension_elementwise, eps)
