@@ -2,9 +2,9 @@ import sympy as sym
 import numpy as np
 import interval as ival
 import sys
-from check_box import check_box
+from check_box import check_box, check_one_box
 from ExtensionClass import ClassicalKrawczykExtension, BicenteredKrawczykExtension, HansenSenguptaExtension
-from plotter_support_functions import uni_plotter
+from plotter_support_functions import uni_plotter, plot_one_box
 import matplotlib.pyplot as plt
 from matplotlib.patches import Arc
 from LoggerClass import Logger
@@ -32,7 +32,7 @@ def get_coordinates(al, beta, a=4, b=2):
     return x, y
 
 
-def plot_area(ax1, a = 4, b = 2, ang1_0 = None, ang1_1 = None,  ang2_0 = None, ang2_1 = None):
+def plot_area(a = 4, b = 2, ang1_0 = None, ang1_1 = None,  ang2_0 = None, ang2_1 = None):
     circle = plt.Circle((0, 0), radius=abs(a - b), fc='y', fill=False)
     plt.gca().add_patch(circle)
     circle = plt.Circle((0, 0), radius=a + b, fc='y', fill=False)
@@ -43,9 +43,9 @@ def plot_area(ax1, a = 4, b = 2, ang1_0 = None, ang1_1 = None,  ang2_0 = None, a
     # print(A)
     dots = []
     for el in A:
-        print(math.degrees(el[0]), math.degrees(el[1]))
+        # print(math.degrees(el[0]), math.degrees(el[1]))
         XY = get_coordinates(*el, a, b)
-        print(XY)
+        # print(XY)
         dots.append(XY)
     dots = np.array(dots)
     # print(dots)
@@ -84,26 +84,38 @@ def symbolic_pasive_rehabilitation_system_func(l_a=4, l_b=2):
                    )
     return f, u, v
 
-N = 5  # The number of boxes on uniform grid
+N = 15  # The number of boxes on uniform grid
 ##### 2-DOF
 a = 4
 b = 2
-left_v1 = np.pi/6
-right_v1 = np.pi
-left_v2 = np.pi/6
-right_v2 = np.pi
+left_v1 = np.pi/4
+right_v1 = np.pi/2
+left_v2 = np.pi/4
+right_v2 = np.pi/2
 f_sym, u_sym, v_sym = symbolic_pasive_rehabilitation_system_func(a, b)
 v1 = ival.Interval([left_v1, right_v1])
 v2 = ival.Interval([left_v2, right_v2])
 v_ival = [v1, v2]
 u_upper = 10  # the width of the of the 2-dimensional square
-grid = np.linspace(2, 3, N + 1)  # The vector to build size-dim. grid
+grid_u1 = np.linspace(-3.0, 4.0, N + 1)  # The vector to build size-dim. grid
+grid_u2 = np.linspace(3.5, 6.0, N + 1)  # The vector to build size-dim. grid
+grid = [grid_u1, grid_u2]
 size = 2  # The dimension of uniform grid
 eps = 1e-6
 coef = 2
-
-fig1 = plt.figure(figsize=(8, 8))
-ax1 = fig1.add_subplot(1, 1, 1)
+grid_v = np.linspace(v1[0], v1[1], 10 + 1)
+# fig1 = plt.figure(figsize=(8, 8))
+# ax1 = fig1.add_subplot(1, 1, 1)
+# ^^^^^
+# box = [ival.Interval([1.667, 2.133]), ival.Interval([4.333, 4.5])]
+# bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
+# check_one_box(box, v_ival, bicentered_krawczyk_extension, eps, log=True)
+# print("$$$$$")
+#
+# check = check_one_box(box, v_ival, bicentered_krawczyk_extension, eps, log=True, strategy="Enlarge", grid=grid_v, dim=2)
+# plot_one_box(box, check, u_upper)
+# plot_area(a, b, left_v1, right_v1, left_v2, right_v2)
+# ^^^^^
 # classical_krawczyk_extension = ClassicalKrawczykExtension(f_sym, v_sym, u_sym, is_elementwise=False)
 # area_boxes_classical_krawczyk, border_boxes_classical_krawczyk = check_box(grid, size, v_ival,\
 #                                                                            classical_krawczyk_extension, eps)
@@ -115,18 +127,27 @@ ax1 = fig1.add_subplot(1, 1, 1)
 # uni_plotter(area_boxes_classical_krawczyk_elementwise, border_boxes_classical_krawczyk_elementwise, u_upper,
 #             "Classical Krawczyk Elementwise", size=2)
 # plot_circles()
+###
 bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
-bicentered_krawczyk_loger = Logger(grid, size, v_ival, eps, bicentered_krawczyk_extension, decomp=False)
+bicentered_krawczyk_loger = Logger(grid, size, v_ival, eps, bicentered_krawczyk_extension, decomp=False, uniform_u=False)
 area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk = check_box(grid, size, v_ival,\
-                                                                           bicentered_krawczyk_extension, eps)
+                                                                           bicentered_krawczyk_extension, eps, uniform_u=False)
 uni_plotter(area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk, u_upper, "Bicentered Krawczyk", size=2,
-            logger=bicentered_krawczyk_loger, ax=ax1, fig=fig1)
-# plot_circles(left_v1, right_v1, left_v2, right_v2)
+            logger=bicentered_krawczyk_loger)
+plot_area(a, b, left_v1, right_v1, left_v2, right_v2)
+area_boxes_bicentered_krawczyk_infl, border_boxes_bicentered_krawczyk_infl = check_box(grid, size, v_ival,\
+                                                                           bicentered_krawczyk_extension, eps,
+                                                                             strategy="Inflaction", dim_v=2,
+                                                                             grid_v=grid_v, uniform_u=False)
+uni_plotter(area_boxes_bicentered_krawczyk_infl, border_boxes_bicentered_krawczyk_infl, u_upper, "Bicentered Krawczyk Inflaction", size=2,
+            logger=bicentered_krawczyk_loger)
+plot_area(a, b, left_v1, right_v1, left_v2, right_v2)
+###
 # hansen_sengupta_extension = HansenSenguptaExtension(f_sym, v_sym, u_sym, coef=1, is_elementwise=False)
 # hansen_sengupta_loger = Logger(grid, size, v_ival, eps, hansen_sengupta_extension, decomp=False)
 # area_boxes_hansen_sengupta, border_boxes_hansen_sengupta = check_box(grid, size, v_ival,\
 #                                                                            hansen_sengupta_extension, eps, log=False, decomposition=False)
 # uni_plotter(area_boxes_hansen_sengupta, border_boxes_hansen_sengupta, u_upper, "Hansen-Sengupta", size=2, logger=hansen_sengupta_loger)
 # plot_circles()
-plot_area(ax1, a, b, left_v1, right_v1, left_v2, right_v2)
+# plot_area(ax1, a, b, left_v1, right_v1, left_v2, right_v2)
 plt.show()

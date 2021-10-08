@@ -2,9 +2,9 @@ import sympy as sym
 import numpy as np
 import interval as ival
 import sys
-from check_box import check_box
+from check_box import check_box, check_one_box
 from ExtensionClass import ClassicalKrawczykExtension, BicenteredKrawczykExtension, HansenSenguptaExtension
-from plotter_support_functions import uni_plotter
+from plotter_support_functions import uni_plotter, plot_one_box
 import matplotlib.pyplot as plt
 from LoggerClass import Logger
 from sympy import sin, cos
@@ -35,21 +35,35 @@ def symbolic_posypkin_robot_func(l1=6, l2=6, a=5, b=10.5):
                     [v[0]*sin(v[1]) - u[1]]])
     return f, u, v
 
-N = 40  # The number of boxes on uniform grid
+N = 15  # The number of boxes on uniform grid
 ##### 2-DOF
 left_v1 = 3
-right_v1 = 12
-left_v2 = np.pi/6
-right_v2 = (2*np.pi/3)
+right_v1 = 6
+left_v2 = 0
+right_v2 = 2*np.pi
 f_sym, u_sym, v_sym = symbolic_posypkin_robot_func()
 v1 = ival.Interval([left_v1, right_v1])
 v2 = ival.Interval([left_v2, right_v2])
 v_ival = [v1, v2]
-u_upper = 20  # the width of the of the 2-dimensional square
+u_upper = 7  # the width of the of the 2-dimensional square
 grid = np.linspace(-u_upper, u_upper, N + 1)  # The vector to build size-dim. grid
 size = 2  # The dimension of uniform grid
 eps = 1e-6
 coef = 2
+grid_v1 = np.linspace(v1[0], v1[1], 10 + 1)
+grid_v2 = np.linspace(v2[0], v2[1], 10 + 1)
+grid_v = [grid_v1, grid_v2]
+# box = [ival.Interval([0.467, 1.4]), ival.Interval([1.4, 2.333])]
+# bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
+# check_one_box(box, v_ival, bicentered_krawczyk_extension, eps, log=True)
+# print("$$$$$")
+# # Inflation
+#
+# check = check_one_box(box, v_ival, bicentered_krawczyk_extension, eps, log=True, strategy="Enlarge", grid=grid_v, dim=2, uniform=False)
+# plot_one_box(box, check, u_upper)
+# plot_circles(left_v1, right_v1, left_v2, right_v2)
+# plt.show()
+
 
 # classical_krawczyk_extension = ClassicalKrawczykExtension(f_sym, v_sym, u_sym, is_elementwise=False)
 # classical_krawczyk_loger = Logger(grid, size, v_ival, eps, classical_krawczyk_extension)
@@ -71,12 +85,16 @@ area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk = check_box(gri
 uni_plotter(area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk, u_upper, "Bicentered Krawczyk", size=2,
             logger=bicentered_krawczyk_loger)
 plot_circles(left_v1, right_v1, left_v2, right_v2)
-hansen_sengupta_extension = HansenSenguptaExtension(f_sym, v_sym, u_sym, coef=1, is_elementwise=False)
-hansen_sengupta_loger = Logger(grid, size, v_ival, eps, hansen_sengupta_extension, decomp=False)
-area_boxes_hansen_sengupta, border_boxes_hansen_sengupta = check_box(grid, size, v_ival,\
-                                                                           hansen_sengupta_extension, eps, log=False, decomposition=False)
-uni_plotter(area_boxes_hansen_sengupta, border_boxes_hansen_sengupta, u_upper, "Hansen-Sengupta", size=2, logger=hansen_sengupta_loger)
+area_boxes_bicentered_krawczyk_infl, border_boxes_bicentered_krawczyk_infl = check_box(grid, size, v_ival,\
+                                                                           bicentered_krawczyk_extension, eps, strategy="Inflation", grid_v=grid_v, dim_v=2, uniform_v=False)
+uni_plotter(area_boxes_bicentered_krawczyk_infl, border_boxes_bicentered_krawczyk_infl, u_upper, "Bicentered Krawczyk Inflation", size=2)
 plot_circles(left_v1, right_v1, left_v2, right_v2)
+# hansen_sengupta_extension = HansenSenguptaExtension(f_sym, v_sym, u_sym, coef=1, is_elementwise=False)
+# hansen_sengupta_loger = Logger(grid, size, v_ival, eps, hansen_sengupta_extension, decomp=False)
+# area_boxes_hansen_sengupta, border_boxes_hansen_sengupta = check_box(grid, size, v_ival,\
+#                                                                            hansen_sengupta_extension, eps, log=False, decomposition=False)
+# uni_plotter(area_boxes_hansen_sengupta, border_boxes_hansen_sengupta, u_upper, "Hansen-Sengupta", size=2, logger=hansen_sengupta_loger)
+# plot_circles(left_v1, right_v1, left_v2, right_v2)
 # hansen_sengupta_extension_elementwise = HansenSenguptaExtension(f_sym, v_sym, u_sym, coef=1, is_elementwise=True)
 # hansen_sengupta_loger_elementwise = Logger(grid, size, v_ival, eps, hansen_sengupta_extension_elementwise, decomp=False)
 # area_boxes_hansen_sengupta_elementwise, border_boxes_hansen_sengupta_elementwise = check_box(grid, size, v_ival,\

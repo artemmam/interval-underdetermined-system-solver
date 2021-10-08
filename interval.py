@@ -153,6 +153,40 @@ class Interval:
         ointerval = valueToInterval(other)
         return ointerval.__truediv__(self)
 
+def n_width(X):
+    max_width = -np.inf
+    for x in X:
+        if x.width()>max_width:
+            max_width = x.width()
+    return max_width
+
+def n_width(X):
+    max_width = -np.inf
+    for x in X:
+        if x.width()>max_width:
+            max_width = x.width()
+    return max_width
+
+def n_width_elementwise(X):
+    max_width = []
+    for x in X:
+        max_width.append(x.width())
+    return np.array(max_width)
+
+def norm_elementwise(X):
+    norm_x = []
+    for x in X:
+        norm_x.append(max(np.abs(x[0]), np.abs(x[1])))
+    return np.array(norm_x)
+
+def norm(X):
+    max_x = -np.inf
+    for x in X:
+        a = max(np.abs(x[0]), np.abs(x[1]))
+        if a > max_x:
+            max_x = a
+    return max_x
+
 
 def valueToInterval(expr):
     if isinstance(expr, int):

@@ -7,7 +7,7 @@ import pyautogui
 
 class Logger:
 
-    def __init__(self, grid, size, v_init, eps, ext_calcul, decomp=False):
+    def __init__(self, grid, size, v_init, eps, ext_calcul, uniform_u=True, decomp=False):
         """
         :param grid: grid
         :param size: the size of the grid
@@ -21,12 +21,13 @@ class Logger:
         self.__eps = eps
         self.__ext_calcul = ext_calcul
         self.__decomp = decomp
+        self.__uniform_u = uniform_u
 
     def find_box(self, x, y):
         L = len(self.__v_init)
         print("\n\n\n")
         print("LOGGING")
-        all_boxes = make_boxes_list(self.__grid, self.__size)
+        all_boxes = make_boxes_list(self.__grid, self.__size, self.__uniform_u)
         if self.__size == 2:
             for box in all_boxes:
                 if (x > box[0][0] and x<box[0][1] and y > box[1][0] and y<box[1][1]):

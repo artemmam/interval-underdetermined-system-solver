@@ -249,11 +249,11 @@ class HansenSenguptaExtension(BaseExtension):
         if self.is_elementwise:
             return self.numeric_extension, param, c
         else:
-            if log:
-                print("///")
-                print("HS input")
-                print("v", v)
-                print("c", c)
-                print("lambda", lamda_matrix )
-                print("///")
+            # if log:
+            #     print("///")
+            #     print("HS input")
+            #     print("v", v)
+            #     print("c", c)
+            #     print("lambda", lamda_matrix )
+            #     print("///")
             return np.array(self.numeric_extension(v, c[0:2], param))
