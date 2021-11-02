@@ -72,15 +72,15 @@ def uni_plotter(area_points, border_points, L2, title, logger = 0, ax = 0, fig =
     #gl_logger = logger
 
     plt.rcParams.update({'font.size': 18})
-    left_border = -L2  # Left border of rectangle which we use to build uniform grid
-    right_border = L2
+    x_lim = L2[0]  # Left border of rectangle which we use to build uniform grid
+    y_lim = L2[1]
     if size == 1:
         if ax == 0:
             fig, ax = plt.subplots(figsize=(8, 2))
-        x_min, y_min, x_max, y_max = left_border - L2 / 10, left_border - L2 / 10, right_border + L2 / 10, right_border + L2 / 10
+        x_min, y_min, x_max, y_max = x_lim[0] - L2 / 10, y_lim[0] - L2 / 10, x_lim[1] + L2 / 10, y_lim[1] + L2 / 10
         ax.set_xlim([x_min, x_max])
         ax.set_ylim([-1, 1])
-        ax.plot([left_border, right_border], [0, 0], linewidth = 12, alpha = 0.4)
+        ax.plot([x_lim[0], x_lim[1]], [0, 0], linewidth = 12, alpha = 0.4)
         for i in range(len(area_points)):
             ax.plot([area_points[i][0][0], area_points[i][0][1]],[0, 0], marker = "|", color = "green")
         for i in range(len(border_points)):
@@ -88,10 +88,11 @@ def uni_plotter(area_points, border_points, L2, title, logger = 0, ax = 0, fig =
     elif size == 2:
         if ax == 0:
             fig, ax = plt.subplots(figsize=(8, 8))
-        x_min, y_min, x_max, y_max = left_border - L2 / 10, left_border - L2 / 10, right_border + L2 / 10, right_border + L2 / 10
+        x_min, y_min, x_max, y_max = x_lim[0] - abs(x_lim[0]) / 10, y_lim[0] - abs(y_lim[0]) / 10, \
+                                     x_lim[1] + abs(x_lim[1]) / 10, y_lim[1] + abs(y_lim[1]) / 10
         ax.set_ylim([y_min, y_max])
         ax.set_xlim([x_min, x_max])
-        rect1 = Rectangle([left_border, left_border], 2*right_border, 2*right_border, fill=False, color='g',
+        rect1 = Rectangle([x_lim[0], y_lim[0]], x_lim[1] - x_lim[0], y_lim[1] - y_lim[0], fill=False, color='g',
                           linewidth=0.5)
         ax.add_patch(rect1)
         ax.axes.set_aspect('equal')
@@ -107,39 +108,39 @@ def uni_plotter(area_points, border_points, L2, title, logger = 0, ax = 0, fig =
                               border_points[i][1][1] - border_points[i][1][0],
                               fill=True, fc='yellow', color='black', linewidth=0.5, alpha=0.8)
             ax.add_patch(rect2)
-    else:
-        if ax == 0:
-            fig = plt.figure(figsize=(8, 8))
-            ax = fig.add_subplot(111, projection='3d')
-        x_min, y_min, z_min, x_max, y_max, z_max = left_border - L2 / 10, left_border - L2 / 10, left_border - L2 / 10, \
-                                                   right_border + L2 / 10, right_border + L2 / 10, right_border + L2 / 10
-        ax.set_ylim([y_min, y_max])
-        ax.set_xlim([x_min, x_max])
-        ax.set_zlim([z_min, z_max])
-        # rect1 = Rectangle([left_border, left_border], 2*right_border, 2*right_border, fill=False, color='g',
-        #                   linewidth=2.0)
-        plot_linear_cube(ax, left_border, left_border, left_border, 2*right_border, 2*right_border, 2*right_border)
-        #ax.axes.set_aspect('equal')
-        # plt.show()
-        # sys.exit(1)
-        for i in range(len(area_points)):  # Plot rectangles, which compose workspace area
-            # rect1 = Rectangle([area_points[i][0][0], area_points[i][1][0]],
-            #                   area_points[i][0][1] - area_points[i][0][0],
-            #                   area_points[i][1][1] - area_points[i][1][0],
-            #                   fill=True, fc='green', color='black', linewidth=1.0, alpha=1)
-            # ax.add_patch(rect1)
-            plot_linear_cube(ax, area_points[i][0][0], area_points[i][1][0], area_points[i][2][0],
-                             area_points[i][0][1] - area_points[i][0][0], area_points[i][1][1] - area_points[i][1][0],
-                             area_points[i][2][1] - area_points[i][2][0], color="green")
-        for i in range(len(border_points)):  # Plot rectangles, which compose the border of workspace area
-            # rect2 = Rectangle([border_points[i][0][0], border_points[i][1][0]],
-            #                   border_points[i][0][1] - border_points[i][0][0],
-            #                   border_points[i][1][1] - border_points[i][1][0],
-            #                   fill=True, fc='yellow', color='black', linewidth=1.0, alpha=1)
-            # ax.add_patch(rect2)
-            plot_linear_cube(ax, border_points[i][0][0], border_points[i][1][0], border_points[i][2][0],
-                             border_points[i][0][1] - border_points[i][0][0], border_points[i][1][1] - border_points[i][1][0],
-                             border_points[i][2][1] - border_points[i][2][0], color="green")
+    # else:
+    #     if ax == 0:
+    #         fig = plt.figure(figsize=(8, 8))
+    #         ax = fig.add_subplot(111, projection='3d')
+    #     x_min, y_min, z_min, x_max, y_max, z_max = left_border - L2 / 10, left_border - L2 / 10, left_border - L2 / 10, \
+    #                                                right_border + L2 / 10, right_border + L2 / 10, right_border + L2 / 10
+    #     ax.set_ylim([y_min, y_max])
+    #     ax.set_xlim([x_min, x_max])
+    #     ax.set_zlim([z_min, z_max])
+    #     # rect1 = Rectangle([left_border, left_border], 2*right_border, 2*right_border, fill=False, color='g',
+    #     #                   linewidth=2.0)
+    #     plot_linear_cube(ax, left_border, left_border, left_border, 2*right_border, 2*right_border, 2*right_border)
+    #     #ax.axes.set_aspect('equal')
+    #     # plt.show()
+    #     # sys.exit(1)
+    #     for i in range(len(area_points)):  # Plot rectangles, which compose workspace area
+    #         # rect1 = Rectangle([area_points[i][0][0], area_points[i][1][0]],
+    #         #                   area_points[i][0][1] - area_points[i][0][0],
+    #         #                   area_points[i][1][1] - area_points[i][1][0],
+    #         #                   fill=True, fc='green', color='black', linewidth=1.0, alpha=1)
+    #         # ax.add_patch(rect1)
+    #         plot_linear_cube(ax, area_points[i][0][0], area_points[i][1][0], area_points[i][2][0],
+    #                          area_points[i][0][1] - area_points[i][0][0], area_points[i][1][1] - area_points[i][1][0],
+    #                          area_points[i][2][1] - area_points[i][2][0], color="green")
+    #     for i in range(len(border_points)):  # Plot rectangles, which compose the border of workspace area
+    #         # rect2 = Rectangle([border_points[i][0][0], border_points[i][1][0]],
+    #         #                   border_points[i][0][1] - border_points[i][0][0],
+    #         #                   border_points[i][1][1] - border_points[i][1][0],
+    #         #                   fill=True, fc='yellow', color='black', linewidth=1.0, alpha=1)
+    #         # ax.add_patch(rect2)
+    #         plot_linear_cube(ax, border_points[i][0][0], border_points[i][1][0], border_points[i][2][0],
+    #                          border_points[i][0][1] - border_points[i][0][0], border_points[i][1][1] - border_points[i][1][0],
+    #                          border_points[i][2][1] - border_points[i][2][0], color="green")
     ax.set_title(title, fontsize=12)
     ax.tick_params(axis='both', which='major', labelsize=10)
     ax.tick_params(axis='both', which='minor', labelsize=8)
@@ -148,14 +149,15 @@ def uni_plotter(area_points, border_points, L2, title, logger = 0, ax = 0, fig =
 
 def plot_one_box(box, type, L2, ax = 0):
     plt.rcParams.update({'font.size': 18})
-    left_border = -L2  # Left border of rectangle which we use to build uniform grid
-    right_border = L2
+    x_lim = L2[0]  # Left border of rectangle which we use to build uniform grid
+    y_lim = L2[1]
     if ax == 0:
         fig, ax = plt.subplots(figsize=(8, 8))
-    x_min, y_min, x_max, y_max = left_border - L2 / 10, left_border - L2 / 10, right_border + L2 / 10, right_border + L2 / 10
+    x_min, y_min, x_max, y_max = x_lim[0] - abs(x_lim[0]) / 10, y_lim[0] - abs(y_lim[0]) / 10, \
+                                 x_lim[1] + abs(x_lim[1]) / 10, y_lim[1] + abs(y_lim[1]) / 10
     ax.set_ylim([y_min, y_max])
     ax.set_xlim([x_min, x_max])
-    rect1 = Rectangle([left_border, left_border], 2 * right_border, 2 * right_border, fill=False, color='g',
+    rect1 = Rectangle([x_lim[0], y_lim[0]], x_lim[1] - x_lim[0], y_lim[1] - y_lim[0], fill=False, color='g',
                       linewidth=0.5)
     ax.add_patch(rect1)
     ax.axes.set_aspect('equal')

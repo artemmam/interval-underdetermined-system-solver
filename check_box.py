@@ -1,9 +1,9 @@
 import interval as ival
 import numpy as np
 import itertools as it
-from pathos.multiprocessing import ProcessingPool as Pool
-import dill  # the code below will fail without this line
-import pickle
+# from pathos.multiprocessing import ProcessingPool as Pool
+# import dill  # the code below will fail without this line
+# import pickle
 
 
 def diam(A):
@@ -59,9 +59,9 @@ def reccur_func(box, v_init, eps, extension, max_iter=10, log=False, decompositi
         if log:
             print("*****")
             print("Natural :", f_num(v_iter, box).reshape(-1))
-        for nat_ext in f_num(v_iter, box).reshape(-1):
-            if not ival.Interval([0, 0]).isInIns(nat_ext):
-                return "outside"
+        # for nat_ext in f_num(v_iter, box).reshape(-1):
+        #     if not ival.Interval([0, 0]).isInIns(nat_ext):
+        #         return "outside"
         if k>5:
             for i in range(n):
                 v_iter[i].scale(1.1)
@@ -74,17 +74,17 @@ def reccur_func(box, v_init, eps, extension, max_iter=10, log=False, decompositi
             print("box", box)
             print("Old V = ", v_iter)
             print("New V = ", v_ext)
-        w_x = ival.n_width(v_iter)
-        kr_minux_m_x = []
+        # w_x = ival.n_width(v_iter)
+        # kr_minux_m_x = []
         for i in range(n):
-            kr_minux_m_x.append(v_ext[i] - v_iter[i].mid())
-            # if not (v_ext[i].isIn(v_iter[i])):
-            #     check = False
-            #     break
-        norm_buf = ival.norm(kr_minux_m_x)
-
-        if not norm_buf < w_x / 2:
-            check = False
+            # kr_minux_m_x.append(v_ext[i] - v_iter[i].mid())
+            if not (v_ext[i].isIn(v_iter[i])):
+                check = False
+                break
+        # norm_buf = ival.norm(kr_minux_m_x)
+        #
+        # if not norm_buf < w_x / 2:
+        #     check = False
         if check:
             return "inside"
         for i in range(n):
@@ -139,6 +139,7 @@ def reccur_func(box, v_init, eps, extension, max_iter=10, log=False, decompositi
 
 
 def reccur_func_enlarge(box, v_init, v_ival, eps, extension, max_iter=10, log=False, decomposition=False, level=0):
+    max_iter = 10
     v_iter = v_init.copy()
     n = len(v_init)
     v_prev = v_iter.copy()
@@ -159,10 +160,8 @@ def reccur_func_enlarge(box, v_init, v_ival, eps, extension, max_iter=10, log=Fa
             if not ival.Interval([0, 0]).isInIns(nat_ext):
                 return "outside"
         if k>5:
-            a = v_iter
             for i in range(n):
-
-                v_iter[i].scale(1.5)
+                v_iter[i].scale(1.1)
                 v_iter[i] = v_iter[i].intersec(v_ival[i])
         check = True
         v_ext = extension.calculate_extension(box, v_iter, log=log).reshape(-1)
@@ -172,15 +171,15 @@ def reccur_func_enlarge(box, v_init, v_ival, eps, extension, max_iter=10, log=Fa
             print("V_ival", v_ival)
             print("Old V = ", v_iter)
             print("New V = ", v_ext)
-        w_x = ival.n_width(v_iter)
-        kr_minux_m_x = []
-        for i in range(n):
-            kr_minux_m_x.append(v_ext[i] - v_iter[i].mid())
+        # w_x = ival.n_width(v_iter)
+        # kr_minux_m_x = []
         # for i in range(n):
-        #     if not (v_ext[i].isIn(v_iter[i])):
-        #         check = False
-        #         break
-        norm_buf = ival.norm(kr_minux_m_x)
+        #     kr_minux_m_x.append(v_ext[i] - v_iter[i].mid())
+        for i in range(n):
+            if not (v_ext[i].isIn(v_iter[i])):
+                check = False
+                break
+        # norm_buf = ival.norm(kr_minux_m_x)
         #
         # if log:
         #     print("Norm = ", norm_buf, 3)
@@ -188,8 +187,8 @@ def reccur_func_enlarge(box, v_init, v_ival, eps, extension, max_iter=10, log=Fa
         # for i in range(n):
         #     if not norm_buf[i] < w_x[i]/2:
         #         check = False
-        if not norm_buf < w_x / 2:
-            check = False
+        # if not norm_buf < w_x / 2:
+        #     check = False
         if check:
             return "inside"
         for i in range(n):
@@ -286,7 +285,7 @@ def reccur_func_elementwise(box, v_init, eps, extension, max_iter=10, log=False,
         k += 1
 
 
-def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=20, decomposition=False, strategy = "Default",
+def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decomposition=False, strategy = "Default",
               grid_v = None, dim_v=None, uniform_v = True, uniform_u = True):
     """
     Function for checking boxes on dim-dimensional uniform grid with checker method
@@ -357,6 +356,7 @@ def check_one_box(box, v_ival, extension, eps, log=False, max_iter=9, decomposit
         temp = "outside"
         v_boxes = make_boxes_list(grid, dim, uniform=uniform)
         for v in v_boxes:
+            print("v=", v)
             if len(v) == 1:
                 v = [v[0]]
             else:

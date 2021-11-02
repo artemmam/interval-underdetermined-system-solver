@@ -7,7 +7,7 @@ import sympy as sym
 
 
 class BaseExtension:
-    def __init__(self, f, v, u, coef=1, is_elementwise=False):
+    def __init__(self, f, v, u, coef=1, is_elementwise=False, log=False):
         """
         :param f: system of equations
         :param u: box to check
@@ -19,6 +19,9 @@ class BaseExtension:
         self.__v = v
         self.__coef = coef
         self.__is_elementwise = is_elementwise
+        self.__log = log
+        # self.__prev_lambda = []
+        # self.__prev_f_derived = []
         self.__numeric_extension = self.get_numeric_extension()
         self.__derived_f = derived_f(self.f, self.v, self.u)
 
@@ -46,6 +49,10 @@ class BaseExtension:
     def is_elementwise(self):
         return self.__is_elementwise
 
+    @property
+    def log(self):
+        return self.__log
+
     def get_numeric_extension(self):
         ...
 
@@ -64,12 +71,35 @@ class BaseExtension:
             for j in range(len(v)):
                 m[i, j] = coef*ival.valueToInterval(f_derived_num[i, j]).mid()
         m = m.astype(np.float64)
+        # lam = np.linalg.inv(m)
+        # if self.log:
+        #     print("Lambda")
+        #     print(lam)
+        #     print("Lamda prev")
+        #     print(self.__prev_lambda)
+        #     print("Eq from book left")
+        #     # print(np.eye(n) - lam@f_derived_num)
+        #     print(ival.norm_matrix(np.eye(n) - lam @ f_derived_num))
+        #     new_norm = ival.norm_matrix(np.eye(n) - lam @ f_derived_num)
+        #     old_norm = 0
+        #     try:
+        #         print(ival.norm_matrix(np.eye(n) - self.__prev_lambda @ self.__prev_f_derived ))
+        #         old_norm = ival.norm_matrix(np.eye(n) - self.__prev_lambda @ self.__prev_f_derived )
+        #     except:
+        #         ...
+        #     if new_norm <= old_norm:
+        #         print("NEWW")
+        #
+        # self.__prev_lambda = np.linalg.inv(m)
+        # self.__prev_f_derived = f_derived_num
         if np.linalg.det(m) == 0:
             return np.linalg.inv(m + np.eye(n)).reshape(n*n)
         else:
             return np.linalg.inv(m).reshape(n*n)
 
     def lambdify_f(self):
+        # self.__prev_lambda = []
+        # self.__prev_f_derived = []
         f = function_replacer(self.f)
         return sym.lambdify([self.v, self.u], f)
 
@@ -124,14 +154,14 @@ class ClassicalKrawczykExtension(BaseExtension):
 
 
 class BicenteredKrawczykExtension(BaseExtension):
-    def __init__(self, f, u, v, coef=1, is_elementwise=False):
+    def __init__(self, f, u, v, coef=1, is_elementwise=False, log=False):
         """
         :param f: system of equations
         :param u: box to check
         :param v: variables for checking
         :param coef: int, coefficient for Bicentered Krawczyk extension
         """
-        super().__init__(f, u, v, coef, is_elementwise=False)
+        super().__init__(f, u, v, coef, is_elementwise=False, log=log)
         self.__numeric_derived_recurrent_form = self.get_numeric_derived_recurrent_form()
 
     @property

@@ -187,6 +187,18 @@ def norm(X):
             max_x = a
     return max_x
 
+def norm_matrix(X):
+    max_x = -np.inf
+    norm_X = []
+    for i in range(X.shape[0]):
+        a = 0
+        for j in range(len(X[i, ::])):
+            a += max(np.abs(X[i, j][0]), np.abs(X[i, j][1]))
+        # print(a)
+        norm_X.append(a)
+    max_x = max(norm_X)
+    return max_x
+
 
 def valueToInterval(expr):
     if isinstance(expr, int):
