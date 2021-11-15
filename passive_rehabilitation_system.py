@@ -113,6 +113,7 @@ parser.add_argument('-v1_0', dest="v1_0", type=int)
 parser.add_argument('-v1_1', dest="v1_1", type=int)
 parser.add_argument('-v2_0', dest="v2_0", type=int)
 parser.add_argument('-v2_1', dest="v2_1", type=int)
+parser.add_argument('-parallel', dest="parallel", type=bool)
 args = parser.parse_args()
 print(args)
 N = args.Nu  # The number of boxes on uniform grid
