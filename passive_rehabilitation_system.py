@@ -103,17 +103,19 @@ def symbolic_pasive_rehabilitation_system_func(l_a=4, l_b=2):
                    )
     return f, u, v
 
-N = 2  # The number of boxes on uniform grid
-##### 2-DOF
+
 a = 4
 b = 2
 parser = argparse.ArgumentParser(description="Angles in radians")
+parser.add_argument('-Nu', dest="Nu", type=int)
+parser.add_argument('-Nv', dest="Nv", type=int)
 parser.add_argument('-v1_0', dest="v1_0", type=int)
 parser.add_argument('-v1_1', dest="v1_1", type=int)
 parser.add_argument('-v2_0', dest="v2_0", type=int)
 parser.add_argument('-v2_1', dest="v2_1", type=int)
 args = parser.parse_args()
 print(args)
+N = args.Nu  # The number of boxes on uniform grid
 left_v1 = math.radians(args.v1_0)
 right_v1 = math.radians(args.v1_1)
 left_v2 = math.radians(args.v2_0)
@@ -133,7 +135,7 @@ grid = [grid_u1, grid_u2]
 size = 2  # The dimension of uniform grid
 eps = 1e-6
 coef = 2
-Nv = 10
+Nv = args.Nv
 grid_v1 = np.linspace(v1[0], v1[1], Nv + 1)
 grid_v2 = np.linspace(v2[0], v2[1], Nv + 1)
 grid_v = [grid_v1, grid_v2]
