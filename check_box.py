@@ -1,6 +1,7 @@
 import interval as ival
 import numpy as np
 import itertools as it
+from mpi4py import MPI
 # from pathos.multiprocessing import ProcessingPool as Pool
 # import dill  # the code below will fail without this line
 # import pickle
@@ -297,6 +298,9 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
     :param log: turn on log info printing
     :return: list of inside boxes, list of border boxes
     """
+    comm = MPI.COMM_WORLD
+    size = comm.Get_size()
+    rank = comm.Get_rank()
     area_boxes = []
     border_boxes = []
     grid = np.array(grid)
@@ -304,40 +308,57 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
     all_boxes = make_boxes_list(grid, dim, uniform_u)
     # print(all_boxes[81])
     for i, box in enumerate(all_boxes):
-        print(i, "/", len(all_boxes) - 1)
-        # print(i)
-        if extension.is_elementwise:
-            temp = reccur_func_elementwise(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
-        else:
-            if strategy == "Default":
-                temp = reccur_func(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
+        if i % size == rank:
+            print("rank = ", rank, "; ", i, "/", len(all_boxes) - 1)
+            # print(i)
+            if extension.is_elementwise:
+                temp = reccur_func_elementwise(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
             else:
-                temp = "outside"
-                grid_v = np.array(grid_v)
-                v_boxes = make_boxes_list(grid_v, dim_v, uniform_v)
-                temp_list = []
-                for v in v_boxes:
-                    if len(v) == 1:
-                        v = [v[0]]
-                    else:
-                        v = np.array(v)
-                    # print(v)
-                    temp_infl = reccur_func_enlarge(all_boxes[i], v, v_ival, eps, extension, max_iter, log=log,
-                                               decomposition=decomposition)
-                    if temp_infl == "inside":
-                        temp = "inside"
-                        break
-                    else:
-                        temp_list.append(temp_infl)
-                if temp!="inside":
-                    check = [True if temp_list[i] == "border" else False for i in range(len(temp_list))]
-                    # print(check)
-                    if np.any(check):
-                        temp = "border"
-        if temp == 'inside':
-            area_boxes.append(all_boxes[i])
-        elif temp == 'border':
-            border_boxes.append(all_boxes[i])
+                if strategy == "Default":
+                    temp = reccur_func(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
+                else:
+                    temp = "outside"
+                    grid_v = np.array(grid_v)
+                    v_boxes = make_boxes_list(grid_v, dim_v, uniform_v)
+                    temp_list = []
+                    for v in v_boxes:
+                        if len(v) == 1:
+                            v = [v[0]]
+                        else:
+                            v = np.array(v)
+                        # print(v)
+                        temp_infl = reccur_func_enlarge(all_boxes[i], v, v_ival, eps, extension, max_iter, log=log,
+                                                   decomposition=decomposition)
+                        if temp_infl == "inside":
+                            temp = "inside"
+                            break
+                        else:
+                            temp_list.append(temp_infl)
+                    if temp!="inside":
+                        check = [True if temp_list[i] == "border" else False for i in range(len(temp_list))]
+                        # print(check)
+                        if np.any(check):
+                            temp = "border"
+            if temp == 'inside':
+                area_boxes.append(all_boxes[i])
+            elif temp == 'border':
+                border_boxes.append(all_boxes[i])
+    if rank > 0:
+        print("rank ", str(rank) + " sending area_boxes ...")
+        comm.send(area_boxes, dest=0, tag=11)
+        print("rank ", str(rank) + " sending border_boxes ...")
+        comm.send(border_boxes, dest=0, tag=12)
+    else:
+        for i in range(1, size):
+            print(rank, "recieving area_boxes from", i)
+            area_boxes_tmp = comm.recv(source=i, tag=11)
+            area_boxes = area_boxes + area_boxes_tmp
+            print(rank, "recieving border_boxes from", i)
+            border_boxes_tmp = comm.recv(source=i, tag=12)
+            border_boxes = border_boxes + border_boxes_tmp
+            #print("Dict keys", server_dict.keys())
+        #print("Saving...")
+        #df_errors_proc.to_csv("df_mae_best_model_" + target_metric + ".csv")
     return area_boxes, border_boxes
 
 

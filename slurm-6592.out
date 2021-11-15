@@ -1,0 +1,540 @@
+parameters  = --gpus all -v /home/amaminov:/home/amaminov -w /home/amaminov/interval-underdetermined-system-solver/interval-underdetermined-system-solver
+e97911a701b39fc9cd6ef25b629a7b5e974ddca756ce7ec763a120e437d9463c
+Initialize container ...
+Migrating user amaminov to container ...
+Container starts ...
+Namespace(Nu=10, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=10, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=10, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=10, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=10, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=10, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=10, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=10, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=10, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=10, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=10, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=10, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=10, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=10, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=10, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=10, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=10, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=10, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+#####
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Namespace(Nu=10, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=10, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+#####
+RECURRENT FORM 
+#####
+RECURRENT FORM 
+#####
+#####
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  13 ;  13 / 99
+rank =  15 ;  15 / 99
+#####
+RECURRENT FORM 
+#####
+rank =  5 ;  5 / 99
+#####
+rank =  1 ;  1 / 99
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  11 ;  11 / 99
+rank =  3 ;  3 / 99
+rank =  17 ;  17 / 99
+rank =  1 ;  21 / 99
+rank =  13 ;  33 / 99
+rank =  19 ;  19 / 99
+rank =  15 ;  35 / 99
+rank =  17 ;  37 / 99
+rank =  1 ;  41 / 99
+rank =  7 ;  7 / 99
+rank =  5 ;  25 / 99
+rank =  13 ;  53 / 99
+rank =  11 ;  31 / 99
+rank =  9 ;  9 / 99
+rank =  3 ;  23 / 99
+rank =  17 ;  57 / 99
+rank =  19 ;  39 / 99
+rank =  15 ;  55 / 99
+rank =  17 ;  77 / 99
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  9 ;  29 / 99
+rank =  1 ;  61 / 99
+rank =  17 ;  97 / 99
+rank =  5 ;  45 / 99
+rank =  7 ;  27 / 99
+rank =  11 ;  51 / 99
+rank =  19 ;  59 / 99
+rank =  3 ;  43 / 99
+rank =  9 ;  49 / 99
+rank  17 sending area_boxes ...
+rank  17 sending border_boxes ...
+rank =  13 ;  73 / 99
+rank =  15 ;  75 / 99
+rank =  19 ;  79 / 99
+rank =  16 ;  16 / 99
+rank =  11 ;  71 / 99
+rank =  19 ;  99 / 99
+rank =  1 ;  81 / 99
+rank =  5 ;  65 / 99
+rank =  9 ;  69 / 99
+rank  19 sending area_boxes ...
+rank  19 sending border_boxes ...
+rank =  13 ;  93 / 99
+rank =  7 ;  47 / 99
+rank =  17 ;  17 / 99
+rank  1 sending area_boxes ...
+rank  1 sending border_boxes ...
+rank =  3 ;  63 / 99
+rank =  9 ;  89 / 99
+rank =  11 ;  91 / 99
+#####
+RECURRENT FORM 
+#####
+rank =  19 ;  19 / 99
+rank =  15 ;  95 / 99
+rank  13 sending area_boxes ...
+rank  13 sending border_boxes ...
+rank  9 sending area_boxes ...
+rank  9 sending border_boxes ...
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  5 ;  85 / 99
+rank  11 sending area_boxes ...
+rank  11 sending border_boxes ...
+rank =  1 ;  1 / 99
+rank =  7 ;  67 / 99
+rank  15 sending area_boxes ...
+rank  15 sending border_boxes ...
+rank =  13 ;  13 / 99
+rank =  3 ;  83 / 99
+rank =  9 ;  9 / 99
+rank =  11 ;  11 / 99
+rank  5 sending area_boxes ...
+rank  5 sending border_boxes ...
+rank =  15 ;  15 / 99
+rank  3 sending area_boxes ...
+rank  3 sending border_boxes ...
+rank =  7 ;  87 / 99
+#####
+RECURRENT FORM 
+#####
+rank =  3 ;  3 / 99
+rank =  5 ;  5 / 99
+rank =  2 ;  2 / 99
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank  7 sending area_boxes ...
+#####
+RECURRENT FORM 
+#####
+rank  7 sending border_boxes ...
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  16 ;  36 / 99
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+#####
+RECURRENT FORM 
+#####
+rank =  7 ;  7 / 99
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  10 ;  10 / 99
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  2 ;  22 / 99
+rank =  8 ;  8 / 99
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  10 ;  30 / 99
+rank =  4 ;  4 / 99
+rank =  6 ;  6 / 99
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  16 ;  56 / 99
+rank =  8 ;  28 / 99
+rank =  2 ;  42 / 99
+rank =  10 ;  50 / 99
+rank =  18 ;  18 / 99
+rank =  12 ;  12 / 99
+rank =  10 ;  70 / 99
+rank =  4 ;  24 / 99
+rank =  0 ;  0 / 99
+rank =  6 ;  26 / 99
+#####
+RECURRENT FORM 
+#####
+rank =  2 ;  62 / 99
+rank =  8 ;  48 / 99
+rank =  10 ;  90 / 99
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  0 ;  20 / 99
+rank  10 sending area_boxes ...
+rank  10 sending border_boxes ...
+rank =  4 ;  44 / 99
+rank =  0 ;  40 / 99
+rank =  2 ;  82 / 99
+rank =  6 ;  46 / 99
+rank =  16 ;  76 / 99
+rank =  8 ;  68 / 99
+rank =  10 ;  10 / 99
+rank =  14 ;  14 / 99
+rank =  18 ;  38 / 99
+rank =  12 ;  32 / 99
+rank =  4 ;  64 / 99
+rank  2 sending area_boxes ...
+rank  2 sending border_boxes ...
+rank =  8 ;  88 / 99
+rank =  12 ;  52 / 99
+rank =  4 ;  84 / 99
+rank =  6 ;  66 / 99
+rank =  2 ;  2 / 99
+rank  8 sending area_boxes ...
+rank  8 sending border_boxes ...
+rank =  16 ;  96 / 99
+rank =  0 ;  60 / 99
+rank =  18 ;  58 / 99
+rank =  8 ;  8 / 99
+rank =  14 ;  34 / 99
+rank  4 sending area_boxes ...
+rank  4 sending border_boxes ...
+rank =  0 ;  80 / 99
+rank  16 sending area_boxes ...
+rank  16 sending border_boxes ...
+rank =  6 ;  86 / 99
+rank =  4 ;  4 / 99
+0 recieving area_boxes from 1
+0 recieving border_boxes from 1
+0 recieving area_boxes from 2
+0 recieving border_boxes from 2
+0 recieving area_boxes from 3
+0 recieving border_boxes from 3
+0 recieving area_boxes from 4
+0 recieving border_boxes from 4
+0 recieving area_boxes from 5
+0 recieving border_boxes from 5
+0 recieving area_boxes from 6
+rank =  18 ;  78 / 99
+rank =  12 ;  72 / 99
+rank =  16 ;  16 / 99
+rank  6 sending area_boxes ...
+rank  6 sending border_boxes ...
+0 recieving border_boxes from 6
+0 recieving area_boxes from 7
+0 recieving border_boxes from 7
+0 recieving area_boxes from 8
+0 recieving border_boxes from 8
+0 recieving area_boxes from 9
+0 recieving border_boxes from 9
+0 recieving area_boxes from 10
+0 recieving border_boxes from 10
+0 recieving area_boxes from 11
+0 recieving border_boxes from 11
+0 recieving area_boxes from 12
+rank =  12 ;  92 / 99
+rank =  18 ;  98 / 99
+rank =  14 ;  54 / 99
+rank  18 sending area_boxes ...
+rank  18 sending border_boxes ...
+rank =  18 ;  18 / 99
+rank =  6 ;  6 / 99
+rank  12 sending area_boxes ...
+rank  12 sending border_boxes ...
+0 recieving border_boxes from 12
+0 recieving area_boxes from 13
+0 recieving border_boxes from 13
+0 recieving area_boxes from 14
+rank =  12 ;  12 / 99
+rank =  14 ;  74 / 99
+rank =  14 ;  94 / 99
+rank =  19 ;  39 / 99
+rank  14 sending area_boxes ...
+rank  14 sending border_boxes ...
+0 recieving border_boxes from 14
+0 recieving area_boxes from 15
+0 recieving border_boxes from 15
+0 recieving area_boxes from 16
+0 recieving border_boxes from 16
+0 recieving area_boxes from 17
+0 recieving border_boxes from 17
+0 recieving area_boxes from 18
+0 recieving border_boxes from 18
+0 recieving area_boxes from 19
+0 recieving border_boxes from 19
+rank =  1 ;  21 / 99
+rank =  14 ;  14 / 99
+rank =  11 ;  31 / 99
+rank =  3 ;  23 / 99
+rank =  17 ;  37 / 99
+rank =  7 ;  27 / 99
+rank =  5 ;  25 / 99
+rank =  0 ;  0 / 99
+rank =  9 ;  29 / 99
+rank =  13 ;  33 / 99
+rank =  15 ;  35 / 99
+rank =  10 ;  30 / 99
+rank =  19 ;  59 / 99
+rank =  8 ;  28 / 99
+rank =  2 ;  22 / 99
+rank =  4 ;  24 / 99
+rank =  9 ;  49 / 99
+rank =  18 ;  38 / 99
+rank =  1 ;  41 / 99
+rank =  6 ;  26 / 99
+rank =  11 ;  51 / 99
+rank =  12 ;  32 / 99
+rank =  16 ;  36 / 99
+rank =  17 ;  57 / 99
+rank =  7 ;  47 / 99
+rank =  13 ;  53 / 99
+rank =  0 ;  20 / 99
+rank =  3 ;  43 / 99
+rank =  5 ;  45 / 99
+rank =  15 ;  55 / 99
+rank =  14 ;  34 / 99
+rank =  19 ;  79 / 99
+rank =  9 ;  69 / 99
+rank =  11 ;  71 / 99
+rank =  1 ;  61 / 99
+rank =  17 ;  77 / 99
+rank =  13 ;  73 / 99
+rank =  7 ;  67 / 99
+rank =  5 ;  65 / 99
+rank =  10 ;  50 / 99
+rank =  3 ;  63 / 99
+rank =  8 ;  48 / 99
+rank =  15 ;  75 / 99
+rank =  18 ;  58 / 99
+rank =  19 ;  99 / 99
+rank =  2 ;  42 / 99
+rank =  9 ;  89 / 99
+rank =  0 ;  40 / 99
+rank =  11 ;  91 / 99
+rank =  6 ;  46 / 99
+rank =  12 ;  52 / 99
+rank =  1 ;  81 / 99
+rank =  17 ;  97 / 99
+rank =  4 ;  44 / 99
+rank =  16 ;  56 / 99
+rank =  13 ;  93 / 99
+rank =  7 ;  87 / 99
+rank =  3 ;  83 / 99
+rank =  5 ;  85 / 99
+rank =  14 ;  54 / 99
+rank  19 sending area_boxes ...
+rank  19 sending border_boxes ...
+rank  9 sending area_boxes ...
+rank  9 sending border_boxes ...
+rank =  15 ;  95 / 99
+rank  11 sending area_boxes ...
+rank  11 sending border_boxes ...
+rank =  10 ;  70 / 99
+rank  1 sending area_boxes ...
+rank  1 sending border_boxes ...
+rank  17 sending area_boxes ...
+rank  17 sending border_boxes ...
+rank  13 sending area_boxes ...
+rank  13 sending border_boxes ...
+rank  7 sending area_boxes ...
+rank  7 sending border_boxes ...
+rank =  18 ;  78 / 99
+rank =  8 ;  68 / 99
+rank =  0 ;  60 / 99
+rank  3 sending area_boxes ...
+rank  3 sending border_boxes ...
+rank  5 sending area_boxes ...
+rank  5 sending border_boxes ...
+rank =  2 ;  62 / 99
+rank =  12 ;  72 / 99
+rank  15 sending area_boxes ...
+rank  15 sending border_boxes ...
+rank =  6 ;  66 / 99
+rank =  16 ;  76 / 99
+rank =  4 ;  64 / 99
+rank =  14 ;  74 / 99
+rank =  10 ;  90 / 99
+rank =  8 ;  88 / 99
+rank =  18 ;  98 / 99
+rank =  0 ;  80 / 99
+rank =  2 ;  82 / 99
+rank =  12 ;  92 / 99
+rank =  16 ;  96 / 99
+rank =  6 ;  86 / 99
+rank =  4 ;  84 / 99
+rank  10 sending area_boxes ...
+rank  10 sending border_boxes ...
+rank =  14 ;  94 / 99
+rank  8 sending area_boxes ...
+rank  8 sending border_boxes ...
+rank  18 sending area_boxes ...
+rank  18 sending border_boxes ...
+0 recieving area_boxes from 1
+0 recieving border_boxes from 1
+0 recieving area_boxes from 2
+rank  12 sending area_boxes ...
+rank  12 sending border_boxes ...
+rank  2 sending area_boxes ...
+rank  2 sending border_boxes ...
+0 recieving border_boxes from 2
+0 recieving area_boxes from 3
+0 recieving border_boxes from 3
+0 recieving area_boxes from 4
+rank  16 sending area_boxes ...
+rank  16 sending border_boxes ...
+rank  6 sending area_boxes ...
+rank  6 sending border_boxes ...
+rank  4 sending area_boxes ...
+rank  4 sending border_boxes ...
+0 recieving border_boxes from 4
+0 recieving area_boxes from 5
+0 recieving border_boxes from 5
+0 recieving area_boxes from 6
+0 recieving border_boxes from 6
+0 recieving area_boxes from 7
+0 recieving border_boxes from 7
+0 recieving area_boxes from 8
+0 recieving border_boxes from 8
+0 recieving area_boxes from 9
+0 recieving border_boxes from 9
+0 recieving area_boxes from 10
+0 recieving border_boxes from 10
+0 recieving area_boxes from 11
+0 recieving border_boxes from 11
+0 recieving area_boxes from 12
+0 recieving border_boxes from 12
+0 recieving area_boxes from 13
+0 recieving border_boxes from 13
+0 recieving area_boxes from 14
+rank  14 sending area_boxes ...
+rank  14 sending border_boxes ...
+0 recieving border_boxes from 14
+0 recieving area_boxes from 15
+0 recieving border_boxes from 15
+0 recieving area_boxes from 16
+0 recieving border_boxes from 16
+0 recieving area_boxes from 17
+0 recieving border_boxes from 17
+0 recieving area_boxes from 18
+0 recieving border_boxes from 18
+0 recieving area_boxes from 19
+0 recieving border_boxes from 19
+Container stops ...
+Container closed
+Container deleted

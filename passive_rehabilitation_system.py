@@ -13,6 +13,7 @@ import math
 import itertools as it
 import argparse
 import matplotlib
+from mpi4py import MPI
 # matplotlib.use('Agg')
 
 
@@ -103,7 +104,9 @@ def symbolic_pasive_rehabilitation_system_func(l_a=4, l_b=2):
                    )
     return f, u, v
 
-
+comm = MPI.COMM_WORLD
+size = comm.Get_size()
+rank = comm.Get_rank()
 a = 4
 b = 2
 parser = argparse.ArgumentParser(description="Angles in radians")
@@ -166,31 +169,38 @@ grid_v = [grid_v1, grid_v2]
 #             "Classical Krawczyk Elementwise", size=2)
 # plot_circles()
 ###
-fig1 = plt.figure(figsize=(8, 8))
-ax1 = fig1.add_subplot(1, 1, 1)
+
 bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
 # bicentered_krawczyk_loger = Logger(grid, size, v_ival, eps, bicentered_krawczyk_extension, decomp=False, uniform_u=False)
 area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk = check_box(grid, size, v_ival,\
                                                                            bicentered_krawczyk_extension, eps, uniform_u=False)
-uni_plotter(area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk, u_lims, "Bicentered Krawczyk", size=2,
-            ax=ax1, fig=fig1)
-plot_area(ax1, a, b, left_v1, right_v1, left_v2, right_v2)
-# plt.savefig('./fig/passive-rehabilitation-system-Bicentered _Krawczyk_'+str(N) + "_" + str(Nv) + "_" +
-#             str(args.v1_0)  + "_" + str(args.v1_1) + "_" + str(args.v2_0) + "_" + str(args.v2_1) + '.png')
+if rank == 0:
+    print("Plot for Bicentered Krawczyk")
+    fig1 = plt.figure(figsize=(8, 8))
+    ax1 = fig1.add_subplot(1, 1, 1)
+    uni_plotter(area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk, u_lims, "Bicentered Krawczyk", size=2,
+                ax=ax1, fig=fig1)
+    plot_area(ax1, a, b, left_v1, right_v1, left_v2, right_v2)
+    plt.savefig('./fig/passive-rehabilitation-system-Bicentered _Krawczyk_'+str(N) + "_" + str(Nv) + "_" +
+                str(args.v1_0)  + "_" + str(args.v1_1) + "_" + str(args.v2_0) + "_" + str(args.v2_1) + '.png')
 ###
-fig1 = plt.figure(figsize=(8, 8))
-ax1 = fig1.add_subplot(1, 1, 1)
+
 # bicentered_krawczyk_loger_infl = Logger(grid, size, v_ival, eps, bicentered_krawczyk_extension, decomp=False,
 #                                        uniform_u=False, strategy="Inflation", dim=2, grid_v=grid_v)
+comm.Barrier()
 area_boxes_bicentered_krawczyk_infl, border_boxes_bicentered_krawczyk_infl = check_box(grid, size, v_ival,\
                                                                            bicentered_krawczyk_extension, eps,
                                                                              strategy="Inflaction", dim_v=2,
                                                                              grid_v=grid_v, uniform_u=False, uniform_v=False)
-uni_plotter(area_boxes_bicentered_krawczyk_infl, border_boxes_bicentered_krawczyk_infl, u_lims, "Bicentered Krawczyk Inflaction", size=2,
-            ax=ax1, fig=fig1)
-plot_area(ax1, a, b, left_v1, right_v1, left_v2, right_v2)
-# plt.savefig('./fig/passive-rehabilitation-system-Bicentered _Krawczyk_inflation_'+str(N) + "_" + str(Nv) + "_" +
-#             str(args.v1_0)  + "_" + str(args.v1_1) + "_" + str(args.v2_0) + "_" + str(args.v2_1) + '.png')
+if rank == 0:
+    print("Plot for Bicentered Krawczyk enlargement")
+    fig1 = plt.figure(figsize=(8, 8))
+    ax1 = fig1.add_subplot(1, 1, 1)                                                                        
+    uni_plotter(area_boxes_bicentered_krawczyk_infl, border_boxes_bicentered_krawczyk_infl, u_lims, "Bicentered Krawczyk Inflaction", size=2,
+                ax=ax1, fig=fig1)
+    plot_area(ax1, a, b, left_v1, right_v1, left_v2, right_v2)
+    plt.savefig('./fig/passive-rehabilitation-system-Bicentered _Krawczyk_enlargement_'+str(N) + "_" + str(Nv) + "_" +
+                str(args.v1_0)  + "_" + str(args.v1_1) + "_" + str(args.v2_0) + "_" + str(args.v2_1) + '.png')
 ###
 # hansen_sengupta_extension = HansenSenguptaExtension(f_sym, v_sym, u_sym, coef=1, is_elementwise=False)
 # hansen_sengupta_loger = Logger(grid, size, v_ival, eps, hansen_sengupta_extension, decomp=False)

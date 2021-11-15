@@ -1,0 +1,790 @@
+parameters  = --gpus all -v /home/amaminov:/home/amaminov -w /home/amaminov/interval-underdetermined-system-solver/interval-underdetermined-system-solver
+6772de9e03950092cab9e006ad9d179d8e90d9e6b7bf3c84eb66524f1d753724
+Initialize container ...
+Migrating user amaminov to container ...
+Container starts ...
+Namespace(Nu=15, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=15, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=15, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=15, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=15, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=15, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=15, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=15, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=15, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=15, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Namespace(Nu=15, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=15, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=15, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=15, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=15, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=15, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=15, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=15, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=15, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+Namespace(Nu=15, Nv=10, parallel=None, v1_0=15, v1_1=60, v2_0=45, v2_1=150)
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  13 ;  13 / 224
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  15 ;  15 / 224
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  13 ;  33 / 224
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  3 ;  3 / 224
+#####
+RECURRENT FORM 
+#####
+rank =  15 ;  35 / 224
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+rank =  11 ;  11 / 224
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  1 ;  1 / 224
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  19 ;  19 / 224
+rank =  9 ;  9 / 224
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  7 ;  7 / 224
+rank =  15 ;  55 / 224
+rank =  17 ;  17 / 224
+rank =  1 ;  21 / 224
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  13 ;  53 / 224
+#####
+RECURRENT FORM 
+#####
+rank =  3 ;  23 / 224
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  15 ;  75 / 224
+rank =  5 ;  5 / 224
+rank =  11 ;  31 / 224
+rank =  9 ;  29 / 224
+rank =  17 ;  37 / 224
+rank =  19 ;  39 / 224
+rank =  15 ;  95 / 224
+rank =  1 ;  41 / 224
+rank =  7 ;  27 / 224
+rank =  9 ;  49 / 224
+rank =  11 ;  51 / 224
+rank =  13 ;  73 / 224
+rank =  5 ;  25 / 224
+rank =  1 ;  61 / 224
+rank =  19 ;  59 / 224
+rank =  7 ;  47 / 224
+rank =  17 ;  57 / 224
+rank =  3 ;  43 / 224
+rank =  9 ;  69 / 224
+rank =  7 ;  67 / 224
+rank =  1 ;  81 / 224
+rank =  19 ;  79 / 224
+rank =  11 ;  71 / 224
+rank =  15 ;  115 / 224
+rank =  13 ;  93 / 224
+rank =  3 ;  63 / 224
+rank =  5 ;  45 / 224
+rank =  9 ;  89 / 224
+rank =  5 ;  65 / 224
+rank =  19 ;  99 / 224
+rank =  7 ;  87 / 224
+rank =  15 ;  135 / 224
+rank =  1 ;  101 / 224
+rank =  13 ;  113 / 224
+rank =  11 ;  91 / 224
+rank =  3 ;  83 / 224
+rank =  17 ;  77 / 224
+rank =  9 ;  109 / 224
+rank =  15 ;  155 / 224
+rank =  5 ;  85 / 224
+rank =  7 ;  107 / 224
+rank =  13 ;  133 / 224
+rank =  19 ;  119 / 224
+rank =  1 ;  121 / 224
+rank =  3 ;  103 / 224
+rank =  15 ;  175 / 224
+rank =  13 ;  153 / 224
+rank =  5 ;  105 / 224
+rank =  7 ;  127 / 224
+rank =  11 ;  111 / 224
+rank =  1 ;  141 / 224
+rank =  19 ;  139 / 224
+rank =  9 ;  129 / 224
+rank =  3 ;  123 / 224
+rank =  5 ;  125 / 224
+rank =  17 ;  97 / 224
+rank =  15 ;  195 / 224
+rank =  13 ;  173 / 224
+rank =  15 ;  215 / 224
+rank =  7 ;  147 / 224
+rank =  1 ;  161 / 224
+rank =  3 ;  143 / 224
+rank =  5 ;  145 / 224
+rank =  9 ;  149 / 224
+rank =  11 ;  131 / 224
+rank =  19 ;  159 / 224
+rank =  13 ;  193 / 224
+rank  15 sending area_boxes ...
+rank  15 sending border_boxes ...
+rank =  17 ;  117 / 224
+rank =  7 ;  167 / 224
+rank =  1 ;  181 / 224
+rank =  9 ;  169 / 224
+rank =  13 ;  213 / 224
+rank =  5 ;  165 / 224
+rank =  3 ;  163 / 224
+rank =  19 ;  179 / 224
+rank =  1 ;  201 / 224
+rank =  17 ;  137 / 224
+rank =  5 ;  185 / 224
+rank =  7 ;  187 / 224
+rank =  19 ;  199 / 224
+rank =  11 ;  151 / 224
+rank =  3 ;  183 / 224
+rank  13 sending area_boxes ...
+rank  13 sending border_boxes ...
+rank =  9 ;  189 / 224
+rank =  17 ;  157 / 224
+rank =  19 ;  219 / 224
+rank =  3 ;  203 / 224
+rank =  5 ;  205 / 224
+rank =  11 ;  171 / 224
+rank =  1 ;  221 / 224
+rank  19 sending area_boxes ...
+rank  19 sending border_boxes ...
+rank  5 sending area_boxes ...
+rank =  9 ;  209 / 224
+rank  5 sending border_boxes ...
+rank =  3 ;  223 / 224
+rank  1 sending area_boxes ...
+rank  1 sending border_boxes ...
+rank =  17 ;  177 / 224
+rank  3 sending area_boxes ...
+rank  3 sending border_boxes ...
+rank =  7 ;  207 / 224
+rank  9 sending area_boxes ...
+rank  9 sending border_boxes ...
+rank =  17 ;  197 / 224
+rank =  11 ;  191 / 224
+rank  7 sending area_boxes ...
+rank  7 sending border_boxes ...
+rank =  17 ;  217 / 224
+rank  17 sending area_boxes ...
+rank =  11 ;  211 / 224
+rank  17 sending border_boxes ...
+rank  11 sending area_boxes ...
+rank  11 sending border_boxes ...
+rank =  15 ;  15 / 224
+rank =  19 ;  19 / 224
+rank =  5 ;  5 / 224
+rank =  13 ;  13 / 224
+rank =  3 ;  3 / 224
+rank =  9 ;  9 / 224
+rank =  17 ;  17 / 224
+rank =  7 ;  7 / 224
+rank =  1 ;  1 / 224
+#####
+RECURRENT FORM 
+#####
+rank =  11 ;  11 / 224
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+#####
+RECURRENT FORM 
+#####
+rank =  8 ;  8 / 224
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  8 ;  28 / 224
+#####
+RECURRENT FORM 
+#####
+rank =  18 ;  18 / 224
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  16 ;  16 / 224
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  8 ;  48 / 224
+rank =  4 ;  4 / 224
+rank =  16 ;  36 / 224
+rank =  18 ;  38 / 224
+#####
+RECURRENT FORM 
+#####
+#####
+RECURRENT FORM 
+#####
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  4 ;  24 / 224
+rank =  14 ;  14 / 224
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  2 ;  2 / 224
+#####
+RECURRENT FORM 
+#####
+rank =  14 ;  34 / 224
+rank =  16 ;  56 / 224
+rank =  2 ;  22 / 224
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  18 ;  58 / 224
+rank =  8 ;  68 / 224
+rank =  10 ;  10 / 224
+rank =  4 ;  44 / 224
+rank =  12 ;  12 / 224
+rank =  18 ;  78 / 224
+rank =  4 ;  64 / 224
+rank =  0 ;  0 / 224
+rank =  12 ;  32 / 224
+rank =  8 ;  88 / 224
+rank =  14 ;  54 / 224
+rank =  4 ;  84 / 224
+rank =  0 ;  20 / 224
+rank =  10 ;  30 / 224
+rank =  16 ;  76 / 224
+rank =  2 ;  42 / 224
+rank =  12 ;  52 / 224
+rank =  8 ;  108 / 224
+rank =  18 ;  98 / 224
+#####
+RECURRENT FORM 
+#####
+rank =  4 ;  104 / 224
+rank =  14 ;  74 / 224
+rank =  2 ;  62 / 224
+rank =  16 ;  96 / 224
+Matrix([[-lam00*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam01*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v1], [-lam10*(u1 - 4*cos(v1) - 2*cos(v1 + v2)) - lam11*(u2 - 4*sin(v1) - 2*sin(v1 + v2)) + v2]])
+rank =  10 ;  50 / 224
+rank =  4 ;  124 / 224
+rank =  0 ;  40 / 224
+rank =  14 ;  94 / 224
+rank =  18 ;  118 / 224
+rank =  8 ;  128 / 224
+rank =  16 ;  116 / 224
+rank =  6 ;  6 / 224
+rank =  10 ;  70 / 224
+rank =  2 ;  82 / 224
+rank =  18 ;  138 / 224
+rank =  12 ;  72 / 224
+rank =  0 ;  60 / 224
+rank =  14 ;  114 / 224
+rank =  4 ;  144 / 224
+rank =  2 ;  102 / 224
+rank =  8 ;  148 / 224
+rank =  0 ;  80 / 224
+rank =  16 ;  136 / 224
+rank =  18 ;  158 / 224
+rank =  6 ;  26 / 224
+rank =  12 ;  92 / 224
+rank =  8 ;  168 / 224
+rank =  16 ;  156 / 224
+rank =  14 ;  134 / 224
+rank =  4 ;  164 / 224
+rank =  10 ;  90 / 224
+rank =  2 ;  122 / 224
+rank =  15 ;  35 / 224
+rank =  16 ;  176 / 224
+rank =  18 ;  178 / 224
+rank =  4 ;  184 / 224
+rank =  14 ;  154 / 224
+rank =  19 ;  39 / 224
+rank =  16 ;  196 / 224
+rank =  18 ;  198 / 224
+rank =  2 ;  142 / 224
+rank =  0 ;  100 / 224
+rank =  8 ;  188 / 224
+rank =  5 ;  25 / 224
+rank =  12 ;  112 / 224
+rank =  18 ;  218 / 224
+rank =  16 ;  216 / 224
+rank =  13 ;  33 / 224
+rank =  4 ;  204 / 224
+rank =  3 ;  23 / 224
+rank =  9 ;  29 / 224
+rank =  6 ;  46 / 224
+rank =  10 ;  110 / 224
+rank =  14 ;  174 / 224
+rank =  17 ;  37 / 224
+rank =  7 ;  27 / 224
+rank =  4 ;  224 / 224
+rank  18 sending area_boxes ...
+rank  18 sending border_boxes ...
+rank =  1 ;  21 / 224
+rank  16 sending area_boxes ...
+rank  16 sending border_boxes ...
+rank =  8 ;  208 / 224
+rank =  0 ;  120 / 224
+rank  4 sending area_boxes ...
+rank  4 sending border_boxes ...
+rank =  6 ;  66 / 224
+rank =  2 ;  162 / 224
+rank  8 sending area_boxes ...
+rank  8 sending border_boxes ...
+rank =  11 ;  31 / 224
+rank =  12 ;  132 / 224
+rank =  10 ;  130 / 224
+rank =  0 ;  140 / 224
+rank =  2 ;  182 / 224
+rank =  14 ;  194 / 224
+rank =  10 ;  150 / 224
+rank =  2 ;  202 / 224
+rank =  14 ;  214 / 224
+rank =  10 ;  170 / 224
+rank =  6 ;  86 / 224
+rank =  12 ;  152 / 224
+rank  14 sending area_boxes ...
+rank  14 sending border_boxes ...
+rank =  2 ;  222 / 224
+rank =  0 ;  160 / 224
+rank =  12 ;  172 / 224
+rank  2 sending area_boxes ...
+rank  2 sending border_boxes ...
+rank =  6 ;  106 / 224
+rank =  0 ;  180 / 224
+rank =  10 ;  190 / 224
+rank =  0 ;  200 / 224
+rank =  6 ;  126 / 224
+rank =  10 ;  210 / 224
+rank =  12 ;  192 / 224
+rank =  0 ;  220 / 224
+rank =  12 ;  212 / 224
+rank  10 sending area_boxes ...
+rank  10 sending border_boxes ...
+rank =  6 ;  146 / 224
+0 recieving area_boxes from 1
+0 recieving border_boxes from 1
+0 recieving area_boxes from 2
+0 recieving border_boxes from 2
+0 recieving area_boxes from 3
+0 recieving border_boxes from 3
+0 recieving area_boxes from 4
+0 recieving border_boxes from 4
+0 recieving area_boxes from 5
+0 recieving border_boxes from 5
+0 recieving area_boxes from 6
+rank  12 sending area_boxes ...
+rank  12 sending border_boxes ...
+rank =  6 ;  166 / 224
+rank =  16 ;  16 / 224
+rank =  18 ;  18 / 224
+rank =  6 ;  186 / 224
+rank =  4 ;  4 / 224
+rank =  8 ;  8 / 224
+rank =  14 ;  14 / 224
+rank =  6 ;  206 / 224
+rank  6 sending area_boxes ...
+rank  6 sending border_boxes ...
+0 recieving border_boxes from 6
+0 recieving area_boxes from 7
+0 recieving border_boxes from 7
+0 recieving area_boxes from 8
+0 recieving border_boxes from 8
+0 recieving area_boxes from 9
+0 recieving border_boxes from 9
+0 recieving area_boxes from 10
+0 recieving border_boxes from 10
+0 recieving area_boxes from 11
+0 recieving border_boxes from 11
+0 recieving area_boxes from 12
+0 recieving border_boxes from 12
+0 recieving area_boxes from 13
+0 recieving border_boxes from 13
+0 recieving area_boxes from 14
+0 recieving border_boxes from 14
+0 recieving area_boxes from 15
+0 recieving border_boxes from 15
+0 recieving area_boxes from 16
+0 recieving border_boxes from 16
+0 recieving area_boxes from 17
+0 recieving border_boxes from 17
+0 recieving area_boxes from 18
+0 recieving border_boxes from 18
+0 recieving area_boxes from 19
+0 recieving border_boxes from 19
+rank =  2 ;  2 / 224
+rank =  10 ;  10 / 224
+rank =  12 ;  12 / 224
+rank =  6 ;  6 / 224
+rank =  0 ;  0 / 224
+rank =  17 ;  57 / 224
+rank =  5 ;  45 / 224
+rank =  9 ;  49 / 224
+rank =  13 ;  53 / 224
+rank =  7 ;  47 / 224
+rank =  11 ;  51 / 224
+rank =  19 ;  59 / 224
+rank =  1 ;  41 / 224
+rank =  3 ;  43 / 224
+rank =  15 ;  55 / 224
+rank =  16 ;  36 / 224
+rank =  4 ;  24 / 224
+rank =  14 ;  34 / 224
+rank =  18 ;  38 / 224
+rank =  8 ;  28 / 224
+rank =  2 ;  22 / 224
+rank =  12 ;  32 / 224
+rank =  10 ;  30 / 224
+rank =  11 ;  71 / 224
+rank =  13 ;  73 / 224
+rank =  6 ;  26 / 224
+rank =  17 ;  77 / 224
+rank =  0 ;  20 / 224
+rank =  5 ;  65 / 224
+rank =  7 ;  67 / 224
+rank =  9 ;  69 / 224
+rank =  3 ;  63 / 224
+rank =  19 ;  79 / 224
+rank =  1 ;  61 / 224
+rank =  15 ;  75 / 224
+rank =  5 ;  85 / 224
+rank =  7 ;  87 / 224
+rank =  9 ;  89 / 224
+rank =  13 ;  93 / 224
+rank =  16 ;  56 / 224
+rank =  11 ;  91 / 224
+rank =  17 ;  97 / 224
+rank =  17 ;  117 / 224
+rank =  3 ;  83 / 224
+rank =  8 ;  48 / 224
+rank =  1 ;  81 / 224
+rank =  4 ;  44 / 224
+rank =  12 ;  52 / 224
+rank =  14 ;  54 / 224
+rank =  10 ;  50 / 224
+rank =  2 ;  42 / 224
+rank =  15 ;  95 / 224
+rank =  19 ;  99 / 224
+rank =  1 ;  101 / 224
+rank =  18 ;  58 / 224
+rank =  6 ;  46 / 224
+rank =  5 ;  105 / 224
+rank =  3 ;  103 / 224
+rank =  7 ;  107 / 224
+rank =  9 ;  109 / 224
+rank =  0 ;  40 / 224
+rank =  13 ;  113 / 224
+rank =  11 ;  111 / 224
+rank =  19 ;  119 / 224
+rank =  11 ;  131 / 224
+rank =  13 ;  133 / 224
+rank =  17 ;  137 / 224
+rank =  12 ;  72 / 224
+rank =  14 ;  74 / 224
+rank =  5 ;  125 / 224
+rank =  3 ;  123 / 224
+rank =  1 ;  121 / 224
+rank =  16 ;  76 / 224
+rank =  15 ;  115 / 224
+rank =  7 ;  127 / 224
+rank =  7 ;  147 / 224
+rank =  9 ;  129 / 224
+rank =  8 ;  68 / 224
+rank =  4 ;  64 / 224
+rank =  19 ;  139 / 224
+rank =  2 ;  62 / 224
+rank =  13 ;  153 / 224
+rank =  18 ;  78 / 224
+rank =  17 ;  157 / 224
+rank =  6 ;  66 / 224
+rank =  11 ;  151 / 224
+rank =  10 ;  70 / 224
+rank =  0 ;  60 / 224
+rank =  3 ;  143 / 224
+rank =  5 ;  145 / 224
+rank =  1 ;  141 / 224
+rank =  7 ;  167 / 224
+rank =  8 ;  88 / 224
+rank =  9 ;  149 / 224
+rank =  15 ;  135 / 224
+rank =  6 ;  86 / 224
+rank =  19 ;  159 / 224
+rank =  12 ;  92 / 224
+rank =  14 ;  94 / 224
+rank =  13 ;  173 / 224
+rank =  11 ;  171 / 224
+rank =  17 ;  177 / 224
+rank =  16 ;  96 / 224
+rank =  10 ;  90 / 224
+rank =  16 ;  116 / 224
+rank =  5 ;  165 / 224
+rank =  3 ;  163 / 224
+rank =  7 ;  187 / 224
+rank =  1 ;  161 / 224
+rank =  2 ;  82 / 224
+rank =  9 ;  169 / 224
+rank =  15 ;  155 / 224
+rank =  4 ;  84 / 224
+rank =  19 ;  179 / 224
+rank =  18 ;  98 / 224
+rank =  13 ;  193 / 224
+rank =  0 ;  80 / 224
+rank =  2 ;  102 / 224
+rank =  17 ;  197 / 224
+rank =  11 ;  191 / 224
+rank =  0 ;  100 / 224
+rank =  18 ;  118 / 224
+rank =  8 ;  108 / 224
+rank =  5 ;  185 / 224
+rank =  4 ;  104 / 224
+rank =  3 ;  183 / 224
+rank =  1 ;  181 / 224
+rank =  7 ;  207 / 224
+rank =  12 ;  112 / 224
+rank =  9 ;  189 / 224
+rank =  15 ;  175 / 224
+rank =  6 ;  106 / 224
+rank =  19 ;  199 / 224
+rank =  14 ;  114 / 224
+rank =  12 ;  132 / 224
+rank =  10 ;  110 / 224
+rank =  13 ;  213 / 224
+rank =  16 ;  136 / 224
+rank =  17 ;  217 / 224
+rank =  11 ;  211 / 224
+rank =  5 ;  205 / 224
+rank =  3 ;  203 / 224
+rank =  1 ;  201 / 224
+rank  7 sending area_boxes ...
+rank  7 sending border_boxes ...
+rank =  9 ;  209 / 224
+rank =  15 ;  195 / 224
+rank =  2 ;  122 / 224
+rank =  18 ;  138 / 224
+rank =  19 ;  219 / 224
+rank  13 sending area_boxes ...
+rank  13 sending border_boxes ...
+rank =  8 ;  128 / 224
+rank  17 sending area_boxes ...
+rank  17 sending border_boxes ...
+rank  11 sending area_boxes ...
+rank  11 sending border_boxes ...
+rank =  0 ;  120 / 224
+rank =  4 ;  124 / 224
+rank =  6 ;  126 / 224
+rank =  8 ;  148 / 224
+rank  5 sending area_boxes ...
+rank  5 sending border_boxes ...
+rank =  12 ;  152 / 224
+rank =  1 ;  221 / 224
+rank =  3 ;  223 / 224
+rank =  16 ;  156 / 224
+rank  9 sending area_boxes ...
+rank  9 sending border_boxes ...
+rank =  15 ;  215 / 224
+rank =  10 ;  130 / 224
+rank =  14 ;  134 / 224
+rank  19 sending area_boxes ...
+rank  19 sending border_boxes ...
+rank =  18 ;  158 / 224
+rank =  2 ;  142 / 224
+rank =  2 ;  162 / 224
+rank  3 sending area_boxes ...
+rank  3 sending border_boxes ...
+rank  1 sending area_boxes ...
+rank  1 sending border_boxes ...
+rank =  4 ;  144 / 224
+rank =  0 ;  140 / 224
+rank  15 sending area_boxes ...
+rank  15 sending border_boxes ...
+rank =  8 ;  168 / 224
+rank =  12 ;  172 / 224
+rank =  6 ;  146 / 224
+rank =  10 ;  150 / 224
+rank =  16 ;  176 / 224
+rank =  14 ;  154 / 224
+rank =  2 ;  182 / 224
+rank =  18 ;  178 / 224
+rank =  0 ;  160 / 224
+rank =  8 ;  188 / 224
+rank =  4 ;  164 / 224
+rank =  6 ;  166 / 224
+rank =  12 ;  192 / 224
+rank =  10 ;  170 / 224
+rank =  16 ;  196 / 224
+rank =  14 ;  174 / 224
+rank =  2 ;  202 / 224
+rank =  18 ;  198 / 224
+rank =  0 ;  180 / 224
+rank =  8 ;  208 / 224
+rank =  4 ;  184 / 224
+rank =  6 ;  186 / 224
+rank =  12 ;  212 / 224
+rank =  16 ;  216 / 224
+rank =  10 ;  190 / 224
+rank =  14 ;  194 / 224
+rank =  2 ;  222 / 224
+rank =  18 ;  218 / 224
+rank =  0 ;  200 / 224
+rank  8 sending area_boxes ...
+rank  8 sending border_boxes ...
+rank =  4 ;  204 / 224
+rank  12 sending area_boxes ...
+rank  12 sending border_boxes ...
+rank =  6 ;  206 / 224
+rank  16 sending area_boxes ...
+rank  16 sending border_boxes ...
+rank =  14 ;  214 / 224
+rank =  10 ;  210 / 224
+rank  2 sending area_boxes ...
+rank  2 sending border_boxes ...
+rank  18 sending area_boxes ...
+rank  18 sending border_boxes ...
+rank =  0 ;  220 / 224
+rank =  4 ;  224 / 224
+rank  6 sending area_boxes ...
+rank  6 sending border_boxes ...
+rank  14 sending area_boxes ...
+rank  14 sending border_boxes ...
+rank  10 sending area_boxes ...
+rank  10 sending border_boxes ...
+0 recieving area_boxes from 1
+0 recieving border_boxes from 1
+0 recieving area_boxes from 2
+0 recieving border_boxes from 2
+0 recieving area_boxes from 3
+0 recieving border_boxes from 3
+0 recieving area_boxes from 4
+rank  4 sending area_boxes ...
+rank  4 sending border_boxes ...
+0 recieving border_boxes from 4
+0 recieving area_boxes from 5
+0 recieving border_boxes from 5
+0 recieving area_boxes from 6
+0 recieving border_boxes from 6
+0 recieving area_boxes from 7
+0 recieving border_boxes from 7
+0 recieving area_boxes from 8
+0 recieving border_boxes from 8
+0 recieving area_boxes from 9
+0 recieving border_boxes from 9
+0 recieving area_boxes from 10
+0 recieving border_boxes from 10
+0 recieving area_boxes from 11
+0 recieving border_boxes from 11
+0 recieving area_boxes from 12
+0 recieving border_boxes from 12
+0 recieving area_boxes from 13
+0 recieving border_boxes from 13
+0 recieving area_boxes from 14
+0 recieving border_boxes from 14
+0 recieving area_boxes from 15
+0 recieving border_boxes from 15
+0 recieving area_boxes from 16
+0 recieving border_boxes from 16
+0 recieving area_boxes from 17
+0 recieving border_boxes from 17
+0 recieving area_boxes from 18
+0 recieving border_boxes from 18
+0 recieving area_boxes from 19
+0 recieving border_boxes from 19
+Container stops ...
+Container closed
+Container deleted
