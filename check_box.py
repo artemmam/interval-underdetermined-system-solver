@@ -13,6 +13,14 @@ def diam(A):
         s += v.width()**2
     return np.sqrt(s)
 
+def unpack_array(a):
+    b = []
+    for proc in a:
+        if len(proc)!=0:
+            for box in proc:
+                b.append(box)
+    return b
+
 def make_boxes_list(grid, dim, uniform=True):
     """
     Make list of boxes in dim dimension from vector grid
@@ -343,23 +351,33 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
                 area_boxes.append(all_boxes[i])
             elif temp == 'border':
                 border_boxes.append(all_boxes[i])
-    if rank > 0:
-        print("rank ", str(rank) + " sending area_boxes ...")
-        comm.send(area_boxes, dest=0, tag=11)
-        print("rank ", str(rank) + " sending border_boxes ...")
-        comm.send(border_boxes, dest=0, tag=12)
-    else:
-        for i in range(1, size):
-            print(rank, "recieving area_boxes from", i)
-            area_boxes_tmp = comm.recv(source=i, tag=11)
-            area_boxes = area_boxes + area_boxes_tmp
-            print(rank, "recieving border_boxes from", i)
-            border_boxes_tmp = comm.recv(source=i, tag=12)
-            border_boxes = border_boxes + border_boxes_tmp
-            #print("Dict keys", server_dict.keys())
-        #print("Saving...")
-        #df_errors_proc.to_csv("df_mae_best_model_" + target_metric + ".csv")
-    return area_boxes, border_boxes
+    #print("before gather, rank =", rank, flush = True)
+    #print(area_boxes, flush=True)
+    #print(border_boxes, flush=True)
+    area_boxes_g = comm.gather(area_boxes, root=0)
+    border_boxes_g = comm.gather(border_boxes, root=0)
+    #print("after gather, rank =", rank, flush = True)
+    #print(area_boxes_g, flush=True)
+    #print(border_boxes_g, flush=True)
+    area_boxes_g_unpacking = []
+    border_boxes_g_unpacking = []
+    if rank == 0:
+        area_boxes_g_unpacking = unpack_array(area_boxes_g)
+        border_boxes_g_unpacking = unpack_array(border_boxes_g)
+    #if rank > 0:
+    #    print("rank ", str(rank) + " sending area_boxes ...")
+    #    comm.send(area_boxes, dest=0, tag=11)
+    #    print("rank ", str(rank) + " sending border_boxes ...")
+    #    comm.send(border_boxes, dest=0, tag=12)
+    #else:
+    #    for i in range(1, size):
+    #        print(rank, "recieving area_boxes from", i)
+    #        area_boxes_tmp = comm.recv(source=i, tag=11)
+    #        area_boxes = area_boxes + area_boxes_tmp
+    #        print(rank, "recieving border_boxes from", i)
+    #        border_boxes_tmp = comm.recv(source=i, tag=12)
+    #        border_boxes = border_boxes + border_boxes_tmp
+    return area_boxes_g_unpacking, border_boxes_g_unpacking
 
 
 def check_one_box(box, v_ival, extension, eps, log=False, max_iter=9, decomposition=False, strategy = "Default", grid = None, dim = None, uniform=True):
