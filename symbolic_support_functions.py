@@ -73,10 +73,10 @@ def recurrent_form(f, V, lam):
         v = v.row_insert(i, sym.Matrix([V[i]]))
     lam = sym.Matrix([lam]).reshape(len(V), len(V))
     rec_form = v - lam * f
-    print("#####")
-    print("Recurrent form ".upper())
-    print("#####")
-    print(rec_form)
+    #print("#####")
+    #print("Recurrent form ".upper())
+    #print("#####")
+    #print(rec_form)
     return rec_form  # Equivalent recurrent transformation
 
 

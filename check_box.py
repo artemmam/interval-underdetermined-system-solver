@@ -294,7 +294,7 @@ def reccur_func_elementwise(box, v_init, eps, extension, max_iter=10, log=False,
         k += 1
 
 
-def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decomposition=False, strategy = "Default",
+def check_box_parallel(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decomposition=False, strategy = "Default",
               grid_v = None, dim_v=None, uniform_v = True, uniform_u = True):
     """
     Function for checking boxes on dim-dimensional uniform grid with checker method
@@ -314,10 +314,9 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
     grid = np.array(grid)
     grid_size = len(grid) - 1
     all_boxes = make_boxes_list(grid, dim, uniform_u)
-    # print(all_boxes[81])
     for i, box in enumerate(all_boxes):
         if i % size == rank:
-            print("rank = ", rank, "; ", i, "/", len(all_boxes) - 1)
+            # print("rank = ", rank, "; ", i, "/", len(all_boxes) - 1)
             # print(i)
             if extension.is_elementwise:
                 temp = reccur_func_elementwise(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
@@ -334,7 +333,6 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
                             v = [v[0]]
                         else:
                             v = np.array(v)
-                        # print(v)
                         temp_infl = reccur_func_enlarge(all_boxes[i], v, v_ival, eps, extension, max_iter, log=log,
                                                    decomposition=decomposition)
                         if temp_infl == "inside":
@@ -344,40 +342,76 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
                             temp_list.append(temp_infl)
                     if temp!="inside":
                         check = [True if temp_list[i] == "border" else False for i in range(len(temp_list))]
-                        # print(check)
                         if np.any(check):
                             temp = "border"
             if temp == 'inside':
                 area_boxes.append(all_boxes[i])
             elif temp == 'border':
                 border_boxes.append(all_boxes[i])
-    #print("before gather, rank =", rank, flush = True)
-    #print(area_boxes, flush=True)
-    #print(border_boxes, flush=True)
     area_boxes_g = comm.gather(area_boxes, root=0)
     border_boxes_g = comm.gather(border_boxes, root=0)
-    #print("after gather, rank =", rank, flush = True)
-    #print(area_boxes_g, flush=True)
-    #print(border_boxes_g, flush=True)
     area_boxes_g_unpacking = []
     border_boxes_g_unpacking = []
     if rank == 0:
         area_boxes_g_unpacking = unpack_array(area_boxes_g)
         border_boxes_g_unpacking = unpack_array(border_boxes_g)
-    #if rank > 0:
-    #    print("rank ", str(rank) + " sending area_boxes ...")
-    #    comm.send(area_boxes, dest=0, tag=11)
-    #    print("rank ", str(rank) + " sending border_boxes ...")
-    #    comm.send(border_boxes, dest=0, tag=12)
-    #else:
-    #    for i in range(1, size):
-    #        print(rank, "recieving area_boxes from", i)
-    #        area_boxes_tmp = comm.recv(source=i, tag=11)
-    #        area_boxes = area_boxes + area_boxes_tmp
-    #        print(rank, "recieving border_boxes from", i)
-    #        border_boxes_tmp = comm.recv(source=i, tag=12)
-    #        border_boxes = border_boxes + border_boxes_tmp
     return area_boxes_g_unpacking, border_boxes_g_unpacking
+    
+
+def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decomposition=False, strategy = "Default",
+              grid_v = None, dim_v=None, uniform_v = True, uniform_u = True):
+    """
+    Function for checking boxes on dim-dimensional uniform grid with checker method
+    :param grid: 1-d grid
+    :param dim: number of the dimensions
+    :param v_ival: vector of not fixed interval variables
+    :param extension: Extension calculator-class object, contains param info and calculate interval extension
+    :param eps: error
+    :param log: turn on log info printing
+    :return: list of inside boxes, list of border boxes
+    """
+    area_boxes = []
+    border_boxes = []
+    grid = np.array(grid)
+    grid_size = len(grid) - 1
+    all_boxes = make_boxes_list(grid, dim, uniform_u)
+    # print(all_boxes[81])
+    for i, box in enumerate(all_boxes):
+        # print(i, "/", len(all_boxes) - 1)
+        # print(i)
+        if extension.is_elementwise:
+            temp = reccur_func_elementwise(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
+        else:
+            if strategy == "Default":
+                temp = reccur_func(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
+            else:
+                temp = "outside"
+                grid_v = np.array(grid_v)
+                v_boxes = make_boxes_list(grid_v, dim_v, uniform_v)
+                temp_list = []
+                for v in v_boxes:
+                    if len(v) == 1:
+                        v = [v[0]]
+                    else:
+                        v = np.array(v)
+                    # print(v)
+                    temp_infl = reccur_func_enlarge(all_boxes[i], v, v_ival, eps, extension, max_iter, log=log,
+                                               decomposition=decomposition)
+                    if temp_infl == "inside":
+                        temp = "inside"
+                        break
+                    else:
+                        temp_list.append(temp_infl)
+                if temp!="inside":
+                    check = [True if temp_list[i] == "border" else False for i in range(len(temp_list))]
+                    # print(check)
+                    if np.any(check):
+                        temp = "border"
+        if temp == 'inside':
+            area_boxes.append(all_boxes[i])
+        elif temp == 'border':
+            border_boxes.append(all_boxes[i])
+    return area_boxes, border_boxes
 
 
 def check_one_box(box, v_ival, extension, eps, log=False, max_iter=9, decomposition=False, strategy = "Default", grid = None, dim = None, uniform=True):
