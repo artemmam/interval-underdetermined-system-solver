@@ -2,9 +2,16 @@ import interval as ival
 import numpy as np
 import itertools as it
 from mpi4py import MPI
+from timeit import default_timer as timer
 # from pathos.multiprocessing import ProcessingPool as Pool
 # import dill  # the code below will fail without this line
 # import pickle
+
+
+def write_time_per_proc(file, rank, time, message = ""):
+    f = open(file + ".txt", "a+")
+    f.write(message + " | " +  str(rank) + ": " + str(time) + "\n")
+    f.close()
 
 
 def diam(A):
@@ -309,6 +316,7 @@ def check_box_parallel(grid, dim, v_ival, extension, eps, log=False, max_iter=10
     comm = MPI.COMM_WORLD
     size = comm.Get_size()
     rank = comm.Get_rank()
+    start = timer()
     area_boxes = []
     border_boxes = []
     grid = np.array(grid)
@@ -348,8 +356,13 @@ def check_box_parallel(grid, dim, v_ival, extension, eps, log=False, max_iter=10
                 area_boxes.append(all_boxes[i])
             elif temp == 'border':
                 border_boxes.append(all_boxes[i])
+    end = timer()
+    write_time_per_proc("bicentered_krawczyk_enlarge_time_procs", rank, end - start, "total = " + str(len(all_boxes)/size) + "; area = " + str(len(area_boxes)) +  "; border = " + str(len(border_boxes)))
+    start = timer()
     area_boxes_g = comm.gather(area_boxes, root=0)
     border_boxes_g = comm.gather(border_boxes, root=0)
+    end = timer()
+    write_time_per_proc("bicentered_krawczyk_enlarge_time_procs", rank, end - start, "GATHER")
     area_boxes_g_unpacking = []
     border_boxes_g_unpacking = []
     if rank == 0:

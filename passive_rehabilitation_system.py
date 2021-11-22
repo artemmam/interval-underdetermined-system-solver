@@ -22,6 +22,13 @@ def write_time(file, size, n, time):
     f = open(file + ".txt", "a+")
     f.write(str(size) + ", " + str(n) + ", " + str(time) + "\n")
     f.close()
+    
+
+def write_time_per_proc(file, rank,time):
+    f = open(file + ".txt", "a+")
+    f.write(str(rank) + ": " + str(time) + "\n")
+    f.close()
+    
 
 def distance(x1, y1, x2, y2):
     return math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2)
@@ -152,33 +159,33 @@ Nv = args.Nv
 grid_v1 = np.linspace(v1[0], v1[1], Nv + 1)
 grid_v2 = np.linspace(v2[0], v2[1], Nv + 1)
 grid_v = [grid_v1, grid_v2]
-if rank == 0:
-    start = timer()
+# if rank == 0:
+    # start = timer()
 
 bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
-# bicentered_krawczyk_loger = Logger(grid, size, v_ival, eps, bicentered_krawczyk_extension, decomp=False, uniform_u=False)
-if args.parallel:
-    area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk = check_box_parallel(grid, size, v_ival,\
-                                                                           bicentered_krawczyk_extension, eps, uniform_u=False)
-else:
-    area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk = check_box(grid, size, v_ival,\
-                                                                           bicentered_krawczyk_extension, eps, uniform_u=False)
-if rank == 0:
-    end = timer()
-    write_time("bicentered_krawczyk_time_procs", world_size, N, end - start)
-if rank == 0 and args.plotting:
-    print("Plot for Bicentered Krawczyk, N = ", N, "num_procs = ", world_size)
-    fig1 = plt.figure(figsize=(8, 8))
-    ax1 = fig1.add_subplot(1, 1, 1)
-    uni_plotter(area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk, u_lims, "Bicentered Krawczyk", size=2,
-                ax=ax1, fig=fig1)
-    plot_area(ax1, a, b, left_v1, right_v1, left_v2, right_v2)
-    plt.savefig('./fig/passive-rehabilitation-system-Bicentered _Krawczyk_'+str(N) + "_" + str(Nv) + "_" +
-                str(args.v1_0)  + "_" + str(args.v1_1) + "_" + str(args.v2_0) + "_" + str(args.v2_1) + "_" + str(args.parallel) + "_" + '.png')
-###
+# # bicentered_krawczyk_loger = Logger(grid, size, v_ival, eps, bicentered_krawczyk_extension, decomp=False, uniform_u=False)
+# if args.parallel:
+    # area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk = check_box_parallel(grid, size, v_ival,\
+                                                                           # bicentered_krawczyk_extension, eps, uniform_u=False)
+# else:
+    # area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk = check_box(grid, size, v_ival,\
+                                                                           # bicentered_krawczyk_extension, eps, uniform_u=False)
+# if rank == 0:
+    # end = timer()
+    # write_time("bicentered_krawczyk_time_procs", world_size, N, end - start)
+# if rank == 0 and args.plotting:
+    # print("Plot for Bicentered Krawczyk, N = ", N, "num_procs = ", world_size)
+    # fig1 = plt.figure(figsize=(8, 8))
+    # ax1 = fig1.add_subplot(1, 1, 1)
+    # uni_plotter(area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk, u_lims, "Bicentered Krawczyk", size=2,
+                # ax=ax1, fig=fig1)
+    # plot_area(ax1, a, b, left_v1, right_v1, left_v2, right_v2)
+    # plt.savefig('./fig/passive-rehabilitation-system-Bicentered _Krawczyk_'+str(N) + "_" + str(Nv) + "_" +
+                # str(args.v1_0)  + "_" + str(args.v1_1) + "_" + str(args.v2_0) + "_" + str(args.v2_1) + "_" + str(args.parallel) + "_" + '.png')
+# ###
 
-if args.parallel:
-    comm.Barrier()
+# if args.parallel:
+    # comm.Barrier()
 if rank == 0:
     start = timer()
 if args.parallel:
@@ -193,7 +200,7 @@ else:
                                                                              grid_v=grid_v, uniform_u=False, uniform_v=False)
 if rank == 0:
     end = timer()
-    write_time("bicentered_krawczyk_enlarge_time_procs", world_size, N, end - start)
+    write_time_per_proc("bicentered_krawczyk_enlarge_time_procs", rank, end - start)
 
 if rank == 0 and args.plotting:
     print("Plot for Bicentered Krawczyk enlargement, N = ", N, "num_procs = ", world_size)
