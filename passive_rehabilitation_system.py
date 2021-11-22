@@ -19,7 +19,7 @@ from timeit import default_timer as timer
 
 # matplotlib.use('Agg')
 def write_time(file, size, n, time):
-    f = open(file + ".txt", "a")
+    f = open(file + ".txt", "a+")
     f.write(str(size) + ", " + str(n) + ", " + str(time) + "\n")
     f.close()
 
@@ -113,6 +113,7 @@ parser = argparse.ArgumentParser(description="Angles in radians")
 parser.add_argument('-Nu', dest="Nu", type=int)
 parser.add_argument('-Nv', dest="Nv", type=int)
 parser.add_argument('--parallel', dest="parallel", action='store_true')
+parser.add_argument('--plotting', dest="plotting", action='store_true')
 parser.add_argument('-v1_0', dest="v1_0", type=int)
 parser.add_argument('-v1_1', dest="v1_1", type=int)
 parser.add_argument('-v2_0', dest="v2_0", type=int)
@@ -151,32 +152,6 @@ Nv = args.Nv
 grid_v1 = np.linspace(v1[0], v1[1], Nv + 1)
 grid_v2 = np.linspace(v2[0], v2[1], Nv + 1)
 grid_v = [grid_v1, grid_v2]
-# fig1 = plt.figure(figsize=(8, 8))
-# ax1 = fig1.add_subplot(1, 1, 1)
-# ^^^^^
-# box = [ival.Interval([1.667, 2.133]), ival.Interval([4.333, 4.5])]
-# bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
-# check_one_box(box, v_ival, bicentered_krawczyk_extension, eps, log=True)
-# print("$$$$$")
-#
-# check = check_one_box(box, v_ival, bicentered_krawczyk_extension, eps, log=True, strategy="Enlarge", grid=grid_v, dim=2)
-# plot_one_box(box, check, u_upper)
-# plot_area(a, b, left_v1, right_v1, left_v2, right_v2)
-# ^^^^^
-# fig1 = plt.figure(figsize=(8, 8))
-# ax1 = fig1.add_subplot(1, 1, 1)
-# classical_krawczyk_extension = ClassicalKrawczykExtension(f_sym, v_sym, u_sym, is_elementwise=False)
-# area_boxes_classical_krawczyk, border_boxes_classical_krawczyk = check_box(grid, size, v_ival,\
-#                                                                            classical_krawczyk_extension, eps, uniform_u=False)
-# uni_plotter(area_boxes_classical_krawczyk, border_boxes_classical_krawczyk, u_lims, "Classical Krawczyk", size=2)
-# plot_area(ax1, a, b, left_v1, right_v1, left_v2, right_v2)
-# classical_krawczyk_extension_elementwise = ClassicalKrawczykExtension(f_sym, v_sym, u_sym, is_elementwise=True)
-# area_boxes_classical_krawczyk_elementwise, border_boxes_classical_krawczyk_elementwise = check_box(grid, size, v_ival,\
-#                                                                            classical_krawczyk_extension_elementwise, eps)
-# uni_plotter(area_boxes_classical_krawczyk_elementwise, border_boxes_classical_krawczyk_elementwise, u_upper,
-#             "Classical Krawczyk Elementwise", size=2)
-# plot_circles()
-###
 if rank == 0:
     start = timer()
 
@@ -190,8 +165,8 @@ else:
                                                                            bicentered_krawczyk_extension, eps, uniform_u=False)
 if rank == 0:
     end = timer()
-    write_time("bicentered_krawczyk_time", world_size, N, end - start)
-if rank == 0:
+    write_time("bicentered_krawczyk_time_procs", world_size, N, end - start)
+if rank == 0 and args.plotting:
     print("Plot for Bicentered Krawczyk, N = ", N, "num_procs = ", world_size)
     fig1 = plt.figure(figsize=(8, 8))
     ax1 = fig1.add_subplot(1, 1, 1)
@@ -202,8 +177,6 @@ if rank == 0:
                 str(args.v1_0)  + "_" + str(args.v1_1) + "_" + str(args.v2_0) + "_" + str(args.v2_1) + "_" + str(args.parallel) + "_" + '.png')
 ###
 
-# bicentered_krawczyk_loger_infl = Logger(grid, size, v_ival, eps, bicentered_krawczyk_extension, decomp=False,
-#                                        uniform_u=False, strategy="Inflation", dim=2, grid_v=grid_v)
 if args.parallel:
     comm.Barrier()
 if rank == 0:
@@ -220,8 +193,9 @@ else:
                                                                              grid_v=grid_v, uniform_u=False, uniform_v=False)
 if rank == 0:
     end = timer()
-    write_time("bicentered_krawczyk_enlarge_time", world_size, N, end - start)
-if rank == 0:
+    write_time("bicentered_krawczyk_enlarge_time_procs", world_size, N, end - start)
+
+if rank == 0 and args.plotting:
     print("Plot for Bicentered Krawczyk enlargement, N = ", N, "num_procs = ", world_size)
     fig1 = plt.figure(figsize=(8, 8))
     ax1 = fig1.add_subplot(1, 1, 1)                                                                        
@@ -230,12 +204,3 @@ if rank == 0:
     plot_area(ax1, a, b, left_v1, right_v1, left_v2, right_v2)
     plt.savefig('./fig/passive-rehabilitation-system-Bicentered _Krawczyk_enlargement_'+str(N) + "_" + str(Nv) + "_" +
                 str(args.v1_0)  + "_" + str(args.v1_1) + "_" + str(args.v2_0) + "_" + str(args.v2_1) + "_" + str(args.parallel) + "_" + '.png')
-###
-# hansen_sengupta_extension = HansenSenguptaExtension(f_sym, v_sym, u_sym, coef=1, is_elementwise=False)
-# hansen_sengupta_loger = Logger(grid, size, v_ival, eps, hansen_sengupta_extension, decomp=False)
-# area_boxes_hansen_sengupta, border_boxes_hansen_sengupta = check_box(grid, size, v_ival,\
-#                                                                            hansen_sengupta_extension, eps, log=False, decomposition=False)
-# uni_plotter(area_boxes_hansen_sengupta, border_boxes_hansen_sengupta, u_upper, "Hansen-Sengupta", size=2, logger=hansen_sengupta_loger)
-# plot_circles()
-# plot_area(ax1, a, b, left_v1, right_v1, left_v2, right_v2)
-# plt.show()
