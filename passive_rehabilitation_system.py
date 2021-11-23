@@ -13,7 +13,8 @@ import math
 import itertools as it
 import argparse
 import matplotlib
-from mpi4py import MPI
+from TestingExampleClass import Example
+
 from timeit import default_timer as timer
 
 
@@ -120,6 +121,7 @@ parser = argparse.ArgumentParser(description="Angles in radians")
 parser.add_argument('-Nu', dest="Nu", type=int)
 parser.add_argument('-Nv', dest="Nv", type=int)
 parser.add_argument('--parallel', dest="parallel", action='store_true')
+parser.add_argument('--record_time', dest="record_time", action='store_true')
 parser.add_argument('--plotting', dest="plotting", action='store_true')
 parser.add_argument('-v1_0', dest="v1_0", type=int)
 parser.add_argument('-v1_1', dest="v1_1", type=int)
@@ -129,6 +131,7 @@ parser.add_argument('-v2_1', dest="v2_1", type=int)
 args = parser.parse_args()
 # print(args)
 if args.parallel:
+    from mpi4py import MPI
     comm = MPI.COMM_WORLD
     world_size = comm.Get_size()
     rank = comm.Get_rank()
@@ -151,63 +154,30 @@ u_y = [uy_lower - 1, uy_upper + 1]
 u_lims = [u_x, u_y]
 grid_u1 = np.linspace(u_x[0], u_x[1], N + 1)  # The vector to build size-dim. grid
 grid_u2 = np.linspace(u_y[0], u_y[1], N + 1)  # The vector to build size-dim. grid
-grid = [grid_u1, grid_u2]
-size = 2  # The dimension of uniform grid
+grid_u = [grid_u1, grid_u2]
+u_dim = 2  # The dimension of uniform grid
 eps = 1e-6
 coef = 2
 Nv = args.Nv
 grid_v1 = np.linspace(v1[0], v1[1], Nv + 1)
 grid_v2 = np.linspace(v2[0], v2[1], Nv + 1)
 grid_v = [grid_v1, grid_v2]
+v_dim = 2
 # if rank == 0:
     # start = timer()
-
+area_params = [a, b, left_v1, right_v1, left_v2, right_v2]
+save_fig_params = [N, Nv, args.v1_0, args.v1_1, args.v2_0, args.v2_1, args.parallel]
 bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
-# # bicentered_krawczyk_loger = Logger(grid, size, v_ival, eps, bicentered_krawczyk_extension, decomp=False, uniform_u=False)
-# if args.parallel:
-    # area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk = check_box_parallel(grid, size, v_ival,\
-                                                                           # bicentered_krawczyk_extension, eps, uniform_u=False)
-# else:
-    # area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk = check_box(grid, size, v_ival,\
-                                                                           # bicentered_krawczyk_extension, eps, uniform_u=False)
-# if rank == 0:
-    # end = timer()
-    # write_time("bicentered_krawczyk_time_procs", world_size, N, end - start)
-# if rank == 0 and args.plotting:
-    # print("Plot for Bicentered Krawczyk, N = ", N, "num_procs = ", world_size)
-    # fig1 = plt.figure(figsize=(8, 8))
-    # ax1 = fig1.add_subplot(1, 1, 1)
-    # uni_plotter(area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk, u_lims, "Bicentered Krawczyk", size=2,
-                # ax=ax1, fig=fig1)
-    # plot_area(ax1, a, b, left_v1, right_v1, left_v2, right_v2)
-    # plt.savefig('./fig/passive-rehabilitation-system-Bicentered _Krawczyk_'+str(N) + "_" + str(Nv) + "_" +
-                # str(args.v1_0)  + "_" + str(args.v1_1) + "_" + str(args.v2_0) + "_" + str(args.v2_1) + "_" + str(args.parallel) + "_" + '.png')
-# ###
-
-# if args.parallel:
-    # comm.Barrier()
-if rank == 0:
-    start = timer()
-if args.parallel:
-    area_boxes_bicentered_krawczyk_infl, border_boxes_bicentered_krawczyk_infl = check_box_parallel(grid, size, v_ival,\
-                                                                           bicentered_krawczyk_extension, eps,
-                                                                             strategy="Inflaction", dim_v=2,
-                                                                             grid_v=grid_v, uniform_u=False, uniform_v=False)
-else:
-    area_boxes_bicentered_krawczyk_infl, border_boxes_bicentered_krawczyk_infl = check_box(grid, size, v_ival,\
-                                                                           bicentered_krawczyk_extension, eps,
-                                                                             strategy="Inflaction", dim_v=2,
-                                                                             grid_v=grid_v, uniform_u=False, uniform_v=False)
-if rank == 0:
-    end = timer()
-    write_time_per_proc("bicentered_krawczyk_enlarge_time_procs", rank, end - start)
-
-if rank == 0 and args.plotting:
-    print("Plot for Bicentered Krawczyk enlargement, N = ", N, "num_procs = ", world_size)
-    fig1 = plt.figure(figsize=(8, 8))
-    ax1 = fig1.add_subplot(1, 1, 1)                                                                        
-    uni_plotter(area_boxes_bicentered_krawczyk_infl, border_boxes_bicentered_krawczyk_infl, u_lims, "Bicentered Krawczyk Inflaction", size=2,
-                ax=ax1, fig=fig1)
-    plot_area(ax1, a, b, left_v1, right_v1, left_v2, right_v2)
-    plt.savefig('./fig/passive-rehabilitation-system-Bicentered _Krawczyk_enlargement_'+str(N) + "_" + str(Nv) + "_" +
-                str(args.v1_0)  + "_" + str(args.v1_1) + "_" + str(args.v2_0) + "_" + str(args.v2_1) + "_" + str(args.parallel) + "_" + '.png')
+Bicentered_Krawczyk_Enlargment_V = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False, strategy="Enlargment")
+Bicentered_Krawczyk_Default = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False, strategy="Default")
+area_boxes, border_boxes = Bicentered_Krawczyk_Enlargment_V.check_box(grid_u, u_dim, v_ival, eps, grid_v, v_dim,
+                                           uniform_u=False, uniform_v=False)
+print("Enlargment V time, ", Bicentered_Krawczyk_Enlargment_V.time)
+Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area,
+                                          area_params=area_params, save_fig=False, title = "Bicentered_Krawczyk_Enlargment_V_rehab_system", save_fig_params=save_fig_params)
+area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box(grid_u, u_dim, v_ival, eps, uniform_u=False)
+print("Default V time, ", Bicentered_Krawczyk_Default.time)
+Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area,
+                                          area_params=area_params, save_fig=False, title = "Bicentered_Krawczyk_Default_rehab_system")
+if not args.parallel:
+    plt.show()

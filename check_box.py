@@ -1,7 +1,7 @@
 import interval as ival
 import numpy as np
 import itertools as it
-from mpi4py import MPI
+
 from timeit import default_timer as timer
 # from pathos.multiprocessing import ProcessingPool as Pool
 # import dill  # the code below will fail without this line
@@ -313,6 +313,7 @@ def check_box_parallel(grid, dim, v_ival, extension, eps, log=False, max_iter=10
     :param log: turn on log info printing
     :return: list of inside boxes, list of border boxes
     """
+    from mpi4py import MPI
     comm = MPI.COMM_WORLD
     size = comm.Get_size()
     rank = comm.Get_rank()
