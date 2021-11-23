@@ -326,7 +326,7 @@ def check_box_parallel(grid, dim, v_ival, extension, eps, log=False, max_iter=10
     for i, box in enumerate(all_boxes):
         if i % size == rank:
             # print("rank = ", rank, "; ", i, "/", len(all_boxes) - 1)
-            # print(i)
+            # print(i, "/", len(all_boxes) - 1)
             if extension.is_elementwise:
                 temp = reccur_func_elementwise(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
             else:
@@ -391,7 +391,7 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
     all_boxes = make_boxes_list(grid, dim, uniform_u)
     # print(all_boxes[81])
     for i, box in enumerate(all_boxes):
-        # print(i, "/", len(all_boxes) - 1)
+        print(i, "/", len(all_boxes) - 1)
         # print(i)
         if extension.is_elementwise:
             temp = reccur_func_elementwise(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)

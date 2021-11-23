@@ -40,7 +40,7 @@ class Example:
 
 
     def plotting(self, area_boxes, border_boxes, u_lims, plot_area=None, area_params=None, save_fig=False, title = "", save_fig_params = ""):
-        print(area_params)
+        size = len(u_lims)
         if self.parallel:
             from mpi4py import MPI
             comm = MPI.COMM_WORLD
@@ -49,9 +49,13 @@ class Example:
         else:
             rank = 0
         if rank == 0:
-            fig1 = plt.figure(figsize=(8, 8))
-            ax1 = fig1.add_subplot(1, 1, 1)
-            uni_plotter(area_boxes, border_boxes, u_lims, title, size=2,
+            if size!=3:
+                fig1 = plt.figure(figsize=(8, 8))
+                ax1 = fig1.add_subplot(1, 1, 1)
+            else:
+                fig1 = plt.figure(figsize=(8, 8))
+                ax1 = fig1.add_subplot(111, projection='3d')
+            uni_plotter(area_boxes, border_boxes, u_lims, title, size=size,
             ax=ax1, fig=fig1)
             if plot_area:
                 plot_area(ax1, *area_params)
