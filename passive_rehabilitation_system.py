@@ -192,7 +192,7 @@ if args.parallel:
     area_boxes_bicentered_krawczyk_infl, border_boxes_bicentered_krawczyk_infl = check_box_parallel(grid, size, v_ival,\
                                                                            bicentered_krawczyk_extension, eps,
                                                                              strategy="Inflaction", dim_v=2,
-                                                                             grid_v=grid_v, uniform_u=False, uniform_v=False)
+                                                                             grid_v=grid_v, uniform_u=False, uniform_v=False, log = False)
 else:
     area_boxes_bicentered_krawczyk_infl, border_boxes_bicentered_krawczyk_infl = check_box(grid, size, v_ival,\
                                                                            bicentered_krawczyk_extension, eps,

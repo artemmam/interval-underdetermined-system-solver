@@ -174,7 +174,7 @@ def reccur_func_enlarge(box, v_init, v_ival, eps, extension, max_iter=10, log=Fa
             print("Natural :", f_num(v_iter, box).reshape(-1))
         for nat_ext in f_num(v_iter, box).reshape(-1):
             if not ival.Interval([0, 0]).isInIns(nat_ext):
-                return "outside"
+                return "outside", k
         if k>5:
             for i in range(n):
                 v_iter[i].scale(1.1)
@@ -195,21 +195,11 @@ def reccur_func_enlarge(box, v_init, v_ival, eps, extension, max_iter=10, log=Fa
             if not (v_ext[i].isIn(v_iter[i])):
                 check = False
                 break
-        # norm_buf = ival.norm(kr_minux_m_x)
-        #
-        # if log:
-        #     print("Norm = ", norm_buf, 3)
-        #     print("N-width/2 = ", w_x/2, 3)
-        # for i in range(n):
-        #     if not norm_buf[i] < w_x[i]/2:
-        #         check = False
-        # if not norm_buf < w_x / 2:
-        #     check = False
         if check:
-            return "inside"
+            return "inside", k
         for i in range(n):
             if v_ext[i].isNoIntersec(v_ival[i]):
-                return "outside"
+                return "outside", k
             else:
                 v_iter[i] = v_ext[i].intersec(v_ival[i])
         if abs(diam(v_iter) - diam(v_ival)) / (0.5 * abs(diam(v_iter) + diam(v_ival))) < eps or k > max_iter:
@@ -253,7 +243,7 @@ def reccur_func_enlarge(box, v_init, v_ival, eps, extension, max_iter=10, log=Fa
                         right_check = reccur_func(box, new_v_right, eps, extension, max_iter, log, decomposition, level=level+1)
                         if right_check == "inside":
                             return "inside"
-            return "border"
+            return "border", k
         v_prev = v_iter.copy()
         k += 1
 
@@ -322,8 +312,10 @@ def check_box_parallel(grid, dim, v_ival, extension, eps, log=False, max_iter=10
     grid = np.array(grid)
     grid_size = len(grid) - 1
     all_boxes = make_boxes_list(grid, dim, uniform_u)
+    k = 0
     for i, box in enumerate(all_boxes):
         if i % size == rank:
+            
             # print("rank = ", rank, "; ", i, "/", len(all_boxes) - 1)
             # print(i)
             if extension.is_elementwise:
@@ -341,8 +333,9 @@ def check_box_parallel(grid, dim, v_ival, extension, eps, log=False, max_iter=10
                             v = [v[0]]
                         else:
                             v = np.array(v)
-                        temp_infl = reccur_func_enlarge(all_boxes[i], v, v_ival, eps, extension, max_iter, log=log,
+                        temp_infl, k_loc = reccur_func_enlarge(all_boxes[i], v, v_ival, eps, extension, max_iter, log=log,
                                                    decomposition=decomposition)
+                        k+=k_loc
                         if temp_infl == "inside":
                             temp = "inside"
                             break
@@ -357,7 +350,7 @@ def check_box_parallel(grid, dim, v_ival, extension, eps, log=False, max_iter=10
             elif temp == 'border':
                 border_boxes.append(all_boxes[i])
     end = timer()
-    write_time_per_proc("bicentered_krawczyk_enlarge_time_procs", rank, end - start, "total = " + str(len(all_boxes)/size) + "; area = " + str(len(area_boxes)) +  "; border = " + str(len(border_boxes)))
+    write_time_per_proc("bicentered_krawczyk_enlarge_time_procs", rank, end - start, "total = " + str(len(all_boxes)/size) + "; area = " + str(len(area_boxes)) +  "; border = " + str(len(border_boxes)) + "; num_iter = " + str(k))
     start = timer()
     area_boxes_g = comm.gather(area_boxes, root=0)
     border_boxes_g = comm.gather(border_boxes, root=0)
