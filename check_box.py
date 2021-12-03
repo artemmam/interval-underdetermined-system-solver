@@ -9,7 +9,10 @@ from timeit import default_timer as timer
 
 
 def write_time_per_proc(file, rank, time, message = ""):
-    f = open(file + ".txt", "a+")
+    if os.path.isfile(file + ".txt"):
+        f = open(file + ".txt", "w+")
+    else:
+        f = open(file + ".txt", "a+")
     f.write(message + " | " +  str(rank) + ": " + str(time) + "\n")
     f.close()
 

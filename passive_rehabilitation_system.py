@@ -15,17 +15,24 @@ import argparse
 import matplotlib
 from mpi4py import MPI
 from timeit import default_timer as timer
+import os
 
 
 # matplotlib.use('Agg')
 def write_time(file, size, n, time):
-    f = open(file + ".txt", "a+")
+    if os.path.isfile(file + ".txt"):
+        f = open(file + ".txt", "w+")
+    else:
+        f = open(file + ".txt", "a+")
     f.write(str(size) + ", " + str(n) + ", " + str(time) + "\n")
     f.close()
     
 
 def write_time_per_proc(file, rank,time):
-    f = open(file + ".txt", "a+")
+    if os.path.isfile(file + ".txt"):
+        f = open(file + ".txt", "w+")
+    else:
+        f = open(file + ".txt", "a+")
     f.write(str(rank) + ": " + str(time) + "\n")
     f.close()
     
