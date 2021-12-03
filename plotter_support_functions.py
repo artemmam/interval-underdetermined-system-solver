@@ -116,7 +116,6 @@ def uni_plotter(area_points, border_points, L2, title, logger = 0, ax = 0, fig =
         x_lim = L2[0]  # Left border of rectangle which we use to build uniform grid
         y_lim = L2[1]
         z_lim = L2[2]
-        print(x_lim)
         x_min, y_min, z_min, x_max, y_max, z_max = x_lim[0] - abs(x_lim[0]) / 10, y_lim[0] - abs(y_lim[0]) / 10, z_lim[0] - abs(z_lim[0]) / 10,\
                                      x_lim[1] + abs(x_lim[1]) / 10, y_lim[1] + abs(y_lim[1]) / 10,  z_lim[1] + abs(z_lim[1]) / 10
         ax.set_ylim([y_min, y_max])

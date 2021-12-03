@@ -128,12 +128,9 @@ parser.add_argument('-Nv', dest="Nv", type=int)
 parser.add_argument('--parallel', dest="parallel", action='store_true')
 parser.add_argument('--record_time', dest="record_time", action='store_true')
 parser.add_argument('--plotting', dest="plotting", action='store_true')
-parser.add_argument('-v1_0', dest="v1_0", type=int)
-parser.add_argument('-v1_1', dest="v1_1", type=int)
-parser.add_argument('-v2_0', dest="v2_0", type=int)
-parser.add_argument('-v2_1', dest="v2_1", type=int)
-parser.add_argument('-v3_0', dest="v3_0", type=int)
-parser.add_argument('-v3_1', dest="v3_1", type=int)
+parser.add_argument('-v1', dest="v1", type=str)
+parser.add_argument('-v2', dest="v2", type=str)
+parser.add_argument('-v3', dest="v3", type=str)
 
 args = parser.parse_args()
 # print(args)
@@ -147,12 +144,15 @@ else:
     rank = 0
     world_size = 1
 N = args.Nu  # The number of boxes on uniform grid
-left_v1 = math.radians(args.v1_0)
-right_v1 = math.radians(args.v1_1)
-left_v2 = math.radians(args.v2_0)
-right_v2 = math.radians(args.v2_1)
-left_v3 = math.radians(args.v3_0)
-right_v3 = math.radians(args.v3_1)
+v1_0, v1_1 = np.fromstring(args.v1, dtype=int, sep=',')
+v2_0, v2_1 = np.fromstring(args.v2, dtype=int, sep=',')
+v3_0, v3_1 = np.fromstring(args.v3, dtype=int, sep=',')
+left_v1 = math.radians(v1_0)
+right_v1 = math.radians(v1_1)
+left_v2 = math.radians(v2_0)
+right_v2 = math.radians(v2_1)
+left_v3 = math.radians(v3_0)
+right_v3 = math.radians(v3_1)
 f_sym, u_sym, v_sym = symbolic_pasive_rehabilitation_system_func_3d(a, b)
 v1 = ival.Interval([left_v1, right_v1])
 v2 = ival.Interval([left_v2, right_v2])
@@ -180,23 +180,25 @@ v_dim = 3
 # if rank == 0:
 # start = timer()
 area_params = [a, b, left_v1, right_v1, left_v2, right_v2]
-save_fig_params = [N, Nv, args.v1_0, args.v1_1, args.v2_0, args.v2_1, args.v3_0, args.v3_1, args.parallel]
+save_fig_params = [N, Nv, args.v1, args.v2, args.v3, args.parallel]
 bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
-# Bicentered_Krawczyk_Enlargment_V = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False,
-#                                            strategy="Enlargment")
+Bicentered_Krawczyk_Enlargment_V = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False,
+                                           strategy="Enlargment")
 
-# area_boxes, border_boxes = Bicentered_Krawczyk_Enlargment_V.check_box(grid_u, u_dim, v_ival, eps, grid_v, v_dim,
-#                                                                       uniform_u=False, uniform_v=False)
-# print("Enlargment V time, ", Bicentered_Krawczyk_Enlargment_V.time)
-# Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area,
-#                                           area_params=area_params, save_fig=False,
-#                                           title="Bicentered_Krawczyk_Enlargment_V_rehab_system",
-#                                           save_fig_params=save_fig_params)
+area_boxes, border_boxes = Bicentered_Krawczyk_Enlargment_V.check_box(grid_u, u_dim, v_ival, eps, grid_v, v_dim,
+                                                                      uniform_u=False, uniform_v=False)
+Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims,
+                                          save_fig=args.plotting,
+                                          title="Bicentered_Krawczyk_Enlargment_V_rehab_system_3d",
+                                          save_fig_params=save_fig_params)
+if args.record_time:
+    write_time_per_proc("./rehub_sys_3d_bicentered_krawczyk_enlargement_time_procs.txt", rank, Bicentered_Krawczyk_Enlargment_V.time)
 Bicentered_Krawczyk_Default = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False,
                                       strategy="Default")
 area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box(grid_u, u_dim, v_ival, eps, uniform_u=False)
-print("Default V time, ", Bicentered_Krawczyk_Default.time)
 Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims,
-                                     title="Bicentered_Krawczyk_Default_rehab_system_3d", save_fig=True, save_fig_params=save_fig_params)
+                                     title="Bicentered_Krawczyk_Default_rehab_system_3d", save_fig=args.plotting, save_fig_params=save_fig_params)
+if args.record_time:
+    write_time_per_proc("./rehub_sys_3d_bicentered_krawczyk_default_time_procs.txt", rank, Bicentered_Krawczyk_Default.time)
 if not args.parallel:
     plt.show()
