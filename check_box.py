@@ -10,7 +10,7 @@ from timeit import default_timer as timer
 
 def write_time_per_proc(file, rank, time, message = ""):
     f = open(file + ".txt", "a+")
-    f.write(message + " | " +  str(rank) + ": " + str(time) + "\n")
+    f.write(str(rank) + ": " + str(time) + " | " + message +   "\n")
     f.close()
 
 
@@ -302,7 +302,7 @@ def reccur_func_elementwise(box, v_init, eps, extension, max_iter=10, log=False,
 
 
 def check_box_parallel(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decomposition=False, strategy = "Default",
-              grid_v = None, dim_v=None, uniform_v = True, uniform_u = True):
+              grid_v = None, dim_v=None, uniform_v = True, uniform_u = True, path = ""):
     """
     Function for checking boxes on dim-dimensional uniform grid with checker method
     :param grid: 1-d grid
@@ -358,12 +358,12 @@ def check_box_parallel(grid, dim, v_ival, extension, eps, log=False, max_iter=10
             elif temp == 'border':
                 border_boxes.append(all_boxes[i])
     end = timer()
-    write_time_per_proc("bicentered_krawczyk_enlarge_time_procs", rank, end - start, "total = " + str(len(all_boxes)/size) + "; area = " + str(len(area_boxes)) +  "; border = " + str(len(border_boxes)))
+    write_time_per_proc(path, rank, end - start, "total = " + str(len(all_boxes)/size) + "; area = " + str(len(area_boxes)) +  "; border = " + str(len(border_boxes)))
     start = timer()
     area_boxes_g = comm.gather(area_boxes, root=0)
     border_boxes_g = comm.gather(border_boxes, root=0)
     end = timer()
-    write_time_per_proc("bicentered_krawczyk_enlarge_time_procs", rank, end - start, "GATHER")
+    write_time_per_proc(path, rank, end - start, "GATHER")
     area_boxes_g_unpacking = []
     border_boxes_g_unpacking = []
     if rank == 0:
@@ -391,7 +391,7 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
     all_boxes = make_boxes_list(grid, dim, uniform_u)
     # print(all_boxes[81])
     for i, box in enumerate(all_boxes):
-        print(i, "/", len(all_boxes) - 1)
+        # print(i, "/", len(all_boxes) - 1)
         # print(i)
         if extension.is_elementwise:
             temp = reccur_func_elementwise(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)

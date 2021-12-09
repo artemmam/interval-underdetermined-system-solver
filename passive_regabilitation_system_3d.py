@@ -128,6 +128,7 @@ parser.add_argument('-Nv', dest="Nv", type=int)
 parser.add_argument('--parallel', dest="parallel", action='store_true')
 parser.add_argument('--record_time', dest="record_time", action='store_true')
 parser.add_argument('--plotting', dest="plotting", action='store_true')
+parser.add_argument('--save_boxes', dest="save_boxes", action='store_true')
 parser.add_argument('-v1', dest="v1", type=str)
 parser.add_argument('-v2', dest="v2", type=str)
 parser.add_argument('-v3', dest="v3", type=str)
@@ -187,6 +188,8 @@ Bicentered_Krawczyk_Enlargment_V = Example(bicentered_krawczyk_extension, parall
 
 area_boxes, border_boxes = Bicentered_Krawczyk_Enlargment_V.check_box(grid_u, u_dim, v_ival, eps, grid_v, v_dim,
                                                                       uniform_u=False, uniform_v=False)
+if args.save_boxes:
+    
 Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims,
                                           save_fig=args.plotting,
                                           title="Bicentered_Krawczyk_Enlargment_V_rehab_system_3d",
