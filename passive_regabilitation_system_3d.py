@@ -17,7 +17,9 @@ from TestingExampleClass import Example
 
 from timeit import default_timer as timer
 
-
+def save_boxes(name, boxes):
+    with open("./boxes/" + name, "w+") as outfile:
+        outfile.write("\n".join(boxes))
 # matplotlib.use('Agg')
 def write_time(file, size, n, time):
     f = open(file + ".txt", "a+")
@@ -189,7 +191,8 @@ Bicentered_Krawczyk_Enlargment_V = Example(bicentered_krawczyk_extension, parall
 area_boxes, border_boxes = Bicentered_Krawczyk_Enlargment_V.check_box(grid_u, u_dim, v_ival, eps, grid_v, v_dim,
                                                                       uniform_u=False, uniform_v=False)
 if args.save_boxes:
-    
+    save_boxes("3d_rehab_sys_bic_kr_enl_inside.txt", area_boxes)
+    save_boxes("3d_rehab_sys_bic_kr_enl_border.txt", border_boxes)
 Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims,
                                           save_fig=args.plotting,
                                           title="Bicentered_Krawczyk_Enlargment_V_rehab_system_3d",
@@ -201,6 +204,9 @@ Bicentered_Krawczyk_Default = Example(bicentered_krawczyk_extension, parallel=ar
 area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box(grid_u, u_dim, v_ival, eps, uniform_u=False)
 Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims,
                                      title="Bicentered_Krawczyk_Default_rehab_system_3d", save_fig=args.plotting, save_fig_params=save_fig_params)
+if args.save_boxes:
+    save_boxes("3d_rehab_sys_bic_kr_inside.txt", area_boxes)
+    save_boxes("3d_rehab_sys_bic_kr_border.txt", border_boxes)
 if args.record_time:
     write_time_per_proc("./rehub_sys_3d_bicentered_krawczyk_default_time_procs.txt", rank, Bicentered_Krawczyk_Default.time)
 if not args.parallel:
