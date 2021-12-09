@@ -19,7 +19,11 @@ from timeit import default_timer as timer
 
 def save_boxes(name, boxes):
     with open("./boxes/" + name, "w+") as outfile:
-        outfile.write("\n".join(boxes))
+        for box in boxes:
+            for dim in box:
+                for a in dim:
+                    outfile.write(str(a) + " ")
+            outfile.write("\n")
 # matplotlib.use('Agg')
 def write_time(file, size, n, time):
     f = open(file + ".txt", "a+")
