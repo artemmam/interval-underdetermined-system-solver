@@ -126,8 +126,8 @@ def symbolic_pasive_rehabilitation_system_func_3d(l_a=4, l_b=2):
     return f, u, v
 
 
-a = 4
-b = 2
+a = 4.5
+b = 4.5
 parser = argparse.ArgumentParser(description="Angles in radians")
 parser.add_argument('-Nu', dest="Nu", type=int)
 parser.add_argument('-Nv', dest="Nv", type=int)
@@ -166,7 +166,8 @@ v2 = ival.Interval([left_v2, right_v2])
 v3 = ival.Interval([left_v3, right_v3])
 v_ival = [v1, v2, v3]
 # u_lims = 6  # the width of the of the 2-dimensional square
-ux_lower, ux_upper, uy_lower, uy_upper, uz_lower, uz_upper = get_minmax_xy(a, b, left_v1, right_v1, left_v2, right_v2,  left_v3, right_v3)
+ux_lower, ux_upper, uy_lower, uy_upper, uz_lower, uz_upper = -9, 9, -9, 9, -9, 9#get_minmax_xy(a, b, left_v1, right_v1, left_v2, right_v2, left_v3, right_v3)
+print(ux_lower, ux_upper, uy_lower, uy_upper, uz_lower, uz_upper)
 u_x = [ux_lower - 1, ux_upper + 1]
 u_y = [uy_lower - 1, uy_upper + 1]
 u_z = [uz_lower - 1, uz_upper + 1]
@@ -187,7 +188,11 @@ v_dim = 3
 # if rank == 0:
 # start = timer()
 area_params = [a, b, left_v1, right_v1, left_v2, right_v2]
+angle_ini = [v1_0, v1_1, v2_0, v2_1, v3_0, v3_1]
 save_fig_params = [N, Nv, args.v1, args.v2, args.v3, args.parallel]
+b = [str(s) for s in angle_ini]
+c = "_"
+c = c.join(b)
 bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
 Bicentered_Krawczyk_Enlargment_V = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False,
                                            strategy="Enlargment")
@@ -195,8 +200,8 @@ Bicentered_Krawczyk_Enlargment_V = Example(bicentered_krawczyk_extension, parall
 area_boxes, border_boxes = Bicentered_Krawczyk_Enlargment_V.check_box(grid_u, u_dim, v_ival, eps, grid_v, v_dim,
                                                                       uniform_u=False, uniform_v=False)
 if args.save_boxes:
-    save_boxes("3d_rehab_sys_bic_kr_enl_inside.txt", area_boxes)
-    save_boxes("3d_rehab_sys_bic_kr_enl_border.txt", border_boxes)
+    save_boxes("3d_rehab_sys_bic_kr_enl_inside_" + str(N) + c + ".txt", area_boxes)
+    save_boxes("3d_rehab_sys_bic_kr_enl_border_" + str(N) + c + ".txt", border_boxes)
 Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims,
                                           save_fig=args.plotting,
                                           title="Bicentered_Krawczyk_Enlargment_V_rehab_system_3d",
@@ -209,8 +214,8 @@ area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box(grid_u, u_dim, 
 Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims,
                                      title="Bicentered_Krawczyk_Default_rehab_system_3d", save_fig=args.plotting, save_fig_params=save_fig_params)
 if args.save_boxes:
-    save_boxes("3d_rehab_sys_bic_kr_inside.txt", area_boxes)
-    save_boxes("3d_rehab_sys_bic_kr_border.txt", border_boxes)
+    save_boxes("3d_rehab_sys_bic_kr_inside_" + str(N) + c + ".txt", area_boxes)
+    save_boxes("3d_rehab_sys_bic_kr_border_" + str(N) + c + ".txt", border_boxes)
 if args.record_time:
     write_time_per_proc("./rehub_sys_3d_bicentered_krawczyk_default_time_procs.txt", rank, Bicentered_Krawczyk_Default.time)
 if not args.parallel:
