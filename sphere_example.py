@@ -29,6 +29,9 @@ f_sym, u_sym, v_sym = symbolic_sphere_func()
 v1 = ival.Interval([0, 1.0])
 v_ival = [v1]
 u_upper = 1.2  # the width of the of the 2-dimensional square
+u1 = [-1.2, 1.2]
+u2 = [-1.2, 1.2]
+u_lims = [u1, u2]
 #derived_reccurent_form = derived_reccurent_form(f, V, U, Vmid)
 grid = np.linspace(-u_upper, u_upper, N + 1)  # The vector to build size-dim. grid
 #print(grid)
@@ -47,22 +50,22 @@ grid_v = np.linspace(v1[0], v1[1], 10 + 1)
 # circle2 = plt.Circle((0, 0), 1, fc="y", fill = False)
 # plt.gca().add_patch(circle2)
 # plt.show()
-classical_krawczyk_extension = ClassicalKrawczykExtension(f_sym, v_sym, u_sym, is_elementwise=False)
-classical_krawczyk_loger = Logger(grid, size, v_ival, eps, classical_krawczyk_extension, decomp=False)
-area_boxes_classical_krawczyk_infl, border_boxes_classical_krawczyk_infl = check_box(grid, size, v_ival,\
-                                                                           classical_krawczyk_extension, eps, log=False,
-                                                                           decomposition=False, strategy="Inflation", grid_v=grid_v, dim_v=1)
-uni_plotter(area_boxes_classical_krawczyk_infl, border_boxes_classical_krawczyk_infl, u_upper,
-            "Classical Krawczyk Infaltion", size=2, logger=classical_krawczyk_loger)
-circle2 = plt.Circle((0, 0), 1, fc="y", fill = False)
-plt.gca().add_patch(circle2)
-area_boxes_classical_krawczyk, border_boxes_classical_krawczyk = check_box(grid, size, v_ival,\
-                                                                           classical_krawczyk_extension, eps, log=False,
-                                                                           decomposition=False)
-uni_plotter(area_boxes_classical_krawczyk, border_boxes_classical_krawczyk, u_upper,
-            "Classical Krawczyk", size=2, logger=classical_krawczyk_loger)
-circle2 = plt.Circle((0, 0), 1, fc="y", fill = False)
-plt.gca().add_patch(circle2)
+# classical_krawczyk_extension = ClassicalKrawczykExtension(f_sym, v_sym, u_sym, is_elementwise=False)
+# classical_krawczyk_loger = Logger(grid, size, v_ival, eps, classical_krawczyk_extension, decomp=False)
+# area_boxes_classical_krawczyk_infl, border_boxes_classical_krawczyk_infl = check_box(grid, size, v_ival,\
+#                                                                            classical_krawczyk_extension, eps, log=False,
+#                                                                            decomposition=False, strategy="Inflation", grid_v=grid_v, dim_v=1)
+# uni_plotter(area_boxes_classical_krawczyk_infl, border_boxes_classical_krawczyk_infl, u_upper,
+#             "Classical Krawczyk Infaltion", size=2, logger=classical_krawczyk_loger)
+# circle2 = plt.Circle((0, 0), 1, fc="y", fill = False)
+# plt.gca().add_patch(circle2)
+# area_boxes_classical_krawczyk, border_boxes_classical_krawczyk = check_box(grid, size, v_ival,\
+#                                                                            classical_krawczyk_extension, eps, log=False,
+#                                                                            decomposition=False)
+# uni_plotter(area_boxes_classical_krawczyk, border_boxes_classical_krawczyk, u_upper,
+#             "Classical Krawczyk", size=2, logger=classical_krawczyk_loger)
+# circle2 = plt.Circle((0, 0), 1, fc="y", fill = False)
+# plt.gca().add_patch(circle2)
 # classical_krawczyk_extension_elementwise = ClassicalKrawczykExtension(f_sym, v_sym, u_sym, is_elementwise=True)
 # area_boxes_classical_krawczyk_elementwise, border_boxes_classical_krawczyk_elementwise = check_box(grid, size, v_ival,\
 #                                                                            classical_krawczyk_extension_elementwise, eps)
@@ -74,13 +77,13 @@ bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym,
 area_boxes_bicentered_krawczyk_infl, border_boxes_bicentered_krawczyk_infl = check_box(grid, size, v_ival,\
                                                                            bicentered_krawczyk_extension, eps,
                                                                              strategy="Inflation", grid_v=grid_v, dim_v=1)
-uni_plotter(area_boxes_bicentered_krawczyk_infl, border_boxes_bicentered_krawczyk_infl, u_upper, "Bicentered Krawczyk Inflation", size=2)
+uni_plotter(area_boxes_bicentered_krawczyk_infl, border_boxes_bicentered_krawczyk_infl, u_lims, "Bicentered Krawczyk Enlarge", size=2)
 circle2 = plt.Circle((0, 0), 1, fc="y", fill = False)
 plt.gca().add_patch(circle2)
 
 area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk = check_box(grid, size, v_ival,\
                                                                            bicentered_krawczyk_extension, eps)
-uni_plotter(area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk, u_upper, "Bicentered Krawczyk", size=2)
+uni_plotter(area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk, u_lims, "Bicentered Krawczyk", size=2)
 circle2 = plt.Circle((0, 0), 1, fc="y", fill = False)
 plt.gca().add_patch(circle2)
 #

@@ -425,6 +425,7 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
             area_boxes.append(all_boxes[i])
         elif temp == 'border':
             border_boxes.append(all_boxes[i])
+    print("Number of boxes = ", len(all_boxes))
     return area_boxes, border_boxes
 
 
@@ -464,3 +465,95 @@ def check_one_box(box, v_ival, extension, eps, log=False, max_iter=9, decomposit
                 temp = "border"
         print(temp)
     return temp
+
+
+def check_box_branch(ini_box, v_ival, extension, eps, eps1, log=False, max_iter=10, decomposition=False, strategy = "Default",
+              grid_v = None, dim_v=None, uniform_v = True):
+    """
+    Function for checking boxes on dim-dimensional uniform grid with checker method
+    :param grid: 1-d grid
+    :param dim: number of the dimensions
+    :param v_ival: vector of not fixed interval variables
+    :param extension: Extension calculator-class object, contains param info and calculate interval extension
+    :param eps: error
+    :param log: turn on log info printing
+    :return: list of inside boxes, list of border boxes
+    """
+    area_boxes = []
+    border_boxes = []
+    queueu = []
+    queueu.append(ini_box)
+    # print(all_boxes[81])
+    s = 0
+    while len(queueu)>0:
+        # print(queueu)
+        s+=1
+        box = queueu.pop(0)
+        # print(box)
+        # print(i, "/", len(all_boxes) - 1)
+        # print(i)
+        if extension.is_elementwise:
+            temp = reccur_func_elementwise(box, v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
+        else:
+            if strategy == "Default":
+                temp = reccur_func(box, v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
+            else:
+                temp = "outside"
+                grid_v = np.array(grid_v)
+                v_boxes = make_boxes_list(grid_v, dim_v, uniform_v)
+                temp_list = []
+                for v in v_boxes:
+                    if len(v) == 1:
+                        v = [v[0]]
+                    else:
+                        v = np.array(v)
+                    # print(v)
+                    temp_infl = reccur_func_enlarge(box, v, v_ival, eps, extension, max_iter, log=log,
+                                               decomposition=decomposition)
+                    if temp_infl == "inside":
+                        temp = "inside"
+                        break
+                    else:
+                        temp_list.append(temp_infl)
+                if temp!="inside":
+                    check = [True if temp_list[i] == "border" else False for i in range(len(temp_list))]
+                    # print(check)
+                    if np.any(check):
+                        temp = "border"
+        # print(temp)
+        if temp == 'inside':
+            area_boxes.append(box)
+        elif temp == 'border':
+            if diam(box)<eps1:
+                border_boxes.append(box)
+            else:
+                box_l, box_r = separate_box(box)
+                queueu.append(box_l)
+                queueu.append(box_r)
+        # elif temp == 'outside' and diam(box)>eps1:
+        #     box_l, box_r = separate_box(box)
+        #     queueu.append(box_l)
+        #     queueu.append(box_r)
+    print("Number of boxes = ", s)
+    return area_boxes, border_boxes
+
+
+def separate_box(box):
+    max_width = -np.inf
+    new_box_left = np.empty_like(box)
+    new_box_right = np.empty_like(box)
+    separ_i = 0
+    for i in range(len(box)):
+        if box[i].width() > max_width:
+            max_width = box[i].width()
+            separ_i = i
+    for i in range(len(box)):
+        if i == separ_i:
+            left_box = ival.Interval([box[i][0], box[i].mid()])
+            right_box = ival.Interval([box[i].mid(), box[i][1]])
+            new_box_left[i] = left_box
+            new_box_right[i] = right_box
+        else:
+            new_box_left[i] = box[i]
+            new_box_right[i] = box[i]
+    return new_box_left, new_box_right

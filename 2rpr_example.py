@@ -84,6 +84,9 @@ v_ival = [v1, v2]
 u_x = [-r2 - 1, r2 + 1]
 u_y = [-r2 - 1, r2 + 1]
 u_lims = [u_x, u_y]
+u1 = ival.Interval([-r2 - 1, r2 + 1])
+u2 = ival.Interval([-r2 - 1, r2 + 1])
+u_ini = [u1, u2]
 grid_u1 = np.linspace(u_x[0], u_x[1], N + 1)  # The vector to build size-dim. grid
 grid_u2 = np.linspace(u_y[0], u_y[1], N + 1)  # The vector to build size-dim. grid
 grid_u = [grid_u1, grid_u2]
@@ -106,9 +109,14 @@ bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym,
 # Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area,
 #                                           area_params=area_params, save_fig=False, title = "Bicentered_Krawczyk_Enlargment_V_rehab_system", save_fig_params=save_fig_params)
 Bicentered_Krawczyk_Default = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False, strategy="Default")
-area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box(grid_u, u_dim, v_ival, eps, uniform_u=False)
-print("Default V time, ", Bicentered_Krawczyk_Default.time)
+
+area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box_branch(u_ini, v_ival, eps1=eps, eps2=2)
+print("Default V time bisection, ", Bicentered_Krawczyk_Default.time)
 Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area,
-                                          area_params=area_params, save_fig=False, title = "Bicentered_Krawczyk_Default_rehab_system")
+                                          area_params=area_params, save_fig=False, title = "Bicentered_Krawczyk_Default_2RPR branch")
+area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box(grid_u, u_dim, v_ival, eps, uniform_u=False)
+print("Default V time basic, ", Bicentered_Krawczyk_Default.time)
+Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area,
+                                          area_params=area_params, save_fig=False, title = "Bicentered_Krawczyk_Default_2RPR basic")
 if not args.parallel:
     plt.show()
