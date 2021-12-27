@@ -115,18 +115,16 @@ def symbolic_pasive_rehabilitation_system_func(l_a=4, l_b=2):
     return f, u, v
 
 
-a = 4
-b = 2
+a = 4.5
+b = 4.5
 parser = argparse.ArgumentParser(description="Angles in radians")
 parser.add_argument('-Nu', dest="Nu", type=int)
 parser.add_argument('-Nv', dest="Nv", type=int)
 parser.add_argument('--parallel', dest="parallel", action='store_true')
 parser.add_argument('--record_time', dest="record_time", action='store_true')
 parser.add_argument('--plotting', dest="plotting", action='store_true')
-parser.add_argument('-v1_0', dest="v1_0", type=int)
-parser.add_argument('-v1_1', dest="v1_1", type=int)
-parser.add_argument('-v2_0', dest="v2_0", type=int)
-parser.add_argument('-v2_1', dest="v2_1", type=int)
+parser.add_argument('-v1', dest="v1", type=str)
+parser.add_argument('-v2', dest="v2", type=str)
 
 args = parser.parse_args()
 # print(args)
@@ -145,10 +143,12 @@ path = "./log/rehub_sys_bicentered_krawczyk_enlargement_time_procs"+ str(rank)
 if args.parallel:
     comm.Barrier()
 N = args.Nu  # The number of boxes on uniform grid
-left_v1 = math.radians(args.v1_0)
-right_v1 = math.radians(args.v1_1)
-left_v2 = math.radians(args.v2_0)
-right_v2 = math.radians(args.v2_1)
+v1_0, v1_1 = np.fromstring(args.v1, dtype=int, sep=',')
+v2_0, v2_1 = np.fromstring(args.v2, dtype=int, sep=',')
+left_v1 = math.radians(v1_0)
+right_v1 = math.radians(v1_1)
+left_v2 = math.radians(v2_0)
+right_v2 = math.radians(v2_1)
 f_sym, u_sym, v_sym = symbolic_pasive_rehabilitation_system_func(a, b)
 v1 = ival.Interval([left_v1, right_v1])
 v2 = ival.Interval([left_v2, right_v2])
@@ -173,7 +173,7 @@ v_dim = 2
     # start = timer()
 area_params = [a, b, left_v1, right_v1, left_v2, right_v2]
 
-save_fig_params = [N, Nv, args.v1_0, args.v1_1, args.v2_0, args.v2_1, args.parallel]
+save_fig_params = [N, Nv, left_v1, right_v1, left_v2, right_v2, args.parallel]
 bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
 Bicentered_Krawczyk_Enlargment_V = Example(bicentered_krawczyk_extension, path = path, parallel=args.parallel, record_time=False, strategy="Enlargment")
 area_boxes, border_boxes = Bicentered_Krawczyk_Enlargment_V.check_box(grid_u, u_dim, v_ival, eps, grid_v, v_dim,

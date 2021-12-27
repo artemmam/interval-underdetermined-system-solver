@@ -6,7 +6,7 @@ from check_box import check_box, check_one_box
 from ExtensionClass import ClassicalKrawczykExtension, BicenteredKrawczykExtension, HansenSenguptaExtension
 from plotter_support_functions import uni_plotter, plot_one_box
 import matplotlib.pyplot as plt
-from LoggerClass import Logger
+# from LoggerClass import Logger
 import argparse
 from TestingExampleClass import Example
 
@@ -113,10 +113,10 @@ Bicentered_Krawczyk_Default = Example(bicentered_krawczyk_extension, parallel=ar
 area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box_branch(u_ini, v_ival, eps1=eps, eps2=2)
 print("Default V time bisection, ", Bicentered_Krawczyk_Default.time)
 Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area,
-                                          area_params=area_params, save_fig=False, title = "Bicentered_Krawczyk_Default_2RPR branch")
+                                          area_params=area_params, save_fig=args.plotting, title = "Bicentered_Krawczyk_Default_2RPR branch")
 area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box(grid_u, u_dim, v_ival, eps, uniform_u=False)
 print("Default V time basic, ", Bicentered_Krawczyk_Default.time)
 Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area,
-                                          area_params=area_params, save_fig=False, title = "Bicentered_Krawczyk_Default_2RPR basic")
-if not args.parallel:
-    plt.show()
+                                          area_params=area_params, save_fig=args.plotting, title = "Bicentered_Krawczyk_Default_2RPR basic")
+# if not args.parallel:
+    # plt.show()

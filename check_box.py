@@ -538,6 +538,87 @@ def check_box_branch(ini_box, v_ival, extension, eps, eps1, log=False, max_iter=
     return area_boxes, border_boxes
 
 
+def check_box_branch_parallel(ini_box, v_ival, extension, eps, eps1, log=False, max_iter=10, decomposition=False, strategy = "Default",
+              grid_v = None, dim_v=None, uniform_v = True):
+    """
+    Function for checking boxes on dim-dimensional uniform grid with checker method
+    :param grid: 1-d grid
+    :param dim: number of the dimensions
+    :param v_ival: vector of not fixed interval variables
+    :param extension: Extension calculator-class object, contains param info and calculate interval extension
+    :param eps: error
+    :param log: turn on log info printing
+    :return: list of inside boxes, list of border boxes
+    """
+    from mpi4py import MPI
+    from mpi4py.futures import MPIPoolExecutor, MPICommExecutor
+    comm = MPI.COMM_WORLD
+    area_boxes = []
+    border_boxes = []
+    if __name__ == '__main__':
+    # with MPICommExecutor(MPI.COMM_WORLD, root=0) as executor:
+        with MPIPoolExecutor() as executor:
+            if executor is not None:
+                print("Executor rank: ", comm.Get_rank())
+                print("World size: ", comm.Get_size())
+                queueu = []
+                queueu.append(ini_box)
+                # print(all_boxes[81])
+                s = 0
+                
+                while len(queueu)>0:
+                    # print(queueu)
+                    s+=1
+                    box = queueu.pop(0)
+                    # print(box)
+                    # print(i, "/", len(all_boxes) - 1)
+                    # print(i)
+                    if extension.is_elementwise:
+                        temp = reccur_func_elementwise(box, v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
+                    else:
+                        if strategy == "Default":
+                            temp = reccur_func(box, v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
+                        else:
+                            temp = "outside"
+                            grid_v = np.array(grid_v)
+                            v_boxes = make_boxes_list(grid_v, dim_v, uniform_v)
+                            temp_list = []
+                            for v in v_boxes:
+                                if len(v) == 1:
+                                    v = [v[0]]
+                                else:
+                                    v = np.array(v)
+                                # print(v)
+                                temp_infl = reccur_func_enlarge(box, v, v_ival, eps, extension, max_iter, log=log,
+                                                           decomposition=decomposition)
+                                if temp_infl == "inside":
+                                    temp = "inside"
+                                    break
+                                else:
+                                    temp_list.append(temp_infl)
+                            if temp!="inside":
+                                check = [True if temp_list[i] == "border" else False for i in range(len(temp_list))]
+                                # print(check)
+                                if np.any(check):
+                                    temp = "border"
+                    # print(temp)
+                    if temp == 'inside':
+                        area_boxes.append(box)
+                    elif temp == 'border':
+                        if diam(box)<eps1:
+                            border_boxes.append(box)
+                        else:
+                            box_l, box_r = separate_box(box)
+                            queueu.append(box_l)
+                            queueu.append(box_r)
+                    # elif temp == 'outside' and diam(box)>eps1:
+                    #     box_l, box_r = separate_box(box)
+                    #     queueu.append(box_l)
+                    #     queueu.append(box_r)
+                print("Number of boxes = ", s)
+                return area_boxes, border_boxes
+    
+
 def separate_box(box):
     max_width = -np.inf
     new_box_left = np.empty_like(box)
