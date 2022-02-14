@@ -171,6 +171,7 @@ def reccur_func_enlarge(box, v_init, v_ival, eps, extension, max_iter=10, log=Fa
     while True:
         if log:
             print("*****")
+            print(v_iter, box)
             print("Natural :", f_num(v_iter, box).reshape(-1))
         for nat_ext in f_num(v_iter, box).reshape(-1):
             if not ival.Interval([0, 0]).isInIns(nat_ext):
@@ -398,7 +399,7 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
         else:
             if strategy == "Default":
                 temp = reccur_func(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
-            else:
+            elif strategy == "Enlargement":
                 temp = "outside"
                 grid_v = np.array(grid_v)
                 v_boxes = make_boxes_list(grid_v, dim_v, uniform_v)
@@ -421,6 +422,8 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
                     # print(check)
                     if np.any(check):
                         temp = "border"
+            else:
+                print("BnB V bisection")
         if temp == 'inside':
             area_boxes.append(all_boxes[i])
         elif temp == 'border':

@@ -4,7 +4,7 @@ from plotter_support_functions import uni_plotter
 from timeit import default_timer as timer
 
 class Example:
-    def __init__(self, extension, parallel=False, record_time=False, strategy="Default", name="", path ="1"):
+    def __init__(self, extension, parallel=False, record_time=False, strategy="Default", name="", path ="1", log=False):
         """
         :param f: system of equations
         :param u: box to check
@@ -18,6 +18,7 @@ class Example:
         self.time = 0
         self.name = name
         self.path = path
+        self.log = log
 
     def write_time(self, file, rank, size, n, time):
         f = open(file + ".txt", "a+")
@@ -39,7 +40,7 @@ class Example:
             area_boxes, border_boxes = check_box(grid_u, dim_u, v_ival, \
                                self.extension, eps,
                                strategy=self.strategy, dim_v=v_dim,
-                               grid_v=grid_v, uniform_u=uniform_u, uniform_v=uniform_v)
+                               grid_v=grid_v, uniform_u=uniform_u, uniform_v=uniform_v, log=self.log)
         end = timer()
         self.time = end - start
         return area_boxes, border_boxes

@@ -154,6 +154,9 @@ N = args.Nu  # The number of boxes on uniform grid
 v1_0, v1_1 = np.fromstring(args.v1, dtype=int, sep=',')
 v2_0, v2_1 = np.fromstring(args.v2, dtype=int, sep=',')
 v3_0, v3_1 = np.fromstring(args.v3, dtype=int, sep=',')
+print(v1_0, v1_1)
+print(v2_0, v2_1)
+print(v3_0, v3_1)
 left_v1 = math.radians(v1_0)
 right_v1 = math.radians(v1_1)
 left_v2 = math.radians(v2_0)
@@ -165,7 +168,10 @@ v1 = ival.Interval([left_v1, right_v1])
 v2 = ival.Interval([left_v2, right_v2])
 v3 = ival.Interval([left_v3, right_v3])
 v_ival = [v1, v2, v3]
+
 # u_lims = 6  # the width of the of the 2-dimensional square
+print(get_minmax_xy(a, b, left_v1, right_v1, left_v2, right_v2, left_v3, right_v3))
+sys.exit(1)
 ux_lower, ux_upper, uy_lower, uy_upper, uz_lower, uz_upper = -9, 9, -9, 9, -9, 9#get_minmax_xy(a, b, left_v1, right_v1, left_v2, right_v2, left_v3, right_v3)
 print(ux_lower, ux_upper, uy_lower, uy_upper, uz_lower, uz_upper)
 u_x = [ux_lower - 1, ux_upper + 1]
