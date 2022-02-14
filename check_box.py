@@ -66,18 +66,12 @@ def reccur_func(box, v_init, eps, extension, max_iter=10, log=False, decompositi
     new_v_left = np.empty_like(v_init)
     new_v_right = np.empty_like(v_init)
     new_v_middle = np.empty_like(v_init)
-    # print("box", box)
     k = 0
     f_num = extension.lambdify_f()
-    # if log:
-    #     f_centered = extension.centered_form()
     while True:
         if log:
             print("*****")
             print("Natural :", f_num(v_iter, box).reshape(-1))
-        # for nat_ext in f_num(v_iter, box).reshape(-1):
-        #     if not ival.Interval([0, 0]).isInIns(nat_ext):
-        #         return "outside"
         if k>5:
             for i in range(n):
                 v_iter[i].scale(1.1)
@@ -85,22 +79,14 @@ def reccur_func(box, v_init, eps, extension, max_iter=10, log=False, decompositi
         check = True
         v_ext = extension.calculate_extension(box, v_iter, log=log).reshape(-1)
         if log:
-
             print("Number of iteration =", k)
             print("box", box)
             print("Old V = ", v_iter)
             print("New V = ", v_ext)
-        # w_x = ival.n_width(v_iter)
-        # kr_minux_m_x = []
         for i in range(n):
-            # kr_minux_m_x.append(v_ext[i] - v_iter[i].mid())
             if not (v_ext[i].isIn(v_iter[i])):
                 check = False
                 break
-        # norm_buf = ival.norm(kr_minux_m_x)
-        #
-        # if not norm_buf < w_x / 2:
-        #     check = False
         if check:
             return "inside"
         for i in range(n):
@@ -470,7 +456,7 @@ def check_one_box(box, v_ival, extension, eps, log=False, max_iter=9, decomposit
     return temp
 
 
-def check_box_branch(ini_box, v_ival, extension, eps, eps1, log=False, max_iter=10, decomposition=False, strategy = "Default",
+def check_box_branch(ini_box, v_ival, extension, eps, eps1=None, eps2=None, log=False, max_iter=10, decomposition=False, strategy="Default", mod="Default",
               grid_v = None, dim_v=None, uniform_v = True):
     """
     Function for checking boxes on dim-dimensional uniform grid with checker method
@@ -486,43 +472,58 @@ def check_box_branch(ini_box, v_ival, extension, eps, eps1, log=False, max_iter=
     border_boxes = []
     queueu = []
     queueu.append(ini_box)
-    # print(all_boxes[81])
     s = 0
     while len(queueu)>0:
-        # print(queueu)
         s+=1
         box = queueu.pop(0)
-        # print(box)
-        # print(i, "/", len(all_boxes) - 1)
-        # print(i)
         if extension.is_elementwise:
             temp = reccur_func_elementwise(box, v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
         else:
             if strategy == "Default":
                 temp = reccur_func(box, v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
             else:
-                temp = "outside"
-                grid_v = np.array(grid_v)
-                v_boxes = make_boxes_list(grid_v, dim_v, uniform_v)
-                temp_list = []
-                for v in v_boxes:
-                    if len(v) == 1:
-                        v = [v[0]]
-                    else:
-                        v = np.array(v)
-                    # print(v)
-                    temp_infl = reccur_func_enlarge(box, v, v_ival, eps, extension, max_iter, log=log,
-                                               decomposition=decomposition)
-                    if temp_infl == "inside":
-                        temp = "inside"
-                        break
-                    else:
-                        temp_list.append(temp_infl)
-                if temp!="inside":
-                    check = [True if temp_list[i] == "border" else False for i in range(len(temp_list))]
-                    # print(check)
-                    if np.any(check):
-                        temp = "border"
+                if mod == "Default":
+                    temp = "outside"
+                    grid_v = np.array(grid_v)
+                    v_boxes = make_boxes_list(grid_v, dim_v, uniform_v)
+                    temp_list = []
+                    for v in v_boxes:
+                        if len(v) == 1:
+                            v = [v[0]]
+                        else:
+                            v = np.array(v)
+                        temp_infl = reccur_func_enlarge(box, v, v_ival, eps, extension, max_iter, log=log,
+                                                   decomposition=decomposition)
+                        if temp_infl == "inside":
+                            temp = "inside"
+                            break
+                        else:
+                            temp_list.append(temp_infl)
+                    if temp != "inside":
+                        check = [True if temp_list[i] == "border" else False for i in range(len(temp_list))]
+                        # print(check)
+                        if np.any(check):
+                            temp = "border"
+                else:
+                    temp = "outside"
+                    queueu_V = []
+                    queueu_V.append(v_ival)
+                    # print(box)
+                    while len(queueu_V) != 0:
+                        # print(queueu_V)
+                        v_ival_bnb = queueu_V.pop()
+                        temp_v_bnb = reccur_func_enlarge(box, v_ival_bnb, v_ival, eps, extension, max_iter, log=log,
+                                                        decomposition=decomposition)
+                        if temp_v_bnb == "inside":
+                            temp = "inside"
+                            break
+                        elif temp_v_bnb == 'border':
+                            if diam(v_ival_bnb) < eps2:
+                                temp = "border"
+                            else:
+                                v_ival_l, v_ival_r = separate_box(v_ival_bnb)
+                                queueu_V.append(v_ival_l)
+                                queueu_V.append(v_ival_r)
         # print(temp)
         if temp == 'inside':
             area_boxes.append(box)
