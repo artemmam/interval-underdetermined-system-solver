@@ -96,7 +96,7 @@ def reccur_func(box, v_init, eps, extension, max_iter=10, log=False, decompositi
                 v_iter[i] = v_iter[i].intersec(v_ext[i])
         if k > max_iter:
             if decomposition:
-                if level < 3:
+                if level < 5:
                     if log:
                         print("Decomposition")
                         print("Level: ", level)
@@ -141,7 +141,6 @@ def reccur_func(box, v_init, eps, extension, max_iter=10, log=False, decompositi
 
 
 def reccur_func_enlarge(box, v_init, v_ival, eps, extension, max_iter=10, log=False, decomposition=False, level=0):
-    max_iter = 10
     v_iter = v_init.copy()
     n = len(v_init)
     v_prev = v_iter.copy()
@@ -174,24 +173,10 @@ def reccur_func_enlarge(box, v_init, v_ival, eps, extension, max_iter=10, log=Fa
             print("V_ival", v_ival)
             print("Old V = ", v_iter)
             print("New V = ", v_ext)
-        # w_x = ival.n_width(v_iter)
-        # kr_minux_m_x = []
-        # for i in range(n):
-        #     kr_minux_m_x.append(v_ext[i] - v_iter[i].mid())
         for i in range(n):
             if not (v_ext[i].isIn(v_iter[i])):
                 check = False
                 break
-        # norm_buf = ival.norm(kr_minux_m_x)
-        #
-        # if log:
-        #     print("Norm = ", norm_buf, 3)
-        #     print("N-width/2 = ", w_x/2, 3)
-        # for i in range(n):
-        #     if not norm_buf[i] < w_x[i]/2:
-        #         check = False
-        # if not norm_buf < w_x / 2:
-        #     check = False
         if check:
             return "inside"
         for i in range(n):
@@ -428,12 +413,14 @@ def check_one_box(box, v_ival, extension, eps, log=False, max_iter=9, decomposit
         print(temp)
     else:
         grid_v = np.array(grid)
+        # print(grid_v)
         grid_size = len(grid_v) - 1
         temp_list = []
         temp = "outside"
         v_boxes = make_boxes_list(grid, dim, uniform=uniform)
+        # print(v_boxes)
         for v in v_boxes:
-            print("v=", v)
+            # print("v=", v)
             if len(v) == 1:
                 v = [v[0]]
             else:
@@ -508,12 +495,13 @@ def check_box_branch(ini_box, v_ival, extension, eps, eps1=None, eps2=None, log=
                     temp = "outside"
                     queueu_V = []
                     queueu_V.append(v_ival)
-                    # print(box)
+                    print(box)
                     while len(queueu_V) != 0:
-                        # print(queueu_V)
                         v_ival_bnb = queueu_V.pop()
-                        temp_v_bnb = reccur_func_enlarge(box, v_ival_bnb, v_ival, eps, extension, max_iter, log=log,
+                        print(v_ival_bnb)
+                        temp_v_bnb = reccur_func_enlarge(box, v_ival_bnb, v_ival, eps, extension, max_iter, log=False,
                                                         decomposition=decomposition)
+                        print(temp_v_bnb)
                         if temp_v_bnb == "inside":
                             temp = "inside"
                             break

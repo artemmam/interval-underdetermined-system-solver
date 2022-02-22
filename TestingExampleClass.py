@@ -45,7 +45,7 @@ class Example:
         self.time = end - start
         return area_boxes, border_boxes
 
-    def check_box_branch(self, box, v_ival, eps1, eps2, eps3=None, mod="Default", grid_v=None, v_dim=None, uniform_v=None):
+    def check_box_branch(self, box, v_ival, eps1, eps2, eps3=None, mod="Default", decomposition=False, grid_v=None, v_dim=None, uniform_v=None):
         start = timer()
         if self.parallel:
             area_boxes, border_boxes = check_box_branch(box, v_ival, \
@@ -55,7 +55,7 @@ class Example:
         else:
             area_boxes, border_boxes = check_box_branch(box, v_ival, \
                                self.extension, eps1, eps2, eps2=eps3,
-                               strategy=self.strategy, mod=mod, dim_v=v_dim,
+                               strategy=self.strategy, decomposition=decomposition, mod=mod, dim_v=v_dim,
                                grid_v=grid_v, uniform_v=uniform_v)
         end = timer()
         self.time = end - start
