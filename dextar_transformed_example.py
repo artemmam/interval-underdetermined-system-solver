@@ -193,7 +193,7 @@ grid_v = [grid_v1, grid_v2]
 v_dim = 2
 # area_params = [r1, r2, d]
 # save_fig_params = [N, Nv, r1, r2, d, args.parallel]
-
+save_fig_params = [N, Nv, left_v1, right_v1, left_v2, right_v2, a, b, d, args.parallel]
 
 bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
 #**********
