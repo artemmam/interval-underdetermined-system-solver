@@ -62,7 +62,7 @@ class Example:
         return area_boxes, border_boxes
 
 
-    def plotting(self, area_boxes, border_boxes, u_lims, plot_area=None, area_params=None, save_fig=False, title = "", save_fig_params = ""):
+    def plotting(self, area_boxes, border_boxes, u_lims, plot_area=None, area_params=None, save_fig=False, title = "", save_fig_params = "", logger=None):
         size = len(u_lims)
         if self.parallel:
             from mpi4py import MPI
@@ -79,7 +79,7 @@ class Example:
                 fig1 = plt.figure(figsize=(8, 8))
                 ax1 = fig1.add_subplot(111, projection='3d')
             uni_plotter(area_boxes, border_boxes, u_lims, title, size=size,
-            ax=ax1, fig=fig1)
+            ax=ax1, fig=fig1, logger=logger)
             if plot_area:
                 plot_area(ax1, *area_params)
             if save_fig:

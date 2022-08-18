@@ -30,6 +30,7 @@ class Logger:
         print("\n\n\n")
         print("LOGGING")
         all_boxes = make_boxes_list(self.__grid, self.__size, self.__uniform_u)
+        print(all_boxes)
         if self.__size == 2:
             for box in all_boxes:
                 if (x > box[0][0] and x<box[0][1] and y > box[1][0] and y<box[1][1]):

@@ -361,7 +361,7 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
     grid = np.array(grid)
     grid_size = len(grid) - 1
     all_boxes = make_boxes_list(grid, dim, uniform_u)
-    # print(all_boxes[81])
+    # print(diam(all_boxes[0]))
     for i, box in enumerate(all_boxes):
         # print(i, "/", len(all_boxes) - 1)
         # print(i)
@@ -506,7 +506,7 @@ def check_box_branch(ini_box, v_ival, extension, eps, eps1=None, eps2=None, log=
                             temp = "inside"
                             break
                         elif temp_v_bnb == 'border':
-                            if diam(v_ival_bnb) < eps2:
+                            if diam(v_ival_bnb) <= eps2:
                                 temp = "border"
                             else:
                                 v_ival_l, v_ival_r = separate_box(v_ival_bnb)
