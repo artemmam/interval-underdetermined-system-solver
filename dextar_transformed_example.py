@@ -234,8 +234,7 @@ area_boxes, border_boxes = Bicentered_Krawczyk_Enlargment_V.check_box(grid_u, u_
                                            uniform_v=False)
 print("Enlargment V time, ", Bicentered_Krawczyk_Enlargment_V.time)
 Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment_V_2RPR")
-if args.save_boxes:
-    save_boxes("dextar_simple_inside_" + str(N) + str(Nv) + ".txt", area_boxes)
-    save_boxes("dextar_simple_border_" + str(N) + str(Nv) + ".txt", border_boxes)
+save_boxes("dextar_simple_inside_" + str(N) + str(Nv) + ".txt", area_boxes)
+save_boxes("dextar_simple_border_" + str(N) + str(Nv) + ".txt", border_boxes)
 if not args.parallel:
     plt.show()
