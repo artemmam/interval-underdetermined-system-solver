@@ -117,7 +117,7 @@ def symbolic_transformed_dextar_func(a, b, d=8):
     v = sym.symbols('v1, v2')
     u = sym.symbols('u1, u2')
     f = sym.Matrix([[(u[0] - a*cos(v[0]))**2 + (u[1] - a*sin(v[0]))**2 - b**2],
-                    [(u[0] - d - b*cos(v[1]))**2 + (u[1] - b*sin(v[1]))**2 - a**2]])
+                    [(u[0] - d - a*cos(v[1]))**2 + (u[1] - a*sin(v[1]))**2 - b**2]])
     return f, u, v
 
 # N = 30  # The number of boxes on uniform grid
@@ -232,9 +232,10 @@ Bicentered_Krawczyk_Enlargment_V = Example(bicentered_krawczyk_extension, parall
 
 area_boxes, border_boxes = Bicentered_Krawczyk_Enlargment_V.check_box(grid_u, u_dim, v_ival, eps=eps, grid_v=grid_v, v_dim=v_dim,
                                            uniform_v=False)
-print("Enlargment V time, ", Bicentered_Krawczyk_Enlargment_V.time)
-Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment_V_2RPR")
-save_boxes("dextar_simple_inside_" + str(N) + str(Nv) + ".txt", area_boxes)
-save_boxes("dextar_simple_border_" + str(N) + str(Nv) + ".txt", border_boxes)
+if rank == 0:
+    print("Enlargment V time, ", Bicentered_Krawczyk_Enlargment_V.time)
+    Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment_simple_DexTar")
+    save_boxes("dextar_simple_inside_" + str(N) + "_" + str(Nv) + ".txt", area_boxes)
+    save_boxes("dextar_simple_border_" + str(N) + "_" + str(Nv) + ".txt", border_boxes)
 if not args.parallel:
     plt.show()
