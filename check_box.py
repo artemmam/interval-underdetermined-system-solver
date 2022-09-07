@@ -72,6 +72,9 @@ def reccur_func(box, v_init, eps, extension, max_iter=10, log=False, decompositi
         if log:
             print("*****")
             print("Natural :", f_num(v_iter, box).reshape(-1))
+        for nat_ext in f_num(v_iter, box).reshape(-1):
+            if not ival.Interval([0, 0]).isInIns(nat_ext):
+                return "outside"
         if k>5:
             for i in range(n):
                 v_iter[i].scale(1.1)
@@ -399,11 +402,11 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
             area_boxes.append(all_boxes[i])
         elif temp == 'border':
             border_boxes.append(all_boxes[i])
-    print("Number of boxes = ", len(all_boxes))
+    # print("Number of boxes = ", len(all_boxes))
     return area_boxes, border_boxes
 
 
-def check_one_box(box, v_ival, extension, eps, log=False, max_iter=9, decomposition=False, strategy = "Default", grid = None, dim = None, uniform=True):
+def check_one_box(box, v_ival, extension, eps, log=False, max_iter=9, decomposition=False, strategy="Default", grid_v=None, dim_v=None, uniform_v=False):
     if strategy == "Default":
         if extension.is_elementwise:
             temp = reccur_func_elementwise(box, v_ival, eps, extension, max_iter, log=log,
@@ -412,12 +415,12 @@ def check_one_box(box, v_ival, extension, eps, log=False, max_iter=9, decomposit
             temp = reccur_func(box, v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
         print(temp)
     else:
-        grid_v = np.array(grid)
         # print(grid_v)
         grid_size = len(grid_v) - 1
         temp_list = []
         temp = "outside"
-        v_boxes = make_boxes_list(grid, dim, uniform=uniform)
+        grid_v = np.array(grid_v)
+        v_boxes = make_boxes_list(grid_v, dim_v, uniform_v)
         # print(v_boxes)
         for v in v_boxes:
             # print("v=", v)
@@ -425,7 +428,7 @@ def check_one_box(box, v_ival, extension, eps, log=False, max_iter=9, decomposit
                 v = [v[0]]
             else:
                 v = np.array(v)
-            # print(v)
+            print(v)
             temp_infl = reccur_func_enlarge(box, v, v_ival, eps, extension, max_iter, log=log,
                                             decomposition=decomposition)
             print(temp_infl)

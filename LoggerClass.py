@@ -43,8 +43,10 @@ class Logger:
                     break
         print("v_init:", self.__v_init)
         # print("Lambda", self.__ext_calcul.calculate_lam(self.__v_init, box).reshape((L, L)))
-        if self.__strategy == "Inflation":
-            check = check_one_box(box, self.__v_init, self.__ext_calcul, self.__eps, log=True, strategy=self.__strategy, grid = self.__grid_v, dim=self.__dim)
+        if self.__strategy == "Enlargement":
+            print(self.__grid_v)
+            check = check_one_box(box, self.__v_init, self.__ext_calcul, self.__eps, log=True, strategy=self.__strategy,
+                                  grid_v=self.__grid_v, dim_v=self.__dim)
         else:
             if self.__ext_calcul.is_elementwise:
                 check = reccur_func_elementwise(box, self.__v_init, self.__eps, self.__ext_calcul, log=True, decomposition=self.__decomp)

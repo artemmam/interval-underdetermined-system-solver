@@ -2,22 +2,24 @@ import sympy as sym
 import numpy as np
 import interval as ival
 import sys
-from check_box import check_box
+from check_box import check_box, check_one_box
 from ExtensionClass import ClassicalKrawczykExtension, BicenteredKrawczykExtension, HansenSenguptaExtension
 from plotter_support_functions import uni_plotter
 import matplotlib.pyplot as plt
 from LoggerClass import Logger
+import argparse
+from TestingExampleClass import Example
+import itertools as it
 
-
-def plot_circles(r1 = 3, r2 = 18, a = 5, l=6):
+def plot_circles(ax, r1 = 3, r2 = 18, a = 5, l=6):
     circle = plt.Circle((-(r2 - r1)/2, -a/2), radius=l, fc='y', fill=False)
-    plt.gca().add_patch(circle)
+    ax.add_patch(circle)
     circle = plt.Circle(((r2 - r1)/2, -a/2), radius=l, fc='y', fill=False)
-    plt.gca().add_patch(circle)
+    ax.add_patch(circle)
     circle = plt.Circle((-(r2 - r1)/2, a/2), radius=l, fc='y', fill=False)
-    plt.gca().add_patch(circle)
+    ax.add_patch(circle)
     circle = plt.Circle(((r2 - r1)/2, a/2), radius=l, fc='y', fill=False)
-    plt.gca().add_patch(circle)
+    ax.add_patch(circle)
 
 
 def symbolic_2dof_func(l1=6, l2=6, a=5, b=10.5):
@@ -35,60 +37,114 @@ def symbolic_2dof_func(l1=6, l2=6, a=5, b=10.5):
                     [-(u[0] - v[1] + b)**2 - (u[1] + a/2)**2 + l2**2]])
     return f, u, v
 
-N = 41  # The number of boxes on uniform grid
-##### 2-DOF
-left = 3
-right = 12
+
+parser = argparse.ArgumentParser(description="Angles in radians")
+parser.add_argument('-Nu', dest="Nu", type=int)
+parser.add_argument('-Nv', dest="Nv", type=int)
+parser.add_argument('--parallel', dest="parallel", action='store_true')
+parser.add_argument('--record_time', dest="record_time", action='store_true')
+parser.add_argument('--plotting', dest="plotting", action='store_true')
+parser.add_argument('-left', dest="left", type=int)
+parser.add_argument('-right', dest="right", type=int)
+
+args = parser.parse_args()
+# print(args)
+if args.parallel:
+    from mpi4py import MPI
+    comm = MPI.COMM_WORLD
+    world_size = comm.Get_size()
+    rank = comm.Get_rank()
+else:
+    rank = 0
+    world_size = 1
+N = args.Nu  # The number of boxes on uniform grid
+
+left = args.left
+right = args.right
 f_sym, u_sym, v_sym = symbolic_2dof_func(b=(right - left)/2 + left)
 v1 = ival.Interval([left, right])
 v2 = ival.Interval([left, right])
 v_ival = [v1, v2]
-u_upper = 15  # the width of the of the 2-dimensional square
-grid = np.linspace(-20, 20, N + 1)  # The vector to build size-dim. grid
-size = 2  # The dimension of uniform grid
+# borders = get_minmax_xy(f_sym, v_sym, u_sym, ang1_0 = left_v1, ang1_1 = right_v1,  ang2_0 = left_v2, ang2_1 = right_v2)
+# print(borders)
+# plot_circles(left, right)
+# plt.show()
+# sys.exit(1)
+# u_lims = 6  # the width of the of the 2-dimensional square
+# ux_lower, ux_upper, uy_lower, uy_upper = get_minmax_xy(a, b, left_v1, right_v1, left_v2, right_v2)
+u_l = -15
+u_u = 15
+u_x = [u_l, u_u]
+u_y = [u_l, u_u]
+u_lims = [u_x, u_y]
+u1 = ival.Interval([u_l, u_u])
+u2 = ival.Interval([u_l, u_u])
+u_ini = [u1, u2]
+grid_u1 = np.linspace(u_x[0], u_x[1], N + 1)  # The vector to build size-dim. grid
+grid_u2 = np.linspace(u_y[0], u_y[1], N + 1)  # The vector to build size-dim. grid
+grid_u = [grid_u1, grid_u2]
+u_dim = 2  # The dimension of uniform grid
 eps = 1e-6
+side = u1.width()/N
+eps_bnb = np.sqrt(2*side**2) - 0.1
 coef = 2
-grid_v = np.linspace(v1[0], v1[1], 10 + 1)
-
-classical_krawczyk_extension = ClassicalKrawczykExtension(f_sym, v_sym, u_sym, is_elementwise=False)
-area_boxes_classical_krawczyk, border_boxes_classical_krawczyk = check_box(grid, size, v_ival,\
-                                                                           classical_krawczyk_extension, eps)
-uni_plotter(area_boxes_classical_krawczyk, border_boxes_classical_krawczyk, u_upper, "Classical Krawczyk", size=2)
-plot_circles(left, right)
-
-# area_boxes_classical_krawczyk_infl, border_boxes_classical_krawczyk_infl = check_box(grid, size, v_ival,\
-#                                                                            classical_krawczyk_extension, eps, strategy="Inflation", grid_v=grid_v, dim_v=2)
-# uni_plotter(area_boxes_classical_krawczyk_infl, border_boxes_classical_krawczyk_infl, u_upper, "Classical Krawczyk Inflation", size=2)
-# plot_circles(left, right)
-# classical_krawczyk_extension_elementwise = ClassicalKrawczykExtension(f_sym, v_sym, u_sym, is_elementwise=True)
-# area_boxes_classical_krawczyk_elementwise, border_boxes_classical_krawczyk_elementwise = check_box(grid, size, v_ival,\
-#                                                                            classical_krawczyk_extension_elementwise, eps)
-# uni_plotter(area_boxes_classical_krawczyk_elementwise, border_boxes_classical_krawczyk_elementwise, u_upper,
-#             "Classical Krawczyk Elementwise", size=2)
-# plot_circles()
+Nv = args.Nv
+grid_v1 = np.linspace(v1[0], v1[1], Nv + 1)
+grid_v2 = np.linspace(v2[0], v2[1], Nv + 1)
+grid_v = [grid_v1, grid_v2]
+v_dim = 2
+# print(grid_v1)
+# area_params = [r1, r2, d]
+# save_fig_params = [N, Nv, r1, r2, d, args.parallel]
+save_fig_params = [N, Nv, left, right, args.parallel]
+# print(Nv, N, v_ival)
+area_params = [left, right, 5, 6]
 bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
-bicentered_krawczyk_loger = Logger(grid, size, v_ival, eps, bicentered_krawczyk_extension)
-area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk = check_box(grid, size, v_ival,\
-                                                                           bicentered_krawczyk_extension, eps)
-uni_plotter(area_boxes_bicentered_krawczyk, border_boxes_bicentered_krawczyk, u_upper, "Bicentered Krawczyk", size=2,
-            logger=bicentered_krawczyk_loger)
-plot_circles(left, right)
-
-# area_boxes_bicentered_krawczyk_infl, border_boxes_bicentered_krawczyk_infl = check_box(grid, size, v_ival,\
-#                                                                            bicentered_krawczyk_extension, eps, strategy="Inflation", grid_v=grid_v, dim_v=2)
-# uni_plotter(area_boxes_bicentered_krawczyk_infl, border_boxes_bicentered_krawczyk_infl, u_upper, "Bicentered Krawczyk Inflation", size=2)
-# plot_circles(left, right)
-
-hansen_sengupta_extension = HansenSenguptaExtension(f_sym, v_sym, u_sym, coef=1, is_elementwise=False)
-hansen_sengupta_loger = Logger(grid, size, v_ival, eps, hansen_sengupta_extension, decomp=False)
-area_boxes_hansen_sengupta, border_boxes_hansen_sengupta = check_box(grid, size, v_ival,\
-                                                                           hansen_sengupta_extension, eps, log=False, decomposition=False)
-uni_plotter(area_boxes_hansen_sengupta, border_boxes_hansen_sengupta, u_upper, "Hansen-Sengupta", size=2, logger=hansen_sengupta_loger)
-plot_circles(left, right)
-
-# area_boxes_hansen_sengupta_infl, border_boxes_hansen_sengupta_infl = check_box(grid, size, v_ival,\
-#                                                                            hansen_sengupta_extension, eps, log=False, decomposition=False,
-#                                                                      strategy="Inflation", grid_v=grid_v, dim_v=2)
-# uni_plotter(area_boxes_hansen_sengupta_infl, border_boxes_hansen_sengupta_infl, u_upper, "Hansen-Sengupta Inflation", size=2, logger=hansen_sengupta_loger)
-plot_circles(left, right)
-plt.show()
+#**********
+# box = [ival.Interval([1.5, 2.25]), ival.Interval([0.0, 0.75])]
+# temp = check_one_box(box, v_ival, bicentered_krawczyk_extension, eps, log=True, max_iter=9, decomposition=False, strategy = "Enlargement", grid_v = grid_v, dim_v= 2, uniform_v=False)
+# print(temp)
+# sys.exit(1)
+#**********
+#####
+# Bicentered_Krawczyk_Enlargment_V = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False, strategy="Enlargment")
+#
+# area_boxes, border_boxes = Bicentered_Krawczyk_Enlargment_V.check_box_branch(u_ini, v_ival, eps1=eps, eps2=8, grid_v=grid_v, v_dim=v_dim,
+#                                            uniform_v=False)
+# print("Enlargment V time bisection, ", Bicentered_Krawczyk_Enlargment_V.time)
+# Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area,
+#                                           area_params=area_params, save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment_V_2RPR_branch")
+######
+# Bicentered_Krawczyk_Enlargment_V_bnb = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False, strategy="Enlargment")
+#
+# area_boxes, border_boxes = Bicentered_Krawczyk_Enlargment_V_bnb.check_box_branch(u_ini, v_ival, eps1=eps, eps2=8, eps3=1.7, mod="BNB")
+# print("Enlargment BNB V time bisection, ", Bicentered_Krawczyk_Enlargment_V_bnb.time)
+# Bicentered_Krawczyk_Enlargment_V_bnb.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area,
+#                                           area_params=area_params, save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment_V BNB_2RPR_branch")
+######
+Bicentered_Krawczyk_Default = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False, strategy="Default")
+BicLoggerPlot = Logger(grid_u, u_dim, v_ival, eps, bicentered_krawczyk_extension, uniform_u=False,
+                       strategy="Enlargement", grid_v=grid_v, dim=v_dim,
+                       )
+#
+# area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box_branch(u_ini, v_ival, eps1=eps, eps2=eps_bnb)
+# print("Default V time bisection, ", Bicentered_Krawczyk_Default.time)
+# Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_circles, area_params=area_params, save_fig=args.plotting, title = "Bicentered_Krawczyk_Default_2RPR branch")
+# ####
+area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box(grid_u, u_dim, v_ival, eps, uniform_u=False)
+# print("Default V time basic, ", Bicentered_Krawczyk_Default.time)
+Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_circles, area_params=area_params,
+                                     save_fig=args.plotting, title = "Bicentered_Krawczyk_Default_2-DOF", logger=BicLoggerPlot)
+#####
+# Bicentered_Krawczyk_Enlargment_V = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False, strategy="Enlargement")
+#
+# area_boxes, border_boxes = Bicentered_Krawczyk_Enlargment_V.check_box(grid_u, u_dim, v_ival, eps=eps, grid_v=grid_v, v_dim=v_dim,
+#                                            uniform_v=False)
+# Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_circles, area_params=area_params, save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment_2-DOF")
+# if rank == 0:
+#     print("Enlargment V time, ", Bicentered_Krawczyk_Enlargment_V.time)
+#     Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment_simple_DexTar")
+#     save_boxes("dextar_simple_inside_" + str(N) + "_" + str(Nv) + ".txt", area_boxes)
+#     save_boxes("dextar_simple_border_" + str(N) + "_" + str(Nv) + ".txt", border_boxes)
+if not args.parallel:
+    plt.show()
