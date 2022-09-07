@@ -123,24 +123,24 @@ bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym,
 #                                           area_params=area_params, save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment_V BNB_2RPR_branch")
 ######
 Bicentered_Krawczyk_Default = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False, strategy="Default")
-BicLoggerPlot = Logger(grid_u, u_dim, v_ival, eps, bicentered_krawczyk_extension, uniform_u=False,
-                       strategy="Enlargement", grid_v=grid_v, dim=v_dim,
-                       )
+# BicLoggerPlot = Logger(grid_u, u_dim, v_ival, eps, bicentered_krawczyk_extension, uniform_u=False,
+#                        strategy="Enlargement", grid_v=grid_v, dim=v_dim,
+#                        )
 #
 # area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box_branch(u_ini, v_ival, eps1=eps, eps2=eps_bnb)
 # print("Default V time bisection, ", Bicentered_Krawczyk_Default.time)
 # Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_circles, area_params=area_params, save_fig=args.plotting, title = "Bicentered_Krawczyk_Default_2RPR branch")
 # ####
-area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box(grid_u, u_dim, v_ival, eps, uniform_u=False)
+# area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box(grid_u, u_dim, v_ival, eps, uniform_u=False)
 # print("Default V time basic, ", Bicentered_Krawczyk_Default.time)
-Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_circles, area_params=area_params,
-                                     save_fig=args.plotting, title = "Bicentered_Krawczyk_Default_2-DOF", logger=BicLoggerPlot)
+# Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_circles, area_params=area_params,
+#                                      save_fig=args.plotting, title = "Bicentered_Krawczyk_Default_2-DOF")
 #####
-# Bicentered_Krawczyk_Enlargment_V = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False, strategy="Enlargement")
+Bicentered_Krawczyk_Enlargment_V = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False, strategy="Enlargement")
 #
-# area_boxes, border_boxes = Bicentered_Krawczyk_Enlargment_V.check_box(grid_u, u_dim, v_ival, eps=eps, grid_v=grid_v, v_dim=v_dim,
-#                                            uniform_v=False)
-# Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_circles, area_params=area_params, save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment_2-DOF")
+area_boxes, border_boxes = Bicentered_Krawczyk_Enlargment_V.check_box(grid_u, u_dim, v_ival, eps=eps, grid_v=grid_v, v_dim=v_dim,
+                                           uniform_v=False)
+Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_circles, area_params=area_params, save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment_2-DOF")
 # if rank == 0:
 #     print("Enlargment V time, ", Bicentered_Krawczyk_Enlargment_V.time)
 #     Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment_simple_DexTar")
