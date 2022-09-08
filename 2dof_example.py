@@ -6,7 +6,7 @@ from check_box import check_box, check_one_box
 from ExtensionClass import ClassicalKrawczykExtension, BicenteredKrawczykExtension, HansenSenguptaExtension
 from plotter_support_functions import uni_plotter
 import matplotlib.pyplot as plt
-from LoggerClass import Logger
+# from LoggerClass import Logger
 import argparse
 from TestingExampleClass import Example
 import itertools as it
