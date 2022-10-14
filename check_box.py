@@ -518,7 +518,7 @@ def check_box_branch_parallel(ini_box, v_ival, extension, eps, eps_bnb, log=Fals
     mq = mpi_queue()
     if strategy == "Default":
         if mq.flag_main:
-            mq.set_function(reccur_func)
+            mq.set_function("")
             mq.set_args(queueu, args, eps_bnb)
             mq.execute()
             area_boxes = mq.results[0]
