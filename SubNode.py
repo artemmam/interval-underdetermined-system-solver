@@ -1,6 +1,6 @@
 from mpi4py import MPI
 import time
-
+from check_box import reccur_func
 
 class _result_wrapper:
     """ A wrapper for result object """
@@ -81,7 +81,7 @@ class SubNode:
             print('[node %d] execute task: %s' % (self.rank, task.args))
         flag = True
         try:
-            res = task.function(*task.args)
+            res = reccur_func(*task.args)
             if self.debug:
                 print('[node %d] task done: %s' % (self.rank, task.args))
         except:
