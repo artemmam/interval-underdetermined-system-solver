@@ -2,7 +2,23 @@ from mpi4py import MPI
 import time
 from check_box import reccur_func
 from ExtensionClass import BicenteredKrawczykExtension
-from dextar_transformed_example import symbolic_transformed_dextar_func
+import sympy as sym
+from sympy import sin, cos
+
+def symbolic_transformed_dextar_func(a, b, d=8):
+    """
+    Creating symbol variables for circle eq. system
+    :return: symbolic eq. system,
+            symbolic U (fixed boxes),
+            symbolic V (checking boxes),
+            symbolic Vmid,
+            symbolic C
+    """
+    v = sym.symbols('v1, v2')
+    u = sym.symbols('u1, u2')
+    f = sym.Matrix([[(u[0] + d/2 - a*cos(v[0]))**2 + (u[1] - a*sin(v[0]))**2 - b**2],
+                    [(u[0] - d/2 - a*cos(v[1]))**2 + (u[1] - a*sin(v[1]))**2 - b**2]])
+    return f, u, v
 
 class _result_wrapper:
     """ A wrapper for result object """
