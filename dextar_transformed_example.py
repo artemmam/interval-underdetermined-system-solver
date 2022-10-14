@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import argparse
 from TestingExampleClass import Example
 import itertools as it
+# from LoggerClass import Logger
 
 
 def save_boxes(name, boxes):
@@ -48,42 +49,15 @@ def get_coordinates(al, beta, a=8, b=5, d=9):
 #     return x, y
 
 
-def plot_area(f, v, u, ang1_0 = None, ang1_1 = None,  ang2_0 = None, ang2_1 = None):
-    # circle = plt.Circle((0, 0), radius=abs(a - b), fc='y', fill=False)
-    # plt.gca().add_patch(circle)
-    # circle = plt.Circle((0, 0), radius=a + b, fc='y', fill=False)
-    # plt.gca().add_patch(circle)
-    A = list(it.product([ang1_0, ang1_1], [ang2_0, ang2_1]))
-    dots = []
-    # for el in A:
-    #     sol = nonlinsolve()
-    #     # XY = get_coordinates(*el, a, b)
-    #     dots.append(XY)
-    dots = np.array(dots)
-    print(dots)
-    # ang1 = angle(dots[0], dots[2])
-    # ang2 = angle(dots[1], dots[3])
-    # r1 = distance(0, 0, *dots[0])
-    # r2 = distance(0, 0, *dots[1])
-    # ang3 = angle(dots[0], (r1, 0))
-    # ang4 = angle(dots[1], (r2, 0))
-    # print(ang3, ang3 + ang1)
-    # arc1 = Arc((0, 0), 2 * r1, 2 * r1, 0, ang3, ang3 + ang1, color='red', lw=1)
-    # ax1.add_patch(arc1)
-    # print(ang4, ang4 + ang2)
-    # arc2 = Arc((0, 0), 2 * r2, 2 * r2, 0, ang4, ang4 + ang2, color='red', lw=1)
-    # ax1.add_patch(arc2)
-    # ax1.scatter(dots[::, 0], dots[::, 1], color="red")
-    # dots_bar1 = []
-    # for el in [ang1_0, ang1_1]:
-    #     dots_bar1.append(get_coordinates_first_bar(el, a))
-    # r1_bar1 = distance(*dots_bar1[0], *dots[0])
-    # arc3 = Arc(dots_bar1[0], 2 * r1_bar1, 2 * r1_bar1, 0, math.degrees(ang1_0 + ang2_0), math.degrees(ang2_1 + ang1_0), color='red', lw=1)
-    # ax1.add_patch(arc3)
-    # r2_bar1 = distance(*dots_bar1[1], *dots[2])
-    # arc4 = Arc(dots_bar1[1], 2 * r2_bar1, 2 * r2_bar1, 0, math.degrees(ang1_1 + ang2_0), math.degrees(ang1_1 + ang2_1),
-    #            color='red', lw=1)
-    # ax1.add_patch(arc4)
+def plot_area(ax, params=[]):
+    circle = plt.Circle((0, 0), radius=3, fc='y', fill=False)
+    circle1 = plt.Circle((9, 0), radius=3, fc='y', fill=False)
+    ax.add_patch(circle)
+    ax.add_patch(circle1)
+    circle = plt.Circle((0, 0), radius=13, fc='y', fill=False)
+    circle1 = plt.Circle((9, 0), radius=13, fc='y', fill=False)
+    ax.add_patch(circle)
+    ax.add_patch(circle1)
 
 
 def get_minmax_xy(f_sym, v_sym, u_sym, ang1_0 = None, ang1_1 = None,  ang2_0 = None, ang2_1 = None):
@@ -218,24 +192,33 @@ bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym,
 # Bicentered_Krawczyk_Enlargment_V_bnb.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area,
 #                                           area_params=area_params, save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment_V BNB_2RPR_branch")
 ######
-# Bicentered_Krawczyk_Default = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False, strategy="Default")
+Bicentered_Krawczyk_Default = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False, strategy="Default")
+# BicLoggerPlot = Logger(grid_u, u_dim, v_ival, eps, bicentered_krawczyk_extension, uniform_u=False,
+#                        strategy="Default", grid_v=grid_v, dim=v_dim, decomp=True
+#                        )
 #
-# area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box_branch(u_ini, v_ival, eps1=eps, eps2=eps_bnb)
+area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box_branch(u_ini, v_ival, eps_krawczyk=eps, eps_bnb=eps_bnb)
 # print("Default V time bisection, ", Bicentered_Krawczyk_Default.time)
-# Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims, save_fig=args.plotting, title = "Bicentered_Krawczyk_Default_2RPR branch")
+Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area, area_params=[], save_fig=args.plotting, title = "Bicentered_Krawczyk_DexTar branch")
+print("BnB time, ", Bicentered_Krawczyk_Default.time)
 # ####
-# area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box(grid_u, u_dim, v_ival, eps, uniform_u=False)
-# print("Default V time basic, ", Bicentered_Krawczyk_Default.time)
-# Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims, save_fig=args.plotting, title = "Bicentered_Krawczyk_Default_DexTar basic")
-#####
-Bicentered_Krawczyk_Enlargment_V = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False, strategy="Enlargement")
 
-area_boxes, border_boxes = Bicentered_Krawczyk_Enlargment_V.check_box(grid_u, u_dim, v_ival, eps=eps, grid_v=grid_v, v_dim=v_dim,
-                                           uniform_v=False)
+# area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box_branch(u_ini, v_ival, eps_krawczyk=eps, eps_bnb=eps_bnb ,decomposition=True)
+# print("BnB decomposition time, ", Bicentered_Krawczyk_Default.time)
+# Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area, area_params=[],
+#                                      save_fig=args.plotting, title="Bicentered_Krawczyk_Decomposition_DexTar branch")
+# #####
+# Bicentered_Krawczyk_Enlargment_V = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False, strategy="Enlargement")
+# #
+# area_boxes, border_boxes = Bicentered_Krawczyk_Enlargment_V.check_box_branch(u_ini, v_ival, eps_krawczyk=eps, eps_bnb=eps_bnb, grid_v=grid_v, v_dim=v_dim,
+#                                            uniform_v=False)
+# print("BnB enlargement time, ", Bicentered_Krawczyk_Enlargment_V.time)
+# Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area, area_params=[], save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment DexTar branch")
 if rank == 0:
-    print("Enlargment V time, ", Bicentered_Krawczyk_Enlargment_V.time)
-    Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment_simple_DexTar")
-    save_boxes("dextar_simple_inside_" + str(N) + "_" + str(Nv) + ".txt", area_boxes)
-    save_boxes("dextar_simple_border_" + str(N) + "_" + str(Nv) + ".txt", border_boxes)
+    ...
+    # print("Enlargment V time, ", Bicentered_Krawczyk_Enlargment_V.time)
+    # Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment_simple_DexTar")
+#     save_boxes("dextar_simple_inside_" + str(N) + "_" + str(Nv) + ".txt", area_boxes)
+#     save_boxes("dextar_simple_border_" + str(N) + "_" + str(Nv) + ".txt", border_boxes)
 if not args.parallel:
     plt.show()

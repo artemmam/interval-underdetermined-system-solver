@@ -1,4 +1,4 @@
-from check_box import check_box_parallel, check_box, check_box_branch
+from check_box import check_box_parallel, check_box, check_box_branch, check_box_branch_parallel
 import matplotlib.pyplot as plt
 from plotter_support_functions import uni_plotter
 from timeit import default_timer as timer
@@ -29,33 +29,33 @@ class Example:
         with open("./boxes/" + title, "w+") as outfile:
             outfile.write("\n".join(boxes))
 
-    def check_box(self, grid_u, dim_u, v_ival, eps, grid_v=None, v_dim=None, uniform_u=None, uniform_v=None):
+    def check_box(self, grid_u, dim_u, v_ival, eps, grid_v=None, v_dim=None, uniform_u=None, uniform_v=None, decomposition=False):
         start = timer()
         if self.parallel:
             area_boxes, border_boxes = check_box_parallel(grid_u, dim_u, v_ival, \
                                self.extension, eps,
                                strategy=self.strategy, dim_v=v_dim,
-                               grid_v=grid_v, uniform_u=uniform_u, uniform_v=uniform_v, path = self.path)
+                               grid_v=grid_v, uniform_u=uniform_u, uniform_v=uniform_v, path = self.path, decomposition=decomposition)
         else:
             area_boxes, border_boxes = check_box(grid_u, dim_u, v_ival, \
                                self.extension, eps,
                                strategy=self.strategy, dim_v=v_dim,
-                               grid_v=grid_v, uniform_u=uniform_u, uniform_v=uniform_v, log=self.log)
+                               grid_v=grid_v, uniform_u=uniform_u, uniform_v=uniform_v, log=self.log, decomposition=decomposition)
         end = timer()
         self.time = end - start
         return area_boxes, border_boxes
 
-    def check_box_branch(self, box, v_ival, eps1, eps2, eps3=None, mod="Default", decomposition=False, grid_v=None, v_dim=None, uniform_v=None):
+    def check_box_branch(self, box, v_ival, eps_krawczyk, eps_bnb, mod="Default", decomposition=False, grid_v=None, v_dim=None, uniform_v=None):
         start = timer()
         if self.parallel:
-            area_boxes, border_boxes = check_box_branch(box, v_ival, \
-                               self.extension, eps1, eps2,
+            area_boxes, border_boxes = check_box_branch_parallel(box, v_ival, \
+                               self.extension, eps=eps_krawczyk, eps_bnb=eps_bnb,
                                strategy=self.strategy, dim_v=v_dim,
                                grid_v=grid_v, uniform_v=uniform_v)
         else:
             area_boxes, border_boxes = check_box_branch(box, v_ival, \
-                               self.extension, eps1, eps2, eps2=eps3,
-                               strategy=self.strategy, decomposition=decomposition, mod=mod, dim_v=v_dim,
+                               self.extension, eps=eps_krawczyk, eps_bnb=eps_bnb,
+                               strategy=self.strategy, decomposition=decomposition, dim_v=v_dim,
                                grid_v=grid_v, uniform_v=uniform_v)
         end = timer()
         self.time = end - start
