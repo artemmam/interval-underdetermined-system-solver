@@ -1,6 +1,8 @@
 from mpi4py import MPI
 import time
 from check_box import reccur_func
+from ExtensionClass import BicenteredKrawczykExtension
+from dextar_transformed_example import symbolic_transformed_dextar_func
 
 class _result_wrapper:
     """ A wrapper for result object """
@@ -81,7 +83,11 @@ class SubNode:
             print('[node %d] execute task: %s' % (self.rank, task.args))
         flag = True
         try:
-            res = reccur_func(*task.args)
+            a, b, d = 8, 5, 9
+            coef = 2
+            f_sym, u_sym, v_sym = symbolic_transformed_dextar_func(a, b, d)
+            args = task.args + BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
+            res = reccur_func(*args)
             if self.debug:
                 print('[node %d] task done: %s' % (self.rank, task.args))
         except:
