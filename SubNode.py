@@ -102,7 +102,9 @@ class SubNode:
             a, b, d = 8, 5, 9
             coef = 2
             f_sym, u_sym, v_sym = symbolic_transformed_dextar_func(a, b, d)
-            args = task.args + BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
+            # args = task.args + BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
+            args = task.args
+            args.append(BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False))
             res = reccur_func(*args)
             if self.debug:
                 print('[node %d] task done: %s' % (self.rank, task.args))
