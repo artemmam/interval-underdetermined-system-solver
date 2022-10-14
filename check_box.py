@@ -512,7 +512,7 @@ def check_box_branch_parallel(ini_box, v_ival, extension, eps, eps_bnb, log=Fals
     # print("World size: ", comm.Get_size())
     queueu = []
     queueu.append(ini_box)
-    args = [v_ival, eps, extension, max_iter]
+    args = [v_ival, eps, max_iter]
     # print(all_boxes[81])
     s = 0
     mq = mpi_queue()
