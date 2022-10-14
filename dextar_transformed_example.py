@@ -50,12 +50,12 @@ def get_coordinates(al, beta, a=8, b=5, d=9):
 
 
 def plot_area(ax, params=[]):
-    circle = plt.Circle((0, 0), radius=3, fc='y', fill=False)
-    circle1 = plt.Circle((9, 0), radius=3, fc='y', fill=False)
+    circle = plt.Circle((-4.5, 0), radius=3, fc='y', fill=False)
+    circle1 = plt.Circle((4.5, 0), radius=3, fc='y', fill=False)
     ax.add_patch(circle)
     ax.add_patch(circle1)
-    circle = plt.Circle((0, 0), radius=13, fc='y', fill=False)
-    circle1 = plt.Circle((9, 0), radius=13, fc='y', fill=False)
+    circle = plt.Circle((-4.5, 0), radius=13, fc='y', fill=False)
+    circle1 = plt.Circle((4.5, 0), radius=13, fc='y', fill=False)
     ax.add_patch(circle)
     ax.add_patch(circle1)
 
@@ -90,8 +90,8 @@ def symbolic_transformed_dextar_func(a, b, d=8):
     """
     v = sym.symbols('v1, v2')
     u = sym.symbols('u1, u2')
-    f = sym.Matrix([[(u[0] - a*cos(v[0]))**2 + (u[1] - a*sin(v[0]))**2 - b**2],
-                    [(u[0] - d - a*cos(v[1]))**2 + (u[1] - a*sin(v[1]))**2 - b**2]])
+    f = sym.Matrix([[(u[0] + d/2 - a*cos(v[0]))**2 + (u[1] - a*sin(v[0]))**2 - b**2],
+                    [(u[0] - d/2 - a*cos(v[1]))**2 + (u[1] - a*sin(v[1]))**2 - b**2]])
     return f, u, v
 
 # N = 30  # The number of boxes on uniform grid

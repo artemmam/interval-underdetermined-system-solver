@@ -1,7 +1,6 @@
 import interval as ival
 import numpy as np
 import itertools as it
-from MPI_queue import mpi_queue
 from timeit import default_timer as timer
 # from pathos.multiprocessing import ProcessingPool as Pool
 # import dill  # the code below will fail without this line
@@ -503,6 +502,7 @@ def check_box_branch_parallel(ini_box, v_ival, extension, eps, eps_bnb, log=Fals
     # from mpi4py import MPI
     # from mpi4py.futures import MPIPoolExecutor, MPICommExecutor
     # comm = MPI.COMM_WORLD
+    from MPI_queue import mpi_queue
     area_boxes = []
     border_boxes = []
     # with MPICommExecutor(MPI.COMM_WORLD, root=0) as executor:
