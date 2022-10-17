@@ -218,8 +218,9 @@ area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box_branch(u_ini, v
 # print("BnB enlargement time, ", Bicentered_Krawczyk_Enlargment_V.time)
 # Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area, area_params=[], save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment DexTar branch")
 if rank == 0:
-    print("Num procs", world_size)
+    print("Grid size: ", N)
     print("Decomposition epsilon", args.eps_decomp)
+    print("Num procs", world_size)
     print("BnB time, ", Bicentered_Krawczyk_Default.time)
     Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area, area_params=[],
                                          save_fig_params=save_fig_params,
