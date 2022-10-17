@@ -119,7 +119,7 @@ class mpi_queue:
 			if function_analysis != '':
 				self.function_analysis = function_analysis
 
-	def set_args(self, queue, args, eps_bnb):
+	def set_args(self, queue, args, eps_bnb, type="Default", v_boxes=[]):
 		""" Set queues
 
 		Parameters
@@ -156,6 +156,8 @@ class mpi_queue:
 			self.args = args
 			self.queue = queue
 			self.eps_bnb = eps_bnb
+			self.type = type
+			self.v_boxes = v_boxes
 			#self.node.queues = args
 
 	def initialize(self):
@@ -165,7 +167,7 @@ class mpi_queue:
 										  queue=self.queue,
 										  function_init=self.function_init,
 										  function_analysis=self.function_analysis,
-										  debug=self.debug, eps_bnb = self.eps_bnb)
+										  debug=self.debug, eps_bnb = self.eps_bnb, type=self.type, v_boxes=self.v_boxes)
 
 	def execute(self):
 		""" Main job execution

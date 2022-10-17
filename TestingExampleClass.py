@@ -2,6 +2,7 @@ from check_box import check_box_parallel, check_box, check_box_branch, check_box
 import matplotlib.pyplot as plt
 from plotter_support_functions import uni_plotter
 from timeit import default_timer as timer
+import numpy as np
 
 class Example:
     def __init__(self, extension, parallel=False, record_time=False, strategy="Default", name="", path ="1", log=False):
@@ -45,11 +46,12 @@ class Example:
         self.time = end - start
         return area_boxes, border_boxes
 
-    def check_box_branch(self, box, v_ival, eps_krawczyk, eps_bnb, mod="Default", decomposition=False, grid_v=None, v_dim=None, uniform_v=None):
+    def check_box_branch(self, box, v_ival, eps_krawczyk, eps_bnb, mod="Default", decomposition=False, eps_decomp=np.pi/3,
+                         grid_v=None, v_dim=None, uniform_v=None):
         start = timer()
         if self.parallel:
             area_boxes, border_boxes = check_box_branch_parallel(box, v_ival, \
-                               self.extension, eps=eps_krawczyk, eps_bnb=eps_bnb,
+                               self.extension, eps=eps_krawczyk, eps_bnb=eps_bnb, eps_decomp=eps_decomp,
                                strategy=self.strategy, dim_v=v_dim,
                                grid_v=grid_v, uniform_v=uniform_v)
         else:

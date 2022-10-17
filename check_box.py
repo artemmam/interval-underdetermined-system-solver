@@ -487,7 +487,7 @@ def check_box_branch(ini_box, v_ival, extension, eps, eps_bnb, log=False, max_it
     return area_boxes, border_boxes
 
 
-def check_box_branch_parallel(ini_box, v_ival, extension, eps, eps_bnb, log=False, max_iter=10, decomposition=False, strategy = "Default",
+def check_box_branch_parallel(ini_box, v_ival, extension, eps, eps_bnb, eps_decomp, log=False, max_iter=10, decomposition=False, strategy = "Default",
               grid_v = None, dim_v=None, uniform_v = True):
     """
     Function for checking boxes on dim-dimensional uniform grid with checker method
@@ -510,16 +510,24 @@ def check_box_branch_parallel(ini_box, v_ival, extension, eps, eps_bnb, log=Fals
     #     if executor is not None:
     # print("Executor rank: ", comm.Get_rank())
     # print("World size: ", comm.Get_size())
-    queueu = []
-    queueu.append(ini_box)
-    args = [v_ival, eps]
+    queue = []
+    queue.append(ini_box)
+    # args = [v_ival, eps]
+    if strategy == "Default":
+        args = {"v_init": v_ival, "eps": eps, "max_iter": max_iter, "log": log,
+                "decomposition": decomposition, "eps_decomp": eps_decomp}
+        v_boxes = []
+    else:
+        args = {"v_ival": v_ival, "eps": eps, "max_iter": max_iter, "log": log}
+        grid_v = np.array(grid_v)
+        v_boxes = make_boxes_list(grid_v, dim_v, uniform_v)
     # print(all_boxes[81])
     s = 0
     mq = mpi_queue()
     if strategy == "Default":
         if mq.flag_main:
             mq.set_function("")
-            mq.set_args(queueu, args, eps_bnb)
+            mq.set_args(queue=queue, args=args, eps_bnb=eps_bnb, type=strategy, v_boxes=v_boxes)
             mq.execute()
             area_boxes = mq.results[0]
             border_boxes = mq.results[1]

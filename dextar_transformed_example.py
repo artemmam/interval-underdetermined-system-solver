@@ -116,6 +116,7 @@ parser.add_argument('--record_time', dest="record_time", action='store_true')
 parser.add_argument('--plotting', dest="plotting", action='store_true')
 parser.add_argument('-v1', dest="v1", type=str)
 parser.add_argument('-v2', dest="v2", type=str)
+parser.add_argument('-e_d', dest="eps_decomp", type=int)
 
 args = parser.parse_args()
 # print(args)
@@ -134,6 +135,7 @@ left_v1 = math.radians(v1_0)
 right_v1 = math.radians(v1_1)
 left_v2 = math.radians(v2_0)
 right_v2 = math.radians(v2_1)
+eps_decomp = math.radians(args.eps_decomp)
 a, b, d = 8, 5, 9
 f_sym, u_sym, v_sym = symbolic_transformed_dextar_func(a, b, d)
 v1 = ival.Interval([left_v1, right_v1])
@@ -197,7 +199,8 @@ Bicentered_Krawczyk_Default = Example(bicentered_krawczyk_extension, parallel=ar
 #                        strategy="Default", grid_v=grid_v, dim=v_dim, decomp=True
 #                        )
 #
-area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box_branch(u_ini, v_ival, eps_krawczyk=eps, eps_bnb=eps_bnb)
+area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box_branch(u_ini, v_ival, eps_krawczyk=eps, eps_bnb=eps_bnb,
+                                                                        eps_decomp=eps_decomp, decomposition=True)
 # print("Default V time bisection, ", Bicentered_Krawczyk_Default.time)
 
 

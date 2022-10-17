@@ -6,11 +6,11 @@ from check_box import diam, separate_box
 class _task_wrapper:
 	""" A wrapper for result object """
 
-	def __init__(self, function, item, args):
+	def __init__(self, function, item, args, type):
 		self.function = function
-		self.args = [item] + args
+		self.args = args
 		self.item = item
-
+		self.type = type
 
 class MainNode:
 	""" MainNode module
@@ -19,7 +19,7 @@ class MainNode:
 	"""
 
 	def __init__(self, function, queue=[], args=[], function_init='',
-				 function_analysis='', debug=False, eps_bnb = 1):
+				 function_analysis='', debug=False, eps_bnb = 1, type="Default", v_boxes=[]):
 		""" Main node cycle
 
 		Parameters
@@ -69,6 +69,8 @@ class MainNode:
 		self.inside_boxes = []
 		self.border_boxes = []
 		self.eps_bnb = eps_bnb
+		self.type = type
+		self.v_boxes = v_boxes
 		# initialize
 		if self.function_init != '':
 			self.function_init(self)
@@ -137,7 +139,7 @@ class MainNode:
 			self.queues = self.queues[1:]
 			args = self.args
 			self._send_control_signal(src, 'task')
-			self.comm.send(_task_wrapper(self.function, item, args), dest=src, tag=1)
+			self.comm.send(_task_wrapper(self.function, item, args, self.type, self.v_boxes), dest=src, tag=1)
 			self.working_node[src] = time.time()
 
 	def _receive_result(self):

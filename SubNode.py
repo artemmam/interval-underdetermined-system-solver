@@ -1,6 +1,6 @@
 from mpi4py import MPI
 import time
-from check_box import reccur_func
+from check_box import reccur_func, reccur_func_enlarge
 from ExtensionClass import BicenteredKrawczykExtension
 import sympy as sym
 from sympy import sin, cos
@@ -100,16 +100,43 @@ class SubNode:
             print('[node %d] execute task: %s' % (self.rank, task.args))
         flag = True
         try:
-            a, b, d = 8, 5, 9
-            coef = 2
-            f_sym, u_sym, v_sym = symbolic_transformed_dextar_func(a, b, d)
-            # args = task.args + BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
-            args = task.args
-            args.append(BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False))
-            args.extend([10, False, True, np.pi/6])
-            res = reccur_func(*args)
-            if self.debug:
-                print('[node %d] task done: %s' % (self.rank, task.args))
+            if task.type == "Default":
+                a, b, d = 8, 5, 9
+                coef = 2
+                f_sym, u_sym, v_sym = symbolic_transformed_dextar_func(a, b, d)
+                # args = task.args + BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
+                args = task.args
+                args["box"] = task.item
+                args["extension"] = BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
+                res = reccur_func(**args)
+                if self.debug:
+                    print('[node %d] task done: %s' % (self.rank, task.args))
+            else:
+                temp_list = []
+                a, b, d = 8, 5, 9
+                coef = 2
+                f_sym, u_sym, v_sym = symbolic_transformed_dextar_func(a, b, d)
+                args = task.args
+                args["box"] = task.item
+                args["extension"] = BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef,
+                                                                is_elementwise=False)
+                res = "outside"
+                for v in task.v_boxes:
+                    if len(v) == 1:
+                        v = [v[0]]
+                    else:
+                        v = np.array(v)
+                    args["v_init"] = v
+                    temp_infl = reccur_func_enlarge(**args)
+                    if temp_infl == "inside":
+                        res = "inside"
+                        break
+                    else:
+                        temp_list.append(temp_infl)
+                if res != "inside":
+                    check = [True if temp_list[i] == "border" else False for i in range(len(temp_list))]
+                    if np.any(check):
+                        res = "border"
         except:
             flag = False
         if flag:
