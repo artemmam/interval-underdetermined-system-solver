@@ -6,12 +6,12 @@ from check_box import diam, separate_box
 class _task_wrapper:
 	""" A wrapper for result object """
 
-	def __init__(self, function, item, args, type):
+	def __init__(self, function, item, args, type, v_boxes):
 		self.function = function
 		self.args = args
 		self.item = item
 		self.type = type
-
+		self.v_boxes = v_boxes
 class MainNode:
 	""" MainNode module
 
