@@ -129,7 +129,8 @@ class MainNode:
 
 	def _send_task(self, src):
 		if self.queues == []:
-			print('[main] empty queue')
+			if self.debug:
+				print('[main] empty queue')
 			self._send_control_signal(src, 'wait')
 		else:
 			item = self.queues[0]
