@@ -106,7 +106,7 @@ class SubNode:
             # args = task.args + BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
             args = task.args
             args.append(BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False))
-            args.extend([10, False, True, np.pi/3])
+            args.extend([10, False, True, np.pi/6])
             res = reccur_func(*args)
             if self.debug:
                 print('[node %d] task done: %s' % (self.rank, task.args))
