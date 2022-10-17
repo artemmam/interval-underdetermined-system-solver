@@ -52,7 +52,7 @@ class Example:
         if self.parallel:
             area_boxes, border_boxes = check_box_branch_parallel(box, v_ival, \
                                self.extension, eps=eps_krawczyk, eps_bnb=eps_bnb, eps_decomp=eps_decomp,
-                               strategy=self.strategy, dim_v=v_dim,
+                               strategy=self.strategy, dim_v=v_dim, decomposition=decomposition,
                                grid_v=grid_v, uniform_v=uniform_v)
         else:
             area_boxes, border_boxes = check_box_branch(box, v_ival, \
