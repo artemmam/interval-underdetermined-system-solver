@@ -533,7 +533,8 @@ def check_box_branch_parallel(ini_box, v_ival, extension, eps, eps_bnb, eps_deco
             border_boxes = mq.results[1]
             # time.sleep(1)
             # print ('RESULTS:', mq.results)
-            print ('ERRORS:', mq.errors)
+            if log:
+                print ('ERRORS:', mq.errors)
         else:
             mq.execute()
     #

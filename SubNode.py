@@ -72,7 +72,8 @@ class SubNode:
                 if self.debug:
                     print('[node %s] receiving TASK signal' % self.rank)
                 self._execute_task()
-        print('[node %s] TERMINATED' % self.rank)
+        if self.debug:
+            print('[node %s] TERMINATED' % self.rank)
 
     def _send_status_signal(self, signal):
         """ Send status signal to the main node"""
