@@ -219,10 +219,12 @@ area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box_branch(u_ini, v
 # Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area, area_params=[], save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment DexTar branch")
 if rank == 0:
     print("Num procs", world_size)
+    print("Decomposition epsilon", args.eps_decomp)
     print("BnB time, ", Bicentered_Krawczyk_Default.time)
     Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area, area_params=[],
                                          save_fig_params=save_fig_params,
                                          save_fig=args.plotting, title="Bicentered_Krawczyk_DexTar branch")
+    Bicentered_Krawczyk_Default.write_time("simple_dextar_bnb_parallel_time_test", N, world_size, args.eps_decomp)
     # print("Enlargment V time, ", Bicentered_Krawczyk_Enlargment_V.time)
     # Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment_simple_DexTar")
 #     save_boxes("dextar_simple_inside_" + str(N) + "_" + str(Nv) + ".txt", area_boxes)

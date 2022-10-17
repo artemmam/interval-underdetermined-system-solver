@@ -21,9 +21,9 @@ class Example:
         self.path = path
         self.log = log
 
-    def write_time(self, file, rank, size, n, time):
+    def write_time(self, file, size, n, eps_bnb=None):
         f = open(file + ".txt", "a+")
-        f.write(str(rank) + str(size) + ", " + str(n) + ", " + str(time) + "\n")
+        f.write(str(size) + ", " + str(n) + ", " + str(eps_bnb) + ", " + str(self.time) + "\n")
         f.close()
 
     def save_boxes(self, title, boxes):
@@ -56,7 +56,7 @@ class Example:
                                grid_v=grid_v, uniform_v=uniform_v)
         else:
             area_boxes, border_boxes = check_box_branch(box, v_ival, \
-                               self.extension, eps=eps_krawczyk, eps_bnb=eps_bnb,
+                               self.extension, eps=eps_krawczyk, eps_bnb=eps_bnb, eps_decomp=eps_decomp,
                                strategy=self.strategy, decomposition=decomposition, dim_v=v_dim,
                                grid_v=grid_v, uniform_v=uniform_v)
         end = timer()

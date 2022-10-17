@@ -419,7 +419,7 @@ def check_one_box(box, v_ival, extension, eps, log=False, max_iter=9, decomposit
     return temp
 
 
-def check_box_branch(ini_box, v_ival, extension, eps, eps_bnb, log=False, max_iter=10, decomposition=False, strategy="Default",
+def check_box_branch(ini_box, v_ival, extension, eps, eps_bnb, eps_decomp, log=False, max_iter=10, decomposition=False, strategy="Default",
               grid_v = None, dim_v=None, uniform_v = True):
     """
     Function for checking boxes on dim-dimensional uniform grid with checker method
@@ -436,11 +436,11 @@ def check_box_branch(ini_box, v_ival, extension, eps, eps_bnb, log=False, max_it
     queueu = []
     queueu.append(ini_box)
     s = 0
-    eps_decomp = 2*np.pi
+    # eps_decomp = 2*np.pi
     while len(queueu)>0:
         # print(s)
         s += 1
-        eps_decomp = eps_decomp/2
+        # eps_decomp = eps_decomp/2
         box = queueu.pop(0)
         if extension.is_elementwise:
             temp = reccur_func_elementwise(box, v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
