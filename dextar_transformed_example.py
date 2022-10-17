@@ -199,8 +199,9 @@ Bicentered_Krawczyk_Default = Example(bicentered_krawczyk_extension, parallel=ar
 #
 area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box_branch(u_ini, v_ival, eps_krawczyk=eps, eps_bnb=eps_bnb)
 # print("Default V time bisection, ", Bicentered_Krawczyk_Default.time)
-Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area, area_params=[], save_fig=args.plotting, title = "Bicentered_Krawczyk_DexTar branch")
-print("BnB time, ", Bicentered_Krawczyk_Default.time)
+Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area, area_params=save_fig_params,
+                                     save_fig=args.plotting, title="Bicentered_Krawczyk_DexTar branch")
+
 # ####
 
 # area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box_branch(u_ini, v_ival, eps_krawczyk=eps, eps_bnb=eps_bnb ,decomposition=True)
@@ -215,7 +216,8 @@ print("BnB time, ", Bicentered_Krawczyk_Default.time)
 # print("BnB enlargement time, ", Bicentered_Krawczyk_Enlargment_V.time)
 # Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area, area_params=[], save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment DexTar branch")
 if rank == 0:
-    ...
+    print("Num procs", world_size)
+    print("BnB time, ", Bicentered_Krawczyk_Default.time)
     # print("Enlargment V time, ", Bicentered_Krawczyk_Enlargment_V.time)
     # Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment_simple_DexTar")
 #     save_boxes("dextar_simple_inside_" + str(N) + "_" + str(Nv) + ".txt", area_boxes)

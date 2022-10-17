@@ -68,7 +68,7 @@ import MainNode
 import SubNode
 
 class mpi_queue:
-	def __init__(self, debug=True):
+	def __init__(self, debug=False):
 		# connection (MPI)
 		self.comm = MPI.COMM_WORLD
 		self.size = self.comm.Get_size()
