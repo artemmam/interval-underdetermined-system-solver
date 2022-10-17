@@ -101,7 +101,7 @@ def reccur_func(box, v_init, eps, extension, max_iter=10, log=False, decompositi
                 if log:
                     print("Bisection")
                     print(diam(v_iter))
-                if diam(v_iter) > np.pi/3:
+                if diam(v_iter) > eps_decomp:
                     v_l, v_r = separate_box(v_iter)
                     if log:
                         print("Left", v_l)

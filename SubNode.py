@@ -4,6 +4,7 @@ from check_box import reccur_func
 from ExtensionClass import BicenteredKrawczykExtension
 import sympy as sym
 from sympy import sin, cos
+import numpy as np
 
 def symbolic_transformed_dextar_func(a, b, d=8):
     """
@@ -105,6 +106,7 @@ class SubNode:
             # args = task.args + BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
             args = task.args
             args.append(BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False))
+            args.extend([10, False, True, np.pi/3])
             res = reccur_func(*args)
             if self.debug:
                 print('[node %d] task done: %s' % (self.rank, task.args))
