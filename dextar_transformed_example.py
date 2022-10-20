@@ -168,7 +168,7 @@ v_dim = 2
 # area_params = [r1, r2, d]
 # save_fig_params = [N, Nv, r1, r2, d, args.parallel]
 # save_fig_params = [N, Nv, left_v1, right_v1, left_v2, right_v2, a, b, d, args.parallel, eps_decomp]
-save_fig_params = [N, Nv, eps_decomp, args.enlargement, args.mode, args.decomposition]
+save_fig_params = [N, args.eps_decomp, args.enlargement, args.mode, args.decomposition]
 bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
 #**********
 # box = [ival.Interval([8, 9]), ival.Interval([8, 9])]
