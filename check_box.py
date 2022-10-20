@@ -249,7 +249,7 @@ def reccur_func_elementwise(box, v_init, eps, extension, max_iter=10, log=False,
         k += 1
 
 
-def check_box_parallel(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decomposition=False, strategy = "Default",
+def check_box_parallel(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decomposition=False, eps_decomp=None, strategy = "Default",
               grid_v = None, dim_v=None, uniform_v = True, uniform_u = True, path = ""):
     """
     Function for checking boxes on dim-dimensional uniform grid with checker method
@@ -279,7 +279,7 @@ def check_box_parallel(grid, dim, v_ival, extension, eps, log=False, max_iter=10
                 temp = reccur_func_elementwise(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
             else:
                 if strategy == "Default":
-                    temp = reccur_func(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
+                    temp = reccur_func(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition, eps_decomp=eps_decomp)
                 else:
                     temp = "outside"
                     grid_v = np.array(grid_v)
@@ -305,13 +305,13 @@ def check_box_parallel(grid, dim, v_ival, extension, eps, log=False, max_iter=10
                 area_boxes.append(all_boxes[i])
             elif temp == 'border':
                 border_boxes.append(all_boxes[i])
-    end = timer()
-    write_time_per_proc(path, rank, end - start, "total = " + str(len(all_boxes)/size) + "; area = " + str(len(area_boxes)) +  "; border = " + str(len(border_boxes)))
-    start = timer()
+    # end = timer()
+    # write_time_per_proc(path, rank, end - start, "total = " + str(len(all_boxes)/size) + "; area = " + str(len(area_boxes)) +  "; border = " + str(len(border_boxes)))
+    # start = timer()
     area_boxes_g = comm.gather(area_boxes, root=0)
     border_boxes_g = comm.gather(border_boxes, root=0)
-    end = timer()
-    write_time_per_proc(path, rank, end - start, "GATHER")
+    # end = timer()
+    # write_time_per_proc(path, rank, end - start, "GATHER")
     area_boxes_g_unpacking = []
     border_boxes_g_unpacking = []
     if rank == 0:
@@ -320,7 +320,7 @@ def check_box_parallel(grid, dim, v_ival, extension, eps, log=False, max_iter=10
     return area_boxes_g_unpacking, border_boxes_g_unpacking
     
 
-def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decomposition=False, strategy = "Default",
+def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decomposition=False, eps_decomp=None, strategy = "Default",
               grid_v = None, dim_v=None, uniform_v = True, uniform_u = True):
     """
     Function for checking boxes on dim-dimensional uniform grid with checker method
@@ -339,13 +339,14 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
     all_boxes = make_boxes_list(grid, dim, uniform_u)
     # print(diam(all_boxes[0]))
     for i, box in enumerate(all_boxes):
+        # print(box)
         # print(i, "/", len(all_boxes) - 1)
         # print(i)
         if extension.is_elementwise:
             temp = reccur_func_elementwise(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
         else:
             if strategy == "Default":
-                temp = reccur_func(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
+                temp = reccur_func(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition, eps_decomp=eps_decomp)
             elif strategy == "Enlargement":
                 temp = "outside"
                 grid_v = np.array(grid_v)
@@ -473,7 +474,7 @@ def check_box_branch(ini_box, v_ival, extension, eps, eps_bnb, eps_decomp, log=F
         if temp == 'inside':
             area_boxes.append(box)
         elif temp == 'border':
-            if diam(box)<eps_bnb:
+            if diam(box) <= eps_bnb:
                 border_boxes.append(box)
             else:
                 box_l, box_r = separate_box(box)

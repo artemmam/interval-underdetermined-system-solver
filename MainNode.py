@@ -152,7 +152,7 @@ class MainNode:
 		if result.result == "inside":
 			self.inside_boxes.append(result.item)
 		elif result.result == "border":
-			if diam(result.item)<self.eps_bnb:
+			if diam(result.item) <= self.eps_bnb:
 				self.border_boxes.append(result.item)
 			else:
 				box_l, box_r = separate_box(result.item)

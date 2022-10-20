@@ -30,18 +30,18 @@ class Example:
         with open("./boxes/" + title, "w+") as outfile:
             outfile.write("\n".join(boxes))
 
-    def check_box(self, grid_u, dim_u, v_ival, eps, grid_v=None, v_dim=None, uniform_u=None, uniform_v=None, decomposition=False):
+    def check_box(self, grid_u, dim_u, v_ival, eps, grid_v=None, v_dim=None, uniform_u=False, uniform_v=None, decomposition=False, eps_decomp=None):
         start = timer()
         if self.parallel:
             area_boxes, border_boxes = check_box_parallel(grid_u, dim_u, v_ival, \
                                self.extension, eps,
                                strategy=self.strategy, dim_v=v_dim,
-                               grid_v=grid_v, uniform_u=uniform_u, uniform_v=uniform_v, path = self.path, decomposition=decomposition)
+                               grid_v=grid_v, uniform_u=uniform_u, uniform_v=uniform_v, path = self.path, decomposition=decomposition, eps_decomp=eps_decomp)
         else:
             area_boxes, border_boxes = check_box(grid_u, dim_u, v_ival, \
                                self.extension, eps,
                                strategy=self.strategy, dim_v=v_dim,
-                               grid_v=grid_v, uniform_u=uniform_u, uniform_v=uniform_v, log=self.log, decomposition=decomposition)
+                               grid_v=grid_v, uniform_u=uniform_u, uniform_v=uniform_v, log=self.log, decomposition=decomposition, eps_decomp=eps_decomp)
         end = timer()
         self.time = end - start
         return area_boxes, border_boxes
