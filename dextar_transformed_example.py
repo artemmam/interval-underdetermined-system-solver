@@ -237,7 +237,7 @@ if rank == 0:
                                          save_fig_params=save_fig_params,
                                          save_fig=args.plotting, title="Bicentered_Krawczyk_DexTar_" + args.mode)
     if args.record_time:
-        Bicentered_Krawczyk_Default.write_time("simple_dextar" + args.mode, N, world_size, args.eps_decomp)
+        Bicentered_Krawczyk_Default.write_time("simple_dextar_" + args.mode, N, world_size, args.eps_decomp)
     # print("Enlargment V time, ", Bicentered_Krawczyk_Enlargment_V.time)
     # Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment_simple_DexTar")
 #     save_boxes("dextar_simple_inside_" + str(N) + "_" + str(Nv) + ".txt", area_boxes)
