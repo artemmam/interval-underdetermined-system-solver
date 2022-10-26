@@ -118,7 +118,7 @@ parser.add_argument('-v1', dest="v1", type=str)
 parser.add_argument('-v2', dest="v2", type=str)
 parser.add_argument('-e_d', dest="eps_decomp", type=int)
 parser.add_argument('-M', dest="mode", type=str)
-parser.add_argument('--D', dest="decomposition", action='store_true')
+parser.add_argument('-V', dest="v_sep", type=str)
 parser.add_argument('--E', dest="enlargement", action='store_true')
 
 args = parser.parse_args()
@@ -158,7 +158,10 @@ grid_u = [grid_u1, grid_u2]
 u_dim = 2  # The dimension of uniform grid
 eps = 1e-6
 side = u1.width()/N
+# [[7.5, 10.0] [10.0, 15.0]] 5.5901699437494745 6.285393610547089
 eps_bnb = np.sqrt(2*side**2)
+# print(side, eps_bnb)
+# sys.exit(1)
 coef = 2
 Nv = args.Nv
 grid_v1 = np.linspace(v1[0], v1[1], Nv + 1)
@@ -168,7 +171,7 @@ v_dim = 2
 # area_params = [r1, r2, d]
 # save_fig_params = [N, Nv, r1, r2, d, args.parallel]
 # save_fig_params = [N, Nv, left_v1, right_v1, left_v2, right_v2, a, b, d, args.parallel, eps_decomp]
-save_fig_params = [N, args.eps_decomp, args.enlargement, args.mode, args.decomposition]
+save_fig_params = [N, args.eps_decomp, args.enlargement, args.mode, args.v_sep, args.enlargement]
 bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
 #**********
 # box = [ival.Interval([8, 9]), ival.Interval([8, 9])]
@@ -197,18 +200,27 @@ bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym,
 #                        strategy="Default", grid_v=grid_v, dim=v_dim, decomp=True
 #                        )
 #
-if args.enlargement:
-    Bicentered_Krawczyk_Enlargement = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False,
-                                               strategy="Enlargement")
-else:
-    Bicentered_Krawczyk_Default = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False,
+if args.v_sep == "grid":
+    Bicentered_Krawczyk = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False,
+                                               strategy="V_grid")
+    if args.mode == "bnb":
+        area_boxes, border_boxes = Bicentered_Krawczyk.check_box_branch(u_ini, v_ival, eps_krawczyk=eps, eps_bnb=eps_bnb, grid_v=grid_v, v_dim=v_dim,
+                                           uniform_v=False)
+    elif args.mode == "grid":
+        area_boxes, border_boxes = Bicentered_Krawczyk.check_box(grid_u, u_dim, v_ival, eps, grid_v, v_dim,
+                   uniform_u=False, uniform_v=False, enlargement=args.enlargement)
+elif args.v_sep == "dec":
+    decomposition = True
+    Bicentered_Krawczyk = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False,
                                           strategy="Default")
     if args.mode == "bnb":
-        area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box_branch(u_ini, v_ival, eps_krawczyk=eps, eps_bnb=eps_bnb,
-                                                                                    eps_decomp=eps_decomp, decomposition=args.decomposition)
-    else:
-        area_boxes, border_boxes = Bicentered_Krawczyk_Default.check_box(grid_u, u_dim, v_ival, eps=eps,
-                                                                                    eps_decomp=eps_decomp, decomposition=args.decomposition)
+        area_boxes, border_boxes = Bicentered_Krawczyk.check_box_branch(u_ini, v_ival, eps_krawczyk=eps, eps_bnb=eps_bnb,
+                                                                                    eps_decomp=eps_decomp, decomposition=decomposition)
+    elif args.mode == "grid":
+        area_boxes, border_boxes = Bicentered_Krawczyk.check_box(grid_u, u_dim, v_ival, eps=eps,
+                                                                        eps_decomp=eps_decomp,
+                                                                         decomposition=decomposition,
+                                                                         enlargement=args.enlargement)
 
 # print("Default V time bisection, ", Bicentered_Krawczyk_Default.time)
 
@@ -227,17 +239,19 @@ else:
 # print("BnB enlargement time, ", Bicentered_Krawczyk_Enlargment_V.time)
 # Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area, area_params=[], save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment DexTar branch")
 if rank == 0:
+    print(border_boxes)
     print("Grid size: ", N)
     print("Decomposition epsilon", args.eps_decomp)
     print("Num procs", world_size)
-    print("Time, ", Bicentered_Krawczyk_Default.time)
+    print("Time, ", Bicentered_Krawczyk.time)
     print("U bosex type: ", args.mode)
-    print("Decomposition: ", args.decomposition)
-    Bicentered_Krawczyk_Default.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area, area_params=[],
+    print("V_type: ", args.v_sep)
+    print("Enlargement: ", args.enlargement)
+    Bicentered_Krawczyk.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area, area_params=[],
                                          save_fig_params=save_fig_params,
-                                         save_fig=args.plotting, title="Bicentered_Krawczyk_DexTar_" + args.mode)
+                                         save_fig=args.plotting, title="Bicentered_Krawczyk_DexTar_" + args.mode + "_" + args.v_sep)
     if args.record_time:
-        Bicentered_Krawczyk_Default.write_time("simple_dextar_" + args.mode, N, world_size, args.eps_decomp)
+        Bicentered_Krawczyk.write_time("simple_dextar_" + args.mode, N, world_size, args.eps_decomp)
     # print("Enlargment V time, ", Bicentered_Krawczyk_Enlargment_V.time)
     # Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment_simple_DexTar")
 #     save_boxes("dextar_simple_inside_" + str(N) + "_" + str(Nv) + ".txt", area_boxes)
