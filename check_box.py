@@ -255,15 +255,17 @@ def check_box_parallel(grid, dim, v_ival, extension, eps, log=False, max_iter=10
             # print("rank = ", rank, "; ", i, "/", len(all_boxes) - 1)
             # print(i, "/", len(all_boxes) - 1)
             if extension.is_elementwise:
-                temp = reccur_func_elementwise(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
+                temp = reccur_func_elementwise(all_boxes[i], v_ival, eps, extension, max_iter, log=log,
+                                               decomposition=decomposition)
             else:
                 if strategy == "Default":
                     if enlargement:
                         v = v_ival
                         temp = reccur_func_enlarge(all_boxes[i], v, v_ival, eps, extension, max_iter, log=log,
-                                            decomposition=decomposition)
+                                                   decomposition=decomposition, eps_decomp=eps_decomp)
                     else:
-                        temp = reccur_func(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition, eps_decomp=eps_decomp)
+                        temp = reccur_func(all_boxes[i], v_ival, eps, extension, max_iter, log=log,
+                                           decomposition=decomposition, eps_decomp=eps_decomp)
                 else:
                     temp = "outside"
                     grid_v = np.array(grid_v)
@@ -276,16 +278,16 @@ def check_box_parallel(grid, dim, v_ival, extension, eps, log=False, max_iter=10
                             v = np.array(v)
                         if enlargement:
                             temp_loc = reccur_func_enlarge(all_boxes[i], v, v_ival, eps, extension, max_iter, log=log,
-                                                       decomposition=decomposition)
+                                                           decomposition=decomposition)
                         else:
                             temp_loc = reccur_func(all_boxes[i], v, eps, extension, max_iter, log=log,
-                                               decomposition=decomposition, eps_decomp=eps_decomp)
+                                                   decomposition=decomposition, eps_decomp=eps_decomp)
                         if temp_loc == "inside":
                             temp = "inside"
                             break
                         else:
                             temp_list.append(temp_loc)
-                    if temp!="inside":
+                    if temp != "inside":
                         check = [True if temp_list[i] == "border" else False for i in range(len(temp_list))]
                         if np.any(check):
                             temp = "border"
@@ -326,9 +328,9 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
     grid_size = len(grid) - 1
     all_boxes = make_boxes_list(grid, dim, uniform_u)
     # print(diam(all_boxes[0]))
-    # all_boxes = [[ival.Interval([0.0, 0.625]), ival.Interval([0.0, 0.625])]]
+    all_boxes = [[ival.Interval([0.0, 0.625]), ival.Interval([0.0, 0.625])]]
     for i, box in enumerate(all_boxes):
-        print(box)
+        # print(box)
         # print(i, "/", len(all_boxes) - 1)
         # print(i)
         if extension.is_elementwise:
