@@ -116,7 +116,7 @@ parser.add_argument('--RT', dest="record_time", action='store_true')
 parser.add_argument('--PL', dest="plotting", action='store_true')
 parser.add_argument('-v1', dest="v1", type=str)
 parser.add_argument('-v2', dest="v2", type=str)
-parser.add_argument('-e_d', dest="eps_decomp", type=int)
+parser.add_argument('-e_d', dest="eps_decomp", type=float)
 parser.add_argument('-M', dest="mode", type=str)
 parser.add_argument('-V', dest="v_sep", type=str)
 parser.add_argument('--E', dest="enlargement", action='store_true')
@@ -132,17 +132,20 @@ else:
     rank = 0
     world_size = 1
 N = args.Nu  # The number of boxes on uniform grid
+Nv = args.Nv
 v1_0, v1_1 = np.fromstring(args.v1, dtype=int, sep=',')
 v2_0, v2_1 = np.fromstring(args.v2, dtype=int, sep=',')
 left_v1 = math.radians(v1_0)
 right_v1 = math.radians(v1_1)
 left_v2 = math.radians(v2_0)
 right_v2 = math.radians(v2_1)
-eps_decomp = math.radians(args.eps_decomp)
+
 a, b, d = 8, 5, 9
 f_sym, u_sym, v_sym = symbolic_transformed_dextar_func(a, b, d)
 v1 = ival.Interval([left_v1, right_v1])
 v2 = ival.Interval([left_v2, right_v2])
+eps_decomp = np.sqrt(2*(v1.width()/Nv )**2)#math.radians(args.eps_decomp)
+# print(eps_decomp)
 v_ival = [v1, v2]
 u_l = -20
 u_u = 20
@@ -163,7 +166,7 @@ eps_bnb = np.sqrt(2*side**2)
 # print(side, eps_bnb)
 # sys.exit(1)
 coef = 2
-Nv = args.Nv
+
 grid_v1 = np.linspace(v1[0], v1[1], Nv + 1)
 grid_v2 = np.linspace(v2[0], v2[1], Nv + 1)
 grid_v = [grid_v1, grid_v2]
@@ -239,7 +242,6 @@ elif args.v_sep == "dec":
 # print("BnB enlargement time, ", Bicentered_Krawczyk_Enlargment_V.time)
 # Bicentered_Krawczyk_Enlargment_V.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area, area_params=[], save_fig=args.plotting, title = "Bicentered_Krawczyk_Enlargment DexTar branch")
 if rank == 0:
-    print(border_boxes)
     print("Grid size: ", N)
     print("Decomposition epsilon", args.eps_decomp)
     print("Num procs", world_size)

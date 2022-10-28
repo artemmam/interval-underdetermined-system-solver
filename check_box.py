@@ -159,22 +159,25 @@ def reccur_func_enlarge(box, v_init, v_ival, eps, extension, max_iter=10, log=Fa
             if v_ext[i].isNoIntersec(v_ival[i]):
                 return "outside"
             else:
+                # if v_iter[i].isIn(v_ext[i]):
+                #     v_iter[i] = v_ext[i].intersec(v_iter[i])
+                # else:
                 v_iter[i] = v_ext[i].intersec(v_ival[i])
         if abs(diam(v_iter) - diam(v_ival)) / (0.5 * abs(diam(v_iter) + diam(v_ival))) < eps or k > max_iter:
             if decomposition:
                 if log:
                     print("Bisection")
-                    print(diam(v_iter))
-                if diam(v_iter) > eps_decomp:
-                    v_l, v_r = separate_box(v_iter)
+                    print(v_iter, diam(v_iter), eps_decomp)
+                if diam(v_init) > eps_decomp:
+                    v_l, v_r = separate_box(v_init)
                     if log:
                         print("Left", v_l)
-                    res_l = reccur_func(box, v_l, eps, extension, max_iter=10, log=log, decomposition=decomposition,
-                                        eps_decomp=eps_decomp)
+                    res_l = reccur_func_enlarge(box, v_l, v_ival, eps, extension, max_iter=10, log=log,
+                                        decomposition=decomposition, eps_decomp=eps_decomp)
                     if log:
                         print("Right", v_r)
-                    res_r = reccur_func(box, v_r, eps, extension, max_iter=10, log=log, decomposition=decomposition,
-                                        eps_decomp=eps_decomp)
+                    res_r = reccur_func_enlarge(box, v_r, v_ival, eps, extension, max_iter=10, log=log,
+                                        decomposition=decomposition, eps_decomp=eps_decomp)
                     if res_l == "inside" or res_r == "inside":
                         return "inside"
             return "border"
@@ -323,8 +326,9 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
     grid_size = len(grid) - 1
     all_boxes = make_boxes_list(grid, dim, uniform_u)
     # print(diam(all_boxes[0]))
+    # all_boxes = [[ival.Interval([0.0, 0.625]), ival.Interval([0.0, 0.625])]]
     for i, box in enumerate(all_boxes):
-        # print(box)
+        print(box)
         # print(i, "/", len(all_boxes) - 1)
         # print(i)
         if extension.is_elementwise:
@@ -334,7 +338,7 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
                 if enlargement:
                     v = v_ival
                     temp = reccur_func_enlarge(all_boxes[i], v, v_ival, eps, extension, max_iter, log=log,
-                                               decomposition=decomposition)
+                                               decomposition=decomposition, eps_decomp=eps_decomp)
                 else:
                     temp = reccur_func(all_boxes[i], v_ival, eps, extension, max_iter, log=log,
                                        decomposition=decomposition, eps_decomp=eps_decomp)
