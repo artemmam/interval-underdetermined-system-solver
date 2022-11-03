@@ -180,6 +180,8 @@ def reccur_func_enlarge(box, v_init, v_ival, eps, extension, max_iter=10, log=Fa
                                         decomposition=decomposition, eps_decomp=eps_decomp)
                     if res_l == "inside" or res_r == "inside":
                         return "inside"
+                    elif res_l == "outside" and res_r == "outside":
+                        return "outside"
             return "border"
         v_prev = v_iter.copy()
         k += 1
@@ -328,7 +330,7 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
     grid_size = len(grid) - 1
     all_boxes = make_boxes_list(grid, dim, uniform_u)
     # print(diam(all_boxes[0]))
-    all_boxes = [[ival.Interval([0.0, 0.625]), ival.Interval([0.0, 0.625])]]
+    all_boxes = [[ival.Interval([1.25, 1.875]), ival.Interval([0.0, 0.625])]]
     for i, box in enumerate(all_boxes):
         # print(box)
         # print(i, "/", len(all_boxes) - 1)
