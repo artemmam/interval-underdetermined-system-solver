@@ -212,8 +212,10 @@ if args.v_sep == "grid":
     elif args.mode == "grid":
         area_boxes, border_boxes = Bicentered_Krawczyk.check_box(grid_u, u_dim, v_ival, eps, grid_v, v_dim,
                    uniform_u=False, uniform_v=False, enlargement=args.enlargement)
-elif args.v_sep == "dec":
-    decomposition = True
+else:
+    decomposition = False
+    if args.v_sep == "dec":
+        decomposition = True
     Bicentered_Krawczyk = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False,
                                           strategy="Default")
     if args.mode == "bnb":
@@ -247,11 +249,11 @@ if rank == 0:
     print("Num procs", world_size)
     print("Time, ", Bicentered_Krawczyk.time)
     print("U bosex type: ", args.mode)
-    print("V_type: ", args.v_sep)
+    # print("V_type: ", args.v_sep)
     print("Enlargement: ", args.enlargement)
     Bicentered_Krawczyk.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area, area_params=[],
                                          save_fig_params=save_fig_params,
-                                         save_fig=args.plotting, title="Bicentered_Krawczyk_DexTar_" + args.mode + "_" + args.v_sep)
+                                         save_fig=args.plotting, title="Bicentered_Krawczyk_DexTar_" + args.mode)
     if args.record_time:
         Bicentered_Krawczyk.write_time("simple_dextar_" + args.mode, N, world_size, args.eps_decomp)
     # print("Enlargment V time, ", Bicentered_Krawczyk_Enlargment_V.time)

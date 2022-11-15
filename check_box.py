@@ -2,9 +2,11 @@ import interval as ival
 import numpy as np
 import itertools as it
 from timeit import default_timer as timer
+from symbolic_support_functions import lambdify_f
 # from pathos.multiprocessing import ProcessingPool as Pool
 # import dill  # the code below will fail without this line
 # import pickle
+import copy
 
 
 def write_time_per_proc(file, rank, time, message = ""):
@@ -310,7 +312,44 @@ def check_box_parallel(grid, dim, v_ival, extension, eps, log=False, max_iter=10
         area_boxes_g_unpacking = unpack_array(area_boxes_g)
         border_boxes_g_unpacking = unpack_array(border_boxes_g)
     return area_boxes_g_unpacking, border_boxes_g_unpacking
-    
+
+def check_1d(box, v, extension, log):
+    v_ival = copy.deepcopy(v)
+    check = np.zeros(len(v_ival))
+    for i in range(len(v_ival)):
+        if log:
+            print(i)
+        f_num = lambdify_f(extension.f[i], extension.u, extension.v[i])
+        # print(v_ival[i])
+        # print(f_num(box, v_ival[i]))
+        if ival.Interval([0, 0]).isIn(f_num(box, v_ival[i])):
+            while v_ival[i][0] != v_ival[i][1]:
+                if log:
+                    # print(f_num(box, v_ival[i]))
+                    print(v_ival[i])
+                    print("1 var", f_num(box, v_ival[i][0])[1], f_num(box, v_ival[i][1])[0])
+                    print((f_num(box, v_ival[i][0])[1]<=0 and f_num(box, v_ival[i][1])[0]>=0))
+                    print("2 var", f_num(box, v_ival[i][0])[0], f_num(box, v_ival[i][1])[1])
+                    print((f_num(box, v_ival[i][0])[0]>=0 and f_num(box, v_ival[i][1])[1]<=0))
+                if ((f_num(box, v_ival[i][0])[1] <= 0 and f_num(box, v_ival[i][1])[0] >= 0) or (
+                        f_num(box, v_ival[i][0])[0] >= 0 and f_num(box, v_ival[i][1])[1] <= 0)):
+                    check[i] = True
+                    break
+                elif f_num(box, v_ival[i][0])[1] <= 0 or f_num(box, v_ival[i][0])[0] >= 0:
+                    v_ival[i][1] = v_ival[i][1] - np.pi / 8
+                elif f_num(box, v_ival[i][1])[0] >= 0 or f_num(box, v_ival[i][1])[1] <= 0:
+                    v_ival[i][0] = v_ival[i][0] + np.pi / 8
+                else:
+                    v_ival[i][0] = v_ival[i][0] + np.pi / 8
+    if np.all(check):
+        #         print("inside")
+        return "inside"
+    else:
+        return "not inside"
+
+
+#     else:
+#         print("not inside")
 
 def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decomposition=False, eps_decomp=None, strategy = "Default",
               grid_v = None, dim_v=None, uniform_v = True, uniform_u = True, enlargement=False):
@@ -330,47 +369,51 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
     grid_size = len(grid) - 1
     all_boxes = make_boxes_list(grid, dim, uniform_u)
     # print(diam(all_boxes[0]))
-    all_boxes = [[ival.Interval([1.25, 1.875]), ival.Interval([0.0, 0.625])]]
+    # all_boxes = [[ival.Interval([-6.0, -4.0]), ival.Interval([-6.0, -4.0])]]
     for i, box in enumerate(all_boxes):
+        # if box[0][0] == 0 and box[0][1] == 2 and box[1][0] == 2 and box[1][1] == 4:
         # print(box)
+
         # print(i, "/", len(all_boxes) - 1)
         # print(i)
         if extension.is_elementwise:
             temp = reccur_func_elementwise(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
         else:
-            if strategy == "Default":
-                if enlargement:
-                    v = v_ival
-                    temp = reccur_func_enlarge(all_boxes[i], v, v_ival, eps, extension, max_iter, log=log,
-                                               decomposition=decomposition, eps_decomp=eps_decomp)
-                else:
-                    temp = reccur_func(all_boxes[i], v_ival, eps, extension, max_iter, log=log,
-                                       decomposition=decomposition, eps_decomp=eps_decomp)
-            else:
-                temp = "outside"
-                grid_v = np.array(grid_v)
-                v_boxes = make_boxes_list(grid_v, dim_v, uniform_v)
-                temp_list = []
-                for v in v_boxes:
-                    if len(v) == 1:
-                        v = [v[0]]
-                    else:
-                        v = np.array(v)
+            temp = check_1d(box, v_ival, extension, False)
+            if temp != "inside":
+                if strategy == "Default":
                     if enlargement:
-                        temp_loc = reccur_func_enlarge(all_boxes[i], v, v_ival, eps, extension, max_iter, log=log,
-                                                       decomposition=decomposition)
+                        v = v_ival
+                        temp = reccur_func_enlarge(all_boxes[i], v, v_ival, eps, extension, max_iter, log=log,
+                                                   decomposition=decomposition, eps_decomp=eps_decomp)
                     else:
-                        temp_loc = reccur_func(all_boxes[i], v, eps, extension, max_iter, log=log,
-                                               decomposition=decomposition, eps_decomp=eps_decomp)
-                    if temp_loc == "inside":
-                        temp = "inside"
-                        break
-                    else:
-                        temp_list.append(temp_loc)
-                if temp != "inside":
-                    check = [True if temp_list[i] == "border" else False for i in range(len(temp_list))]
-                    if np.any(check):
-                        temp = "border"
+                        temp = reccur_func(all_boxes[i], v_ival, eps, extension, max_iter, log=log,
+                                           decomposition=decomposition, eps_decomp=eps_decomp)
+                else:
+                    temp = "outside"
+                    grid_v = np.array(grid_v)
+                    v_boxes = make_boxes_list(grid_v, dim_v, uniform_v)
+                    temp_list = []
+                    for v in v_boxes:
+                        if len(v) == 1:
+                            v = [v[0]]
+                        else:
+                            v = np.array(v)
+                        if enlargement:
+                            temp_loc = reccur_func_enlarge(all_boxes[i], v, v_ival, eps, extension, max_iter, log=log,
+                                                           decomposition=decomposition)
+                        else:
+                            temp_loc = reccur_func(all_boxes[i], v, eps, extension, max_iter, log=log,
+                                                   decomposition=decomposition, eps_decomp=eps_decomp)
+                        if temp_loc == "inside":
+                            temp = "inside"
+                            break
+                        else:
+                            temp_list.append(temp_loc)
+                    if temp != "inside":
+                        check = [True if temp_list[i] == "border" else False for i in range(len(temp_list))]
+                        if np.any(check):
+                            temp = "border"
         if temp == 'inside':
             area_boxes.append(all_boxes[i])
         elif temp == 'border':

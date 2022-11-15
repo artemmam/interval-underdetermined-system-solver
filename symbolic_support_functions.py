@@ -6,6 +6,13 @@ import numpy as np
 import sys
 
 
+def lambdify_f(f_sym, v_sym, u_sym):
+    # self.__prev_lambda = []
+    # self.__prev_f_derived = []
+    f_sym_repl = function_replacer(f_sym)
+    return sym.lambdify([v_sym, u_sym], f_sym_repl)
+
+
 def derive_matrix(g, v):
     """
     Function for calculating partial derivative of matrix g
