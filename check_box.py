@@ -262,39 +262,41 @@ def check_box_parallel(grid, dim, v_ival, extension, eps, log=False, max_iter=10
                 temp = reccur_func_elementwise(all_boxes[i], v_ival, eps, extension, max_iter, log=log,
                                                decomposition=decomposition)
             else:
-                if strategy == "Default":
-                    if enlargement:
-                        v = v_ival
-                        temp = reccur_func_enlarge(all_boxes[i], v, v_ival, eps, extension, max_iter, log=log,
-                                                   decomposition=decomposition, eps_decomp=eps_decomp)
-                    else:
-                        temp = reccur_func(all_boxes[i], v_ival, eps, extension, max_iter, log=log,
-                                           decomposition=decomposition, eps_decomp=eps_decomp)
-                else:
-                    temp = "outside"
-                    grid_v = np.array(grid_v)
-                    v_boxes = make_boxes_list(grid_v, dim_v, uniform_v)
-                    temp_list = []
-                    for v in v_boxes:
-                        if len(v) == 1:
-                            v = [v[0]]
-                        else:
-                            v = np.array(v)
+                temp = check_1d(box, v_ival, extension, False)
+                if temp != "inside":
+                    if strategy == "Default":
                         if enlargement:
-                            temp_loc = reccur_func_enlarge(all_boxes[i], v, v_ival, eps, extension, max_iter, log=log,
-                                                           decomposition=decomposition)
+                            v = v_ival
+                            temp = reccur_func_enlarge(all_boxes[i], v, v_ival, eps, extension, max_iter, log=log,
+                                                       decomposition=decomposition, eps_decomp=eps_decomp)
                         else:
-                            temp_loc = reccur_func(all_boxes[i], v, eps, extension, max_iter, log=log,
-                                                   decomposition=decomposition, eps_decomp=eps_decomp)
-                        if temp_loc == "inside":
-                            temp = "inside"
-                            break
-                        else:
-                            temp_list.append(temp_loc)
-                    if temp != "inside":
-                        check = [True if temp_list[i] == "border" else False for i in range(len(temp_list))]
-                        if np.any(check):
-                            temp = "border"
+                            temp = reccur_func(all_boxes[i], v_ival, eps, extension, max_iter, log=log,
+                                               decomposition=decomposition, eps_decomp=eps_decomp)
+                    else:
+                        temp = "outside"
+                        grid_v = np.array(grid_v)
+                        v_boxes = make_boxes_list(grid_v, dim_v, uniform_v)
+                        temp_list = []
+                        for v in v_boxes:
+                            if len(v) == 1:
+                                v = [v[0]]
+                            else:
+                                v = np.array(v)
+                            if enlargement:
+                                temp_loc = reccur_func_enlarge(all_boxes[i], v, v_ival, eps, extension, max_iter, log=log,
+                                                               decomposition=decomposition)
+                            else:
+                                temp_loc = reccur_func(all_boxes[i], v, eps, extension, max_iter, log=log,
+                                                       decomposition=decomposition, eps_decomp=eps_decomp)
+                            if temp_loc == "inside":
+                                temp = "inside"
+                                break
+                            else:
+                                temp_list.append(temp_loc)
+                        if temp != "inside":
+                            check = [True if temp_list[i] == "border" else False for i in range(len(temp_list))]
+                            if np.any(check):
+                                temp = "border"
             if temp == 'inside':
                 area_boxes.append(all_boxes[i])
             elif temp == 'border':
