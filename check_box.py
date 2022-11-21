@@ -134,7 +134,10 @@ def reccur_func_enlarge(box, v_init, v_ival, eps, extension, max_iter=10, log=Fa
     while True:
         if log:
             print("*****")
-            print(v_iter, box)
+            # print(v_iter, box)
+            print("box", box)
+            print("V_ival", v_ival)
+            print("Old V = ", v_iter)
             print("Natural :", f_num(v_iter, box).reshape(-1))
         for nat_ext in f_num(v_iter, box).reshape(-1):
             if not ival.Interval([0, 0]).isInIns(nat_ext):
@@ -147,9 +150,6 @@ def reccur_func_enlarge(box, v_init, v_ival, eps, extension, max_iter=10, log=Fa
         v_ext = extension.calculate_extension(box, v_iter, log=log).reshape(-1)
         if log:
             print("Number of iteration =", k)
-            print("box", box)
-            print("V_ival", v_ival)
-            print("Old V = ", v_iter)
             print("New V = ", v_ext)
         for i in range(n):
             if not (v_ext[i].isIn(v_iter[i])):
@@ -169,7 +169,6 @@ def reccur_func_enlarge(box, v_init, v_ival, eps, extension, max_iter=10, log=Fa
             if decomposition:
                 if log:
                     print("Bisection")
-                    print(v_iter, diam(v_iter), eps_decomp)
                 if diam(v_init) > eps_decomp:
                     v_l, v_r = separate_box(v_init)
                     if log:
@@ -322,6 +321,8 @@ def check_1d(box, v, extension, log):
         if log:
             print(i)
         f_num = lambdify_f(extension.f[i], extension.u, extension.v[i])
+        if log:
+            print("Natural 1d", f_num(box, v_ival[i]))
         # print(v_ival[i])
         # print(f_num(box, v_ival[i]))
         if ival.Interval([0, 0]).isIn(f_num(box, v_ival[i])):
@@ -343,6 +344,8 @@ def check_1d(box, v, extension, log):
                     v_ival[i][0] = v_ival[i][0] + np.pi / 8
                 else:
                     v_ival[i][0] = v_ival[i][0] + np.pi / 8
+        else:
+            return "outside"
     if np.all(check):
         #         print("inside")
         return "inside"
@@ -371,7 +374,15 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
     grid_size = len(grid) - 1
     all_boxes = make_boxes_list(grid, dim, uniform_u)
     # print(diam(all_boxes[0]))
-    # all_boxes = [[ival.Interval([-6.0, -4.0]), ival.Interval([-6.0, -4.0])]]
+    # all_boxes = [[ival.Interval([0.0, 0.625]), ival.Interval([12.5, 13.125])]]
+    # TODO:check the intersection in enlargement bisection function for box [ival.Interval([0.0, 0.625]), ival.Interval([12.5, 13.125])]]
+
+    # all_boxes = [[ival.Interval([2.5, 3.125]), ival.Interval([0.625, 1.25])]]
+    # all_boxes = [[ival.Interval([-5.625, -5.0]), ival.Interval([-10.0, -9.375])]]
+
+
+    # all_boxes = [[ival.Interval([0.0, 0.625]), ival.Interval([11.25, 11.875])]]
+    # all_boxes = [[ival.Interval([0.0, 0.625]), ival.Interval([11.875, 12.5])]]
     for i, box in enumerate(all_boxes):
         # if box[0][0] == 0 and box[0][1] == 2 and box[1][0] == 2 and box[1][1] == 4:
         # print(box)
@@ -382,7 +393,7 @@ def check_box(grid, dim, v_ival, extension, eps, log=False, max_iter=10, decompo
             temp = reccur_func_elementwise(all_boxes[i], v_ival, eps, extension, max_iter, log=log, decomposition=decomposition)
         else:
             temp = check_1d(box, v_ival, extension, False)
-            if temp != "inside":
+            if temp == "not inside":
                 if strategy == "Default":
                     if enlargement:
                         v = v_ival
