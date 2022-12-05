@@ -1,7 +1,7 @@
 from symbolic_support_functions import derived_f, classical_krawczyk_extension, derived_recurrent_form, \
     hansen_sengupta_extension, centered_form, function_replacer, newton_extension
 import numpy as np
-import intervalpy as ival
+import interval as ival
 import sympy as sym
 
 

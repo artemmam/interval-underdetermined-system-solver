@@ -1,6 +1,6 @@
 import sympy as sym
 import numpy as np
-import intervalpy as ival
+import interval as ival
 from sympy import sin, cos, nonlinsolve
 import math
 import sys

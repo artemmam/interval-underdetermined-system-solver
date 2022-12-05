@@ -1,4 +1,4 @@
-import intervalpy as ival
+import interval as ival
 import numpy as np
 import itertools as it
 from timeit import default_timer as timer
