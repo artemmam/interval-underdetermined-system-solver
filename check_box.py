@@ -472,7 +472,7 @@ def check_roots(xi, f, df, depth, log = False):
             qi = fci / dfi
             if log:
                 print("qi", qi)
-            if type(qi) is ival.interval.ExtendedInterval:
+            if type(qi) is ival.ExtendedInterval:
                 qil = [ci - qi[0], ci - qi[1]]
             else:
                 q = ci - qi
