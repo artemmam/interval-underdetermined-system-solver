@@ -1,6 +1,6 @@
 import sympy as sym
 import numpy as np
-import interval as ival
+import intervalpy as ival
 import sys
 from check_box import check_box, check_one_box, check_box_parallel
 from ExtensionClass import ClassicalKrawczykExtension, BicenteredKrawczykExtension, HansenSenguptaExtension

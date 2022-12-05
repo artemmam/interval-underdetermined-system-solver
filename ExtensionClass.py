@@ -1,7 +1,7 @@
 from symbolic_support_functions import derived_f, classical_krawczyk_extension, derived_recurrent_form, \
-    hansen_sengupta_extension, centered_form, function_replacer
+    hansen_sengupta_extension, centered_form, function_replacer, newton_extension
 import numpy as np
-import interval as ival
+import intervalpy as ival
 import sympy as sym
 
 
@@ -71,37 +71,17 @@ class BaseExtension:
             for j in range(len(v)):
                 m[i, j] = coef*ival.valueToInterval(f_derived_num[i, j]).mid()
         m = m.astype(np.float64)
-        # lam = np.linalg.inv(m)
-        # if self.log:
-        #     print("Lambda")
-        #     print(lam)
-        #     print("Lamda prev")
-        #     print(self.__prev_lambda)
-        #     print("Eq from book left")
-        #     # print(np.eye(n) - lam@f_derived_num)
-        #     print(ival.norm_matrix(np.eye(n) - lam @ f_derived_num))
-        #     new_norm = ival.norm_matrix(np.eye(n) - lam @ f_derived_num)
-        #     old_norm = 0
-        #     try:
-        #         print(ival.norm_matrix(np.eye(n) - self.__prev_lambda @ self.__prev_f_derived ))
-        #         old_norm = ival.norm_matrix(np.eye(n) - self.__prev_lambda @ self.__prev_f_derived )
-        #     except:
-        #         ...
-        #     if new_norm <= old_norm:
-        #         print("NEWW")
-        #
-        # self.__prev_lambda = np.linalg.inv(m)
-        # self.__prev_f_derived = f_derived_num
         if np.linalg.det(m) == 0:
             return np.linalg.inv(m + np.eye(n)).reshape(n*n)
         else:
             return np.linalg.inv(m).reshape(n*n)
 
-    def lambdify_f(self):
-        # self.__prev_lambda = []
-        # self.__prev_f_derived = []
+    def lambdify_f(self, idx="all"):
         f = function_replacer(self.f)
-        return sym.lambdify([self.v, self.u], f)
+        if idx == "all":
+            return sym.lambdify([self.v, self.u], f)
+        else:
+            return sym.lambdify([self.v[idx], self.u], f[idx])
 
     def centered_form(self):
         param = self.u
@@ -111,7 +91,6 @@ class BaseExtension:
             for j in range(len(self.v)):
                 c.append(sym.symbols("c" + str(i) + str(j)))
         c = np.array(c).reshape(n, n).T.reshape(n * n)
-        # centered_form_num = centered_form(self.f, self.v, c, param)
         return centered_form(self.f, self.v, c, param)[0]
 
 
@@ -287,3 +266,32 @@ class HansenSenguptaExtension(BaseExtension):
             #     print("lambda", lamda_matrix )
             #     print("///")
             return np.array(self.numeric_extension(v, c[0:2], param))
+
+
+class NewtonExtension(BaseExtension):
+
+    def get_numeric_extension(self):
+        """
+                Function for transformation symbolic extension function into numeric
+                :return: numeric extension function
+                """
+        c = []
+        for i in range(len(self.v)):
+            for j in range(len(self.v)):
+                c.append(sym.symbols("c" + str(i) + str(j)))
+        return newton_extension(self.f, self.u, self.v, c)
+
+    def calculate_extension(self, box, v, log=False):
+        """
+        Function for calculation interval extension
+        :param box: box to check
+        :param v: variables for checking
+        :return: interval vector
+        """
+        n = len(v)
+        c = []
+        for i in range(n):
+            for j in range(n):
+                c.append(v[i].mid())
+        c = np.array(c).reshape(n, n).T.reshape(n * n)
+        return np.array(self.numeric_extension(v, c, box))

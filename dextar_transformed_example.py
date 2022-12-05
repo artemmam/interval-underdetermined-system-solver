@@ -1,11 +1,11 @@
 import sympy as sym
 import numpy as np
-import interval as ival
+import intervalpy as ival
 from sympy import sin, cos, nonlinsolve
 import math
 import sys
-from check_box import check_box, check_one_box
-from ExtensionClass import ClassicalKrawczykExtension, BicenteredKrawczykExtension, HansenSenguptaExtension
+from check_box import check_box, check_one_box, check_box_posypkin
+from ExtensionClass import ClassicalKrawczykExtension, BicenteredKrawczykExtension, HansenSenguptaExtension, NewtonExtension
 from plotter_support_functions import uni_plotter, plot_one_box
 import matplotlib.pyplot as plt
 # from LoggerClass import Logger
@@ -176,6 +176,8 @@ v_dim = 2
 # save_fig_params = [N, Nv, left_v1, right_v1, left_v2, right_v2, a, b, d, args.parallel, eps_decomp]
 save_fig_params = [N, Nv, args.enlargement, args.mode, args.v_sep]
 bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym, coef=coef, is_elementwise=False)
+# hansen_sengupta_extension = HansenSenguptaExtension(f_sym, v_sym, u_sym)
+# newton_extension = NewtonExtension(f_sym, v_sym, u_sym)
 #**********
 # box = [ival.Interval([8, 9]), ival.Interval([8, 9])]
 # temp = check_one_box(box, v_ival, bicentered_krawczyk_extension, eps, log=True, max_iter=9, decomposition=False, strategy = "Enlargement", grid = grid_v, dim = 2, uniform=False)
@@ -203,6 +205,15 @@ bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym,
 #                        strategy="Default", grid_v=grid_v, dim=v_dim, decomp=True
 #                        )
 #
+area_boxes_newton, border_boxes_newton = check_box_posypkin(f_sym, u_sym, v_sym, v_ival, grid_u, u_dim)
+# print(border_boxes_newton[:5])
+# fig1 = plt.figure(figsize=(8, 8))
+# ax1 = fig1.add_subplot(1, 1, 1)
+# uni_plotter(area_boxes_newton, border_boxes_newton, u_lims, "DexTar_Newton", size=2, ax=ax1, fig=fig1)
+# plot_area(ax1, [])
+# plt.show()
+# sys.exit(1)
+
 if args.v_sep == "grid":
     Bicentered_Krawczyk = Example(bicentered_krawczyk_extension, parallel=args.parallel, record_time=False,
                                                strategy="V_grid")
@@ -225,7 +236,7 @@ else:
         area_boxes, border_boxes = Bicentered_Krawczyk.check_box(grid_u, u_dim, v_ival, eps=eps,
                                                                         eps_decomp=eps_decomp,
                                                                          decomposition=decomposition,
-                                                                         enlargement=args.enlargement)
+                                                                         enlargement=args.enlargement, boxes=border_boxes_newton)
 
 # print("Default V time bisection, ", Bicentered_Krawczyk_Default.time)
 
@@ -253,7 +264,7 @@ if rank == 0:
     print("Enlargement: ", args.enlargement)
     Bicentered_Krawczyk.plotting(area_boxes, border_boxes, u_lims, plot_area=plot_area, area_params=[],
                                          save_fig_params=save_fig_params,
-                                         save_fig=args.plotting, title="Bicentered_Krawczyk_DexTar_" + args.mode)
+                                         save_fig=args.plotting, title="Bicentered_Krawczyk_DexTar_and_Newton_1D_" + args.mode)
     if args.record_time:
         Bicentered_Krawczyk.write_time("simple_dextar_" + args.mode, N, world_size, args.eps_decomp)
     # print("Enlargment V time, ", Bicentered_Krawczyk_Enlargment_V.time)

@@ -195,3 +195,17 @@ def hansen_sengupta_extension(f, u, v, lam, c):
         print(g[i])
         g_fin_elementwise.append(sym.lambdify([v, c_matrix[i, ::], param], g[i]))
     return sym.lambdify([v, c, param], g_fin), g_fin_elementwise
+
+
+def newton_extension(f, u, v, c):
+    subsv = []
+    n = len(v)
+    for j in range(n):
+        subsv.append((v[j], c[j]))
+    fc = f.subs(subsv)
+    print(fc)
+    df = derive_matrix(f, v)
+    print(df)
+    qi = fc.T * df**(-1)
+    g_fin = function_replacer(qi)
+    return sym.lambdify([v, c, u], g_fin)
