@@ -205,7 +205,7 @@ bicentered_krawczyk_extension = BicenteredKrawczykExtension(f_sym, v_sym, u_sym,
 #                        strategy="Default", grid_v=grid_v, dim=v_dim, decomp=True
 #                        )
 #
-area_boxes_newton, border_boxes_newton = check_box_posypkin(f_sym, u_sym, v_sym, v_ival, grid_u, u_dim)
+# area_boxes_newton, border_boxes_newton = check_box_posypkin(f_sym, u_sym, v_sym, v_ival, grid_u, u_dim)
 # print(border_boxes_newton[:5])
 # fig1 = plt.figure(figsize=(8, 8))
 # ax1 = fig1.add_subplot(1, 1, 1)
@@ -236,7 +236,7 @@ else:
         area_boxes, border_boxes = Bicentered_Krawczyk.check_box(grid_u, u_dim, v_ival, eps=eps,
                                                                         eps_decomp=eps_decomp,
                                                                          decomposition=decomposition,
-                                                                         enlargement=args.enlargement, boxes=border_boxes_newton)
+                                                                         enlargement=args.enlargement)
 
 # print("Default V time bisection, ", Bicentered_Krawczyk_Default.time)
 
